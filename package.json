@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "homepage": "https://itberries.github.io/technopark-wpi-2019-frontend/",
+  "homepage": "https://itberries.github.io/Technopark-WPI-2019-frontend/",
   "scripts": {
     "start": "cross-env PORT=10888 react-scripts start",
     "build": "react-scripts build",
