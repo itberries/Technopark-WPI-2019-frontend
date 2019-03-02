@@ -3,11 +3,7 @@ import connect from '@vkontakte/vkui-connect';
 import {
   View, Epic, Tabbar, TabbarItem, Panel, PanelHeader,
 } from '@vkontakte/vkui';
-import Icon28Newsfeed from '@vkontakte/icons/dist/28/newsfeed';
-import Icon28Search from '@vkontakte/icons/dist/28/search';
-import Icon28Messages from '@vkontakte/icons/dist/28/messages';
-import Icon28Notifications from '@vkontakte/icons/dist/28/notifications';
-import Icon28More from '@vkontakte/icons/dist/28/more';
+
 import '@vkontakte/vkui/dist/vkui.css';
 
 import Workflow from './panels/Workflow';
@@ -19,7 +15,6 @@ import Events from './panels/Events';
 class App extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       activePanel: 'workflow',
       fetchedUser: null,
@@ -40,23 +35,12 @@ class App extends React.Component {
     connect.send('VKWebAppGetUserInfo', {});
   }
 
-  /* go = e => {
-    this.setState({ activePanel: e.currentTarget.dataset.to });
-  }; */
-
   onPanelChange(e) {
     this.setState({ activePanel: e.currentTarget.dataset.story });
   }
 
   render() {
     return (
-    /* <View activePanel={this.state.activePanel}>
-        <Home id="home" fetchedUser={this.state.fetchedUser} go={this.go} />
-        <Persik id="persik" go={this.go} />
-        <Profile id="profile" fetchedUser={this.state.fetchedUser} go={this.go}/>
-        <Workflow id="workflow" go={this.go} />
-      </View> */
-
       // Our bottom bar
       <Epic
         activeStory={this.state.activePanel}
@@ -68,7 +52,7 @@ class App extends React.Component {
               data-story="workflow"
               text="Workflow"
             >
-              <Icon28Newsfeed />
+              <img src="../public/images/icons/workflow.svg" alt="workflow icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -76,7 +60,7 @@ class App extends React.Component {
               data-story="games"
               text="Games"
             >
-              <Icon28Search />
+              <img src="../public/images/icons/multiplayer.svg" alt="games icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -85,7 +69,7 @@ class App extends React.Component {
               label="12"
               text="Profile"
             >
-              <Icon28Messages />
+              <img src="../public/images/icons/user.svg" alt="profile icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -93,7 +77,7 @@ class App extends React.Component {
               data-story="leaderboard"
               text="Leaderboard."
             >
-              <Icon28Notifications />
+              <img src="../public/images/icons/podium.svg" alt="leaderboard icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -101,11 +85,13 @@ class App extends React.Component {
               data-story="events"
               text="Events"
             >
-              <Icon28More />
+              <img src="../public/images/icons/calendar.svg" alt="events icon" />
             </TabbarItem>
           </Tabbar>
 )}
       >
+        {' '}
+        {/* Our panels */}
         <View id="workflow" activePanel="workflow">
           <Workflow id="workflow" fetchedUser={this.state.fetchedUser} />
         </View>
