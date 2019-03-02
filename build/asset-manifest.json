@@ -1,7 +1,13 @@
 {
-  "main.css": "static/css/main.080892f9.css",
-  "main.css.map": "static/css/main.080892f9.css.map",
-  "main.js": "static/js/main.700e8dd5.js",
-  "main.js.map": "static/js/main.700e8dd5.js.map",
-  "static/media/persik.png": "static/media/persik.4e1ec840.png"
+  "main.js": "/Technopark-WPI-2019-frontend/static/js/main.d0f5da32.chunk.js",
+  "main.js.map": "/Technopark-WPI-2019-frontend/static/js/main.d0f5da32.chunk.js.map",
+  "runtime~main.js": "/Technopark-WPI-2019-frontend/static/js/runtime~main.36500a31.js",
+  "runtime~main.js.map": "/Technopark-WPI-2019-frontend/static/js/runtime~main.36500a31.js.map",
+  "static/css/2.37435b16.chunk.css": "/Technopark-WPI-2019-frontend/static/css/2.37435b16.chunk.css",
+  "static/js/2.5bd98255.chunk.js": "/Technopark-WPI-2019-frontend/static/js/2.5bd98255.chunk.js",
+  "static/js/2.5bd98255.chunk.js.map": "/Technopark-WPI-2019-frontend/static/js/2.5bd98255.chunk.js.map",
+  "index.html": "/Technopark-WPI-2019-frontend/index.html",
+  "precache-manifest.f18c693eb04580d219759aa7af0a9289.js": "/Technopark-WPI-2019-frontend/precache-manifest.f18c693eb04580d219759aa7af0a9289.js",
+  "service-worker.js": "/Technopark-WPI-2019-frontend/service-worker.js",
+  "static/css/2.37435b16.chunk.css.map": "/Technopark-WPI-2019-frontend/static/css/2.37435b16.chunk.css.map"
 }
