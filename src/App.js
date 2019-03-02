@@ -3,6 +3,11 @@ import connect from '@vkontakte/vkui-connect';
 import {
   View, Epic, Tabbar, TabbarItem, Panel, PanelHeader,
 } from '@vkontakte/vkui';
+import workflowIcon from './img/icons/workflow.svg';
+import gamesIcon from './img/icons/games.svg';
+import leaderboardIcon from './img/icons/leaderboard.svg';
+import eventsIcon from './img/icons/events.svg';
+import profileIcon from './img/icons/profile.svg';
 
 import '@vkontakte/vkui/dist/vkui.css';
 
@@ -52,7 +57,7 @@ class App extends React.Component {
               data-story="workflow"
               text="Workflow"
             >
-              <img src="../public/images/icons/workflow.svg" alt="workflow icon" />
+              <img src={workflowIcon} alt="workflow icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -60,7 +65,23 @@ class App extends React.Component {
               data-story="games"
               text="Games"
             >
-              <img src="../public/images/icons/multiplayer.svg" alt="games icon" />
+              <img src={gamesIcon} alt="games icon" />
+            </TabbarItem>
+            <TabbarItem
+              onClick={this.onPanelChange}
+              selected={this.state.activePanel === 'leaderboard'}
+              data-story="leaderboard"
+              text="Leaderboard."
+            >
+              <img src={leaderboardIcon} alt="leaderboard icon" />
+            </TabbarItem>
+            <TabbarItem
+              onClick={this.onPanelChange}
+              selected={this.state.activePanel === 'events'}
+              data-story="events"
+              text="Events"
+            >
+              <img src={eventsIcon} alt="events icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -69,29 +90,12 @@ class App extends React.Component {
               label="12"
               text="Profile"
             >
-              <img src="../public/images/icons/user.svg" alt="profile icon" />
-            </TabbarItem>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'leaderboard'}
-              data-story="leaderboard"
-              text="Leaderboard."
-            >
-              <img src="../public/images/icons/podium.svg" alt="leaderboard icon" />
-            </TabbarItem>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'events'}
-              data-story="events"
-              text="Events"
-            >
-              <img src="../public/images/icons/calendar.svg" alt="events icon" />
+              <img src={profileIcon} alt="profile icon" />
             </TabbarItem>
           </Tabbar>
 )}
       >
-        {' '}
-        {/* Our panels */}
+        {/* Hi there */}
         <View id="workflow" activePanel="workflow">
           <Workflow id="workflow" fetchedUser={this.state.fetchedUser} />
         </View>
