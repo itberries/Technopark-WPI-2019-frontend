@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Panel, PanelHeader } from '@vkontakte/vkui';
 
-import User from "../Components/User";
+import User from "../components/User";
 
 const Profile = ({ id, fetchedUser }) => (
 	<Panel id={id}>
 		<PanelHeader>Profile</PanelHeader>
-		<User fetchedUser={this.state.fetchedUser}/>
+		<User fetchedUser={fetchedUser}/>
 	</Panel>
 );
 

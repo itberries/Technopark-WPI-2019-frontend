@@ -1,46 +1,44 @@
-import React from 'react';
-import connect from '@vkontakte/vkui-connect';
-import {
-  View, Epic, Tabbar, TabbarItem,
-} from '@vkontakte/vkui';
+import React from "react";
+import connect from "@vkontakte/vkui-connect";
+import { View, Epic, Tabbar, TabbarItem } from "@vkontakte/vkui";
 
-import '@vkontakte/vkui/dist/vkui.css';
+import "@vkontakte/vkui/dist/vkui.css";
 
-import Workflow from './panels/Workflow';
-import Games from './panels/Games';
-import Profile from './panels/Profile';
-import Leaderboard from './panels/LeaderBoard';
-import Events from './panels/Events';
+import Workflow from "./panels/Workflow";
+import Games from "./panels/Games";
+import Profile from "./panels/Profile";
+import Leaderboard from "./panels/LeaderBoard";
+import Events from "./panels/Events";
 
-import './Tabbar.css';
+import "./Tabbar.css";
 
-import workflowIcon from './img/icons/workflow.svg';
-import gamesIcon from './img/icons/games.svg';
-import leaderboardIcon from './img/icons/leaderboard.svg';
-import eventsIcon from './img/icons/events.svg';
-import profileIcon from './img/icons/profile.svg';
+import workflowIcon from "./img/icons/workflow.svg";
+import gamesIcon from "./img/icons/games.svg";
+import leaderboardIcon from "./img/icons/leaderboard.svg";
+import eventsIcon from "./img/icons/events.svg";
+import profileIcon from "./img/icons/profile.svg";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activePanel: 'workflow',
-      fetchedUser: null,
+      activePanel: "workflow",
+      fetchedUser: null
     };
     this.onPanelChange = this.onPanelChange.bind(this);
   }
 
   componentDidMount() {
-    connect.subscribe((e) => {
+    connect.subscribe(e => {
       switch (e.detail.type) {
-        case 'VKWebAppGetUserInfoResult':
+        case "VKWebAppGetUserInfoResult":
           this.setState({ fetchedUser: e.detail.data });
           break;
         default:
           console.log(e.detail.type);
       }
     });
-    connect.send('VKWebAppGetUserInfo', {});
+    connect.send("VKWebAppGetUserInfo", {});
   }
 
   onPanelChange(e) {
@@ -51,12 +49,13 @@ class App extends React.Component {
     return (
       // Our bottom bar
       <Epic
+        // eslint-disable-next-line react/destructuring-assignment
         activeStory={this.state.activePanel}
-        tabbar={(
+        tabbar={
           <Tabbar>
             <TabbarItem
               onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'workflow'}
+              selected={this.state.activePanel === "workflow"}
               data-story="workflow"
               text="Workflow"
             >
@@ -64,7 +63,7 @@ class App extends React.Component {
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'games'}
+              selected={this.state.activePanel === "games"}
               data-story="games"
               text="Games"
             >
@@ -72,7 +71,7 @@ class App extends React.Component {
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'leaderboard'}
+              selected={this.state.activePanel === "leaderboard"}
               data-story="leaderboard"
               text="Leaderboard."
             >
@@ -80,7 +79,7 @@ class App extends React.Component {
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'events'}
+              selected={this.state.activePanel === "events"}
               data-story="events"
               text="Events"
             >
@@ -88,7 +87,7 @@ class App extends React.Component {
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'profile'}
+              selected={this.state.activePanel === "profile"}
               data-story="profile"
               label="12"
               text="Profile"
@@ -96,9 +95,9 @@ class App extends React.Component {
               <img src={profileIcon} alt="profile icon" />
             </TabbarItem>
           </Tabbar>
-)}
+        }
       >
-        {/* Hi there */}
+        {/* Panels */}
         <View id="workflow" activePanel="workflow">
           <Workflow id="workflow" fetchedUser={this.state.fetchedUser} />
         </View>
