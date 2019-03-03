@@ -9,8 +9,8 @@
     "build": "react-scripts build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "eslint": "eslint 'src/*.js'",
-    "eslint:fix": "prettier-eslint 'src/*.js' --write"
+    "lint": "eslint 'src/*.js'",
+    "lint:fix": "prettier-eslint 'src/*.js' --write"
   },
   "husky": {
     "hooks": {
@@ -19,7 +19,7 @@
   },
   "lint-staged": {
     "src/*.js": [
-      "npm run eslint:fix",
+      "npm run lint:fix",
       "git add"
     ]
   },
