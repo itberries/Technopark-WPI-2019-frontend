@@ -1,13 +1,8 @@
 import React from 'react';
 import connect from '@vkontakte/vkui-connect';
 import {
-  View, Epic, Tabbar, TabbarItem, Panel, PanelHeader,
+  View, Epic, Tabbar, TabbarItem,
 } from '@vkontakte/vkui';
-import workflowIcon from './img/icons/workflow.svg';
-import gamesIcon from './img/icons/games.svg';
-import leaderboardIcon from './img/icons/leaderboard.svg';
-import eventsIcon from './img/icons/events.svg';
-import profileIcon from './img/icons/profile.svg';
 
 import '@vkontakte/vkui/dist/vkui.css';
 
@@ -16,6 +11,14 @@ import Games from './panels/Games';
 import Profile from './panels/Profile';
 import Leaderboard from './panels/LeaderBoard';
 import Events from './panels/Events';
+
+import './Tabbar.css';
+
+import workflowIcon from './img/icons/workflow.svg';
+import gamesIcon from './img/icons/games.svg';
+import leaderboardIcon from './img/icons/leaderboard.svg';
+import eventsIcon from './img/icons/events.svg';
+import profileIcon from './img/icons/profile.svg';
 
 class App extends React.Component {
   constructor(props) {
@@ -57,7 +60,7 @@ class App extends React.Component {
               data-story="workflow"
               text="Workflow"
             >
-              <img src={workflowIcon} alt="workflow icon" />
+              <img className="tabbar__icon" src={workflowIcon} alt="workflow icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -65,7 +68,7 @@ class App extends React.Component {
               data-story="games"
               text="Games"
             >
-              <img src={gamesIcon} alt="games icon" />
+              <img className="tabbar__icon" src={gamesIcon} alt="games icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -73,7 +76,7 @@ class App extends React.Component {
               data-story="leaderboard"
               text="Leaderboard."
             >
-              <img src={leaderboardIcon} alt="leaderboard icon" />
+              <img className="tabbar__icon" src={leaderboardIcon} alt="leaderboard icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -81,7 +84,7 @@ class App extends React.Component {
               data-story="events"
               text="Events"
             >
-              <img src={eventsIcon} alt="events icon" />
+              <img className="tabbar__icon" src={eventsIcon} alt="events icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -90,7 +93,7 @@ class App extends React.Component {
               label="12"
               text="Profile"
             >
-              <img src={profileIcon} alt="profile icon" />
+              <img className="tabbar__icon" src={profileIcon} alt="profile icon" />
             </TabbarItem>
           </Tabbar>
 )}
