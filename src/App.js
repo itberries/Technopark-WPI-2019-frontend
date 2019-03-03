@@ -60,7 +60,7 @@ class App extends React.Component {
               data-story="workflow"
               text="Workflow"
             >
-              <img className="tabbar__icon" src={workflowIcon} alt="workflow icon" />
+              <img src={workflowIcon} alt="workflow icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -68,7 +68,7 @@ class App extends React.Component {
               data-story="games"
               text="Games"
             >
-              <img className="tabbar__icon" src={gamesIcon} alt="games icon" />
+              <img src={gamesIcon} alt="games icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -76,7 +76,7 @@ class App extends React.Component {
               data-story="leaderboard"
               text="Leaderboard."
             >
-              <img className="tabbar__icon" src={leaderboardIcon} alt="leaderboard icon" />
+              <img src={leaderboardIcon} alt="leaderboard icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -84,7 +84,7 @@ class App extends React.Component {
               data-story="events"
               text="Events"
             >
-              <img className="tabbar__icon" src={eventsIcon} alt="events icon" />
+              <img src={eventsIcon} alt="events icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -93,7 +93,7 @@ class App extends React.Component {
               label="12"
               text="Profile"
             >
-              <img className="tabbar__icon" src={profileIcon} alt="profile icon" />
+              <img src={profileIcon} alt="profile icon" />
             </TabbarItem>
           </Tabbar>
 )}
