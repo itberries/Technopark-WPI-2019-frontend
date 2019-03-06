@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Group, Avatar } from '@vkontakte/vkui';
-import profileIcon from '../img/icons/profile.svg';
+import profileIcon from '../../images/icons/profile.svg';
 import './User.scss';
 
 const User = ({ fetchedUser }) => (
