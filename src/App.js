@@ -6,19 +6,19 @@ import {
 
 import '@vkontakte/vkui/dist/vkui.css';
 
-import Workflow from './panels/Workflow';
-import Games from './panels/Games';
-import Profile from './panels/Profile';
-import Leaderboard from './panels/LeaderBoard';
-import Events from './panels/Events';
+import Workflow from './panels/workflow/Workflow';
+import Games from './panels/games/Games';
+import Profile from './panels/profile/Profile';
+import Leaderboard from './panels/leaderboard/LeaderBoard';
+import Events from './panels/events/Events';
 
 import './Tabbar.css';
 
-import workflowIcon from './img/icons/workflow.svg';
-import gamesIcon from './img/icons/games.svg';
-import leaderboardIcon from './img/icons/leaderboard.svg';
-import eventsIcon from './img/icons/events.svg';
-import profileIcon from './img/icons/profile.svg';
+import workflowIcon from './images/icons/workflow.svg';
+import gamesIcon from './images/icons/games.svg';
+import leaderboardIcon from './images/icons/leaderboard.svg';
+import eventsIcon from './images/icons/events.svg';
+import profileIcon from './images/icons/profile.svg';
 
 class App extends React.Component {
   constructor(props) {
