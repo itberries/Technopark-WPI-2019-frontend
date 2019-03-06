@@ -10,7 +10,8 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "lint": "eslint 'src/**/*.js'",
-    "lint:fix": "prettier-eslint 'src/**/*.js' --write"
+    "lint:fix": "prettier-eslint 'src/**/*.js' --write",
+    "clean": "rm -rf build"
   },
   "husky": {
     "hooks": {
