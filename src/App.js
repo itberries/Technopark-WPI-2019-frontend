@@ -1,4 +1,6 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 import connect from '@vkontakte/vkui-connect';
 import {
   View, Epic, Tabbar, TabbarItem,
@@ -49,73 +51,76 @@ class App extends React.Component {
 
   render() {
     return (
-      // Our bottom bar
-      <Epic
-        // eslint-disable-next-line react/destructuring-assignment
-        activeStory={this.state.activePanel}
-        tabbar={(
-          <Tabbar>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'workflow'}
-              data-story="workflow"
-              text="Workflow"
-            >
-              <img src={workflowIcon} alt="workflow icon" />
-            </TabbarItem>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'games'}
-              data-story="games"
-              text="Games"
-            >
-              <img src={gamesIcon} alt="games icon" />
-            </TabbarItem>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'leaderboard'}
-              data-story="leaderboard"
-              text="Leaderboard."
-            >
-              <img src={leaderboardIcon} alt="leaderboard icon" />
-            </TabbarItem>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'events'}
-              data-story="events"
-              text="Events"
-            >
-              <img src={eventsIcon} alt="events icon" />
-            </TabbarItem>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'profile'}
-              data-story="profile"
-              label="12"
-              text="Profile"
-            >
-              <img src={profileIcon} alt="profile icon" />
-            </TabbarItem>
-          </Tabbar>
+      <>
+        // Our bottom bar
+        <Epic
+          // eslint-disable-next-line react/destructuring-assignment
+          activeStory={this.state.activePanel}
+          tabbar={(
+            <Tabbar>
+              <TabbarItem
+                onClick={this.onPanelChange}
+                selected={this.state.activePanel === 'workflow'}
+                data-story="workflow"
+                text="Workflow"
+              >
+                <img src={workflowIcon} alt="workflow icon" />
+              </TabbarItem>
+              <TabbarItem
+                onClick={this.onPanelChange}
+                selected={this.state.activePanel === 'games'}
+                data-story="games"
+                text="Games"
+              >
+                <img src={gamesIcon} alt="games icon" />
+              </TabbarItem>
+              <TabbarItem
+                onClick={this.onPanelChange}
+                selected={this.state.activePanel === 'leaderboard'}
+                data-story="leaderboard"
+                text="Leaderboard."
+              >
+                <img src={leaderboardIcon} alt="leaderboard icon" />
+              </TabbarItem>
+              <TabbarItem
+                onClick={this.onPanelChange}
+                selected={this.state.activePanel === 'events'}
+                data-story="events"
+                text="Events"
+              >
+                <img src={eventsIcon} alt="events icon" />
+              </TabbarItem>
+              <TabbarItem
+                onClick={this.onPanelChange}
+                selected={this.state.activePanel === 'profile'}
+                data-story="profile"
+                label="12"
+                text="Profile"
+              >
+                <img src={profileIcon} alt="profile icon" />
+              </TabbarItem>
+            </Tabbar>
 )}
-      >
-        {/* Panels */}
-        <View id="workflow" activePanel="workflow">
-          <Workflow id="workflow" fetchedUser={this.state.fetchedUser} />
-        </View>
-        <View id="games" activePanel="games">
-          <Games id="games" fetchedUser={this.state.fetchedUser} />
-        </View>
-        <View id="leaderboard" activePanel="leaderboard">
-          <Leaderboard id="leaderboard" fetchedUser={this.state.fetchedUser} />
-        </View>
-        <View id="events" activePanel="events">
-          <Events id="events" fetchedUser={this.state.fetchedUser} />
-        </View>
-        <View id="profile" activePanel="profile">
-          <Profile id="profile" fetchedUser={this.state.fetchedUser} />
-        </View>
-      </Epic>
+        >
+          {/* Panels */}
+          <View id="workflow" activePanel="workflow">
+            <Workflow id="workflow" fetchedUser={this.state.fetchedUser} />
+          </View>
+          <View id="games" activePanel="games">
+            <Games id="games" fetchedUser={this.state.fetchedUser} />
+          </View>
+          <View id="leaderboard" activePanel="leaderboard">
+            <Leaderboard id="leaderboard" fetchedUser={this.state.fetchedUser} />
+          </View>
+          <View id="events" activePanel="events">
+            <Events id="events" fetchedUser={this.state.fetchedUser} />
+          </View>
+          <View id="profile" activePanel="profile">
+            <Profile id="profile" fetchedUser={this.state.fetchedUser} />
+          </View>
+        </Epic>
+        <Router />
+      </>
     );
   }
 }
