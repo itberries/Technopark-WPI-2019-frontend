@@ -1,13 +1,9 @@
 import React from 'react';
 import connect from '@vkontakte/vkui-connect';
 import {
-  View, Epic, Tabbar, TabbarItem, Panel, PanelHeader,
+  View, Epic, Tabbar, TabbarItem,
 } from '@vkontakte/vkui';
-import Icon28Newsfeed from '@vkontakte/icons/dist/28/newsfeed';
-import Icon28Search from '@vkontakte/icons/dist/28/search';
-import Icon28Messages from '@vkontakte/icons/dist/28/messages';
-import Icon28Notifications from '@vkontakte/icons/dist/28/notifications';
-import Icon28More from '@vkontakte/icons/dist/28/more';
+
 import '@vkontakte/vkui/dist/vkui.css';
 
 import Workflow from './panels/Workflow';
@@ -16,10 +12,17 @@ import Profile from './panels/Profile';
 import Leaderboard from './panels/LeaderBoard';
 import Events from './panels/Events';
 
+import './Tabbar.css';
+
+import workflowIcon from './img/icons/workflow.svg';
+import gamesIcon from './img/icons/games.svg';
+import leaderboardIcon from './img/icons/leaderboard.svg';
+import eventsIcon from './img/icons/events.svg';
+import profileIcon from './img/icons/profile.svg';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       activePanel: 'workflow',
       fetchedUser: null,
@@ -40,25 +43,15 @@ class App extends React.Component {
     connect.send('VKWebAppGetUserInfo', {});
   }
 
-  /* go = e => {
-    this.setState({ activePanel: e.currentTarget.dataset.to });
-  }; */
-
   onPanelChange(e) {
     this.setState({ activePanel: e.currentTarget.dataset.story });
   }
 
   render() {
     return (
-    /* <View activePanel={this.state.activePanel}>
-        <Home id="home" fetchedUser={this.state.fetchedUser} go={this.go} />
-        <Persik id="persik" go={this.go} />
-        <Profile id="profile" fetchedUser={this.state.fetchedUser} go={this.go}/>
-        <Workflow id="workflow" go={this.go} />
-      </View> */
-
       // Our bottom bar
       <Epic
+        // eslint-disable-next-line react/destructuring-assignment
         activeStory={this.state.activePanel}
         tabbar={(
           <Tabbar>
@@ -68,7 +61,7 @@ class App extends React.Component {
               data-story="workflow"
               text="Workflow"
             >
-              <Icon28Newsfeed />
+              <img src={workflowIcon} alt="workflow icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -76,7 +69,23 @@ class App extends React.Component {
               data-story="games"
               text="Games"
             >
-              <Icon28Search />
+              <img src={gamesIcon} alt="games icon" />
+            </TabbarItem>
+            <TabbarItem
+              onClick={this.onPanelChange}
+              selected={this.state.activePanel === 'leaderboard'}
+              data-story="leaderboard"
+              text="Leaderboard."
+            >
+              <img src={leaderboardIcon} alt="leaderboard icon" />
+            </TabbarItem>
+            <TabbarItem
+              onClick={this.onPanelChange}
+              selected={this.state.activePanel === 'events'}
+              data-story="events"
+              text="Events"
+            >
+              <img src={eventsIcon} alt="events icon" />
             </TabbarItem>
             <TabbarItem
               onClick={this.onPanelChange}
@@ -85,27 +94,12 @@ class App extends React.Component {
               label="12"
               text="Profile"
             >
-              <Icon28Messages />
-            </TabbarItem>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'leaderboard'}
-              data-story="leaderboard"
-              text="Leaderboard."
-            >
-              <Icon28Notifications />
-            </TabbarItem>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'events'}
-              data-story="events"
-              text="Events"
-            >
-              <Icon28More />
+              <img src={profileIcon} alt="profile icon" />
             </TabbarItem>
           </Tabbar>
 )}
       >
+        {/* Panels */}
         <View id="workflow" activePanel="workflow">
           <Workflow id="workflow" fetchedUser={this.state.fetchedUser} />
         </View>

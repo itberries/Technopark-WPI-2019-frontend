@@ -1,0 +1,9 @@
+.TabbarItem__icon img {
+    width: 25px; 
+    height: 25px;
+    filter: invert(.5); /* changing svg color to gray */
+}
+
+.TabbarItem--selected img {
+    filter: invert(0); /* changing svg color to black */
+}
