@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "homepage": "https://itberries.github.io/Technopark-WPI-2019-frontend/",
+  "homepage": "https://itberries-frontend-h7y56l6pd.now.sh",
   "scripts": {
     "start": "cross-env PORT=10888 react-scripts start",
     "build": "react-scripts build",
@@ -11,7 +11,8 @@
     "deploy": "gh-pages -d build",
     "lint": "eslint 'src/**/*.js'",
     "lint:fix": "prettier-eslint 'src/**/*.js' --write",
-    "clean": "rm -rf build"
+    "clean": "rm -rf build",
+    "now-build": "npm run build"
   },
   "husky": {
     "hooks": {
