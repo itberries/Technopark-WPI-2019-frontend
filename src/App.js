@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { createBrowserHistory } from 'history';
+
 import connect from '@vkontakte/vkui-connect';
 import {
   View, Epic, Tabbar, TabbarItem,
@@ -20,11 +23,13 @@ import leaderboardIcon from './images/icons/leaderboard.svg';
 import eventsIcon from './images/icons/events.svg';
 import profileIcon from './images/icons/profile.svg';
 
+const history = createBrowserHistory();
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activePanel: 'workflow',
+      activePanel: props.paramName,
       fetchedUser: null,
     };
     this.onPanelChange = this.onPanelChange.bind(this);
@@ -44,12 +49,17 @@ class App extends React.Component {
   }
 
   onPanelChange(e) {
+    const location = {
+      pathname: `/${e.currentTarget.dataset.story}`,
+    };
+    history.push(location);
     this.setState({ activePanel: e.currentTarget.dataset.story });
   }
 
   render() {
+    console.log('active panel: ', this.state.activePanel);
+
     return (
-      // Our bottom bar
       <Epic
         // eslint-disable-next-line react/destructuring-assignment
         activeStory={this.state.activePanel}
@@ -91,7 +101,6 @@ class App extends React.Component {
               onClick={this.onPanelChange}
               selected={this.state.activePanel === 'profile'}
               data-story="profile"
-              label="12"
               text="Profile"
             >
               <img src={profileIcon} alt="profile icon" />
@@ -119,5 +128,13 @@ class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  paramName: PropTypes.string,
+};
+
+App.defaultProps = {
+  paramName: 'workflow',
+};
 
 export default App;
