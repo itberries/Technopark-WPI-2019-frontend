@@ -1,24 +1,20 @@
 import React from 'react';
 import connect from '@vkontakte/vkui-connect';
-import {
-  View, Epic, Tabbar, TabbarItem,
-} from '@vkontakte/vkui';
-
 import '@vkontakte/vkui/dist/vkui.css';
 
 import Workflow from './panels/workflow/Workflow';
 import Games from './panels/games/Games';
 import Profile from './panels/profile/Profile';
-import Leaderboard from './panels/leaderboard/LeaderBoard';
+import LeaderBoard from './panels/leaderboard/LeaderBoard';
 import Events from './panels/events/Events';
-
-import './Tabbar.css';
+import Navigation from './common.blocks/navigation/Navigation';
 
 import workflowIcon from './images/icons/workflow.svg';
 import gamesIcon from './images/icons/games.svg';
 import leaderboardIcon from './images/icons/leaderboard.svg';
 import eventsIcon from './images/icons/events.svg';
 import profileIcon from './images/icons/profile.svg';
+// import PanelData from './panels/PanelData';
 
 class App extends React.Component {
   constructor(props) {
@@ -48,75 +44,52 @@ class App extends React.Component {
   }
 
   render() {
-    return (
-      // Our bottom bar
-      <Epic
-        // eslint-disable-next-line react/destructuring-assignment
-        activeStory={this.state.activePanel}
-        tabbar={(
-          <Tabbar>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'workflow'}
-              data-story="workflow"
-              text="Workflow"
-            >
-              <img src={workflowIcon} alt="workflow icon" />
-            </TabbarItem>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'games'}
-              data-story="games"
-              text="Games"
-            >
-              <img src={gamesIcon} alt="games icon" />
-            </TabbarItem>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'leaderboard'}
-              data-story="leaderboard"
-              text="Leaderboard."
-            >
-              <img src={leaderboardIcon} alt="leaderboard icon" />
-            </TabbarItem>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'events'}
-              data-story="events"
-              text="Events"
-            >
-              <img src={eventsIcon} alt="events icon" />
-            </TabbarItem>
-            <TabbarItem
-              onClick={this.onPanelChange}
-              selected={this.state.activePanel === 'profile'}
-              data-story="profile"
-              label="12"
-              text="Profile"
-            >
-              <img src={profileIcon} alt="profile icon" />
-            </TabbarItem>
-          </Tabbar>
-)}
-      >
-        {/* Panels */}
-        <View id="workflow" activePanel="workflow">
-          <Workflow id="workflow" fetchedUser={this.state.fetchedUser} />
-        </View>
-        <View id="games" activePanel="games">
-          <Games id="games" fetchedUser={this.state.fetchedUser} />
-        </View>
-        <View id="leaderboard" activePanel="leaderboard">
-          <Leaderboard id="leaderboard" fetchedUser={this.state.fetchedUser} />
-        </View>
-        <View id="events" activePanel="events">
-          <Events id="events" fetchedUser={this.state.fetchedUser} />
-        </View>
-        <View id="profile" activePanel="profile">
-          <Profile id="profile" fetchedUser={this.state.fetchedUser} />
-        </View>
-      </Epic>
+    const panelsData = [
+      {
+        tag: Workflow,
+        name: 'workflow',
+        text: 'Workflow',
+        icon: workflowIcon,
+      },
+      {
+        tag: Games,
+        name: 'games',
+        text: 'Games',
+        icon: gamesIcon,
+      },
+      {
+        tag: LeaderBoard,
+        name: 'leaderboard',
+        text: 'Leaderboard',
+        icon: leaderboardIcon,
+      },
+      {
+        tag: Events,
+        name: 'events',
+        text: 'Events',
+        icon: eventsIcon,
+      },
+      {
+        tag: Profile,
+        name: 'profile',
+        text: 'Profile',
+        icon: profileIcon,
+      },
+      /* PanelData(Workflow, 'workflow', 'Workflow', workflowIcon),
+      PanelData(Games, 'games', 'Games', gamesIcon),
+      PanelData(LeaderBoard, 'leaderboard', 'Leaderboard', leaderboardIcon),
+      PanelData(Events, 'events', 'Events', eventsIcon),
+      PanelData(Profile, 'profile', 'Profile', profileIcon) */
+    ];
+    const result = (
+      <Navigation
+        activePanel={this.state.activePanel}
+        panelsData={panelsData}
+        onPanelChange={this.onPanelChange}
+        fetchedUser={this.state.fetchedUser}
+      />
     );
+    return result;
   }
 }
 
