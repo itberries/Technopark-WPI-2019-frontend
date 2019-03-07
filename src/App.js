@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createBrowserHistory } from 'history';
+import axios from 'axios';
 
 import connect from '@vkontakte/vkui-connect';
 import {
@@ -25,21 +26,27 @@ import profileIcon from './images/icons/profile.svg';
 
 const history = createBrowserHistory();
 
+const BACKEND_API_ADDRESS = 'http://it-berries.ru:8080';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       activePanel: props.paramName,
       fetchedUser: null,
+      backendUser: null,
     };
     this.onPanelChange = this.onPanelChange.bind(this);
+    console.log('in constructor');
   }
 
   componentDidMount() {
     connect.subscribe((e) => {
       switch (e.detail.type) {
         case 'VKWebAppGetUserInfoResult':
+          console.log('fetchedUser', e.detail.data);
           this.setState({ fetchedUser: e.detail.data });
+          this.checkIfUserExists();
           break;
         default:
           console.log(e.detail.type);
@@ -54,6 +61,22 @@ class App extends React.Component {
     };
     history.push(location);
     this.setState({ activePanel: e.currentTarget.dataset.story });
+  }
+
+  checkIfUserExists() {
+    const id = this.state.fetchedUser ? this.state.fetchedUser.id : undefined;
+    if (typeof id === 'undefined') {
+      console.log('fetchGetUserById no id!!!');
+      return;
+    }
+    axios
+      .get(`${BACKEND_API_ADDRESS}/users/${id}`)
+      .then((response) => {
+        const backendUser = response.data;
+        this.setState({ backendUser });
+        console.log('fetchGetUserById user: ', backendUser);
+      })
+      .catch(error => console.log('fetchGetUserById error!!!', error));
   }
 
   render() {
