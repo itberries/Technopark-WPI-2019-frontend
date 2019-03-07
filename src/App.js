@@ -29,7 +29,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activePanel: props.paramName,
+      activePanel: props.panelName,
       fetchedUser: null,
     };
     this.onPanelChange = this.onPanelChange.bind(this);
@@ -130,11 +130,11 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  paramName: PropTypes.string,
+  panelName: PropTypes.string,
 };
 
 App.defaultProps = {
-  paramName: 'workflow',
+  panelName: 'workflow',
 };
 
 export default App;
