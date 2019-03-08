@@ -46,7 +46,7 @@ class App extends React.Component {
         case 'VKWebAppGetUserInfoResult':
           console.log('fetchedUser', e.detail.data);
           this.setState({ fetchedUser: e.detail.data });
-          this.checkIfUserExists();
+          this.getProfileData();
           break;
         default:
           console.log(e.detail.type);
@@ -63,20 +63,33 @@ class App extends React.Component {
     this.setState({ activePanel: e.currentTarget.dataset.story });
   }
 
-  checkIfUserExists() {
+  getProfileData() {
     const id = this.state.fetchedUser ? this.state.fetchedUser.id : undefined;
     if (typeof id === 'undefined') {
-      console.log('fetchGetUserById no id!!!');
+      console.log('getProfileData no id!!!');
       return;
     }
+    const user = {
+      id,
+      score: 0,
+    };
+
+    console.log('getProfileData user with id', id);
+
     axios
-      .get(`${BACKEND_API_ADDRESS}/users/${id}`)
-      .then((response) => {
-        const backendUser = response.data;
-        this.setState({ backendUser });
-        console.log('fetchGetUserById user: ', backendUser);
+      .post(`${BACKEND_API_ADDRESS}/user/`, user)
+      .then((resp) => {
+        console.log('post then resp: ', resp.data);
+        axios
+          .get(`${BACKEND_API_ADDRESS}/user/${id}`)
+          .then((response) => {
+            const backendUser = response.data;
+            this.setState({ backendUser });
+            console.log('getProfileData user: ', backendUser);
+          })
+          .catch(error => console.log('fetchGetUserById error in get!!!', error));
       })
-      .catch(error => console.log('fetchGetUserById error!!!', error));
+      .catch(error => console.log('fetchGetUserById error in post!!!', error));
   }
 
   render() {
