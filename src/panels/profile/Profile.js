@@ -14,6 +14,7 @@ const Profile = ({ id, fetchedUser }) => (
 Profile.propTypes = {
   id: PropTypes.string.isRequired,
   fetchedUser: PropTypes.shape({
+    id: PropTypes.number,
     photo_200: PropTypes.string,
     first_name: PropTypes.string,
     last_name: PropTypes.string,
@@ -22,6 +23,7 @@ Profile.propTypes = {
 
 Profile.defaultProps = {
   fetchedUser: PropTypes.shape({
+    id: PropTypes.number,
     photo_200: PropTypes.string,
     first_name: PropTypes.string,
     last_name: PropTypes.string,
