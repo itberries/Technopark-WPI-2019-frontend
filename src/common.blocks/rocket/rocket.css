@@ -1,0 +1,11 @@
+.Rocket {
+  position: absolute;
+  width: 10vmin;
+  height: 10vmin;
+
+  background-image: url('../../images/rocket-mini.png');
+  background-size: 100% 100%;
+
+  left: 45vmin;
+  bottom: 15vh;
+}
