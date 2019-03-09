@@ -1,3 +1,9 @@
+#workflow {
+  overflow:hidden;
+  width: auto;
+  height: auto;
+}
+
 .learnMap {
   width: 100vw;
   height: 200vh;
@@ -6,8 +12,12 @@
   background-repeat: repeat;
   background-size: 100vw 200vh;
 
-  overflow: hidden;
+  overflow-y: scroll;
+  padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+  box-sizing: content-box;
+
   display: flex;
+  flex-direction: column;
   justify-content: flex-end;
 }
 
@@ -44,11 +54,11 @@
   left: 30vw;
 }
 
-.learnMap_container {
-  position: relative;
+.learnMap__container {
   display: grid;
-  top: 0;
   grid-auto-rows: minmax(min-content, max-content);
+  align-items: end;
+  height: min-content;
 }
 
 .learnMap__row {

@@ -48,6 +48,8 @@ class App extends React.Component {
       }
     });
     connect.send('VKWebAppGetUserInfo', {});
+    window.scrollTo(0, document.getElementsByClassName('learnMap')[0].scrollHeight);
+    console.log('App isload');
   }
 
   onPanelChange(e) {

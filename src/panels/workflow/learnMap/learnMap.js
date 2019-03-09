@@ -7,26 +7,27 @@ import './learnMap.css';
 class LearnMap extends React.Component {
   constructor(props) {
     super(props);
-    this.learnMap = document.getElementsByClassName('learnMap');
   }
 
   componentDidMount() {
-    this.scrollToBottom();
+    if (window.worfkflowScrollY === undefined) {
+      console.log('set max scroll');
+      window.worfkflowScrollY = document.getElementsByClassName('learnMap')[0].scrollHeight;
+    }
+    console.log('set scroll 1');
+    window.scrollTo(0, window.worfkflowScrollY);
   }
 
-  componentDidUpdate() {
-    this.scrollToBottom();
-  }
-
-  scrollToBottom() {
-    this.learnMap[0].scrollTop = this.learnMap[0].scrollHeight;
+  componentWillUnmount() {
+    console.log('set scroll 3');
+    window.worfkflowScrollY = window.scrollY;
   }
 
   render() {
     return (
       <div className="learnMap">
         {/* <div className="learnMap_path" /> */}
-        <div className="learnMap_container">
+        <div className="learnMap__container">
           <div className="learnMap__row">
             <div className="learnMap__col learnMap__points">
               <div className="learnMap__point" />
@@ -83,7 +84,7 @@ class LearnMap extends React.Component {
             </div>
           </div>
           <div className="learnMap__separator">
-            <div className="separator__text">Enteraction</div>
+            <div className="separator__text">Basic</div>
             <div className="separator__line">
               <hr />
             </div>
