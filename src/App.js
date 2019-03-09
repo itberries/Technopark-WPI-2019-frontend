@@ -22,7 +22,9 @@ import profileIcon from './images/icons/profile.svg';
 
 const history = createBrowserHistory();
 
-const BACKEND_API_ADDRESS = 'http://it-berries.ru:8080';
+axios.defaults.baseURL = 'http://it-berries.ru:8080';
+axios.defaults.mode = 'cors';
+axios.defaults.withCredentials = true;
 
 class App extends React.Component {
   constructor(props) {
@@ -73,11 +75,11 @@ class App extends React.Component {
     console.log('getProfileData user with id', id);
 
     axios
-      .post(`${BACKEND_API_ADDRESS}/user/`, user)
+      .post('/user', user)
       .then((resp) => {
         console.log('post then resp: ', resp.data);
         axios
-          .get(`${BACKEND_API_ADDRESS}/user/${id}`)
+          .get(`/user/${id}`)
           .then((response) => {
             const backendUser = response.data;
             this.setState({ backendUser });
