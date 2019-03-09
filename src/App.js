@@ -77,7 +77,7 @@ class App extends React.Component {
         }
       })
       .catch((error) => {
-        if (error.status === 409) {
+        if (error.status === 404) {
           this.addProfile();
         } else {
           console.log('addProfile error!!!', error);
@@ -95,7 +95,13 @@ class App extends React.Component {
         user.score = response.data.score;
         this.setState({ user });
       })
-      .catch(error => console.log('addProfile error!!!', error));
+      .catch((error) => {
+        if (error.status === 409) {
+          console.log('addProfile conflict!!!', error);
+        } else {
+          console.log('addProfile error!!!', error);
+        }
+      });
   }
 
   render() {
