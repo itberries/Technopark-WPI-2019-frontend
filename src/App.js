@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createBrowserHistory } from 'history';
-import axios from 'axios';
 
 import connect from '@vkontakte/vkui-connect';
 import '@vkontakte/vkui/dist/vkui.css';
+
+import axios from 'axios';
+import './defaultApiSettings';
 
 import Workflow from './panels/workflow/Workflow';
 import Games from './panels/games/Games';
@@ -21,10 +23,6 @@ import profileIcon from './images/icons/profile.svg';
 
 const history = createBrowserHistory();
 
-axios.defaults.baseURL = 'http://it-berries.ru:8080';
-axios.defaults.mode = 'cors';
-axios.defaults.withCredentials = true;
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -33,7 +31,6 @@ class App extends React.Component {
       user: null,
     };
     this.onPanelChange = this.onPanelChange.bind(this);
-    console.log('in constructor');
   }
 
   componentDidMount() {
@@ -41,7 +38,15 @@ class App extends React.Component {
       switch (e.detail.type) {
         case 'VKWebAppGetUserInfoResult':
           console.log('fetchedUser', e.detail.data);
-          this.getProfileData(e.detail.data);
+          if (typeof e.detail.data.id !== 'undefined') {
+            const user = {
+              id: e.detail.data.id,
+              firstname: e.detail.data.first_name,
+              lastname: e.detail.data.last_name,
+            };
+            this.setState({ user });
+            this.getProfile();
+          }
           break;
         default:
           console.log(e.detail.type);
@@ -58,33 +63,38 @@ class App extends React.Component {
     this.setState({ activePanel: e.currentTarget.dataset.story });
   }
 
-  getProfileData(fetchedVkUser) {
-    const id = fetchedVkUser ? fetchedVkUser.id : undefined;
-    if (typeof id === 'undefined') {
-      console.log('getProfileData no id!!!');
-      return;
-    }
-    console.log('getProfileData user with id', id);
-
+  getProfile() {
+    const { user } = this.state;
+    console.log('get profile with id: ', user.id);
     axios
-      .post('/user', { id, score: 0 })
-      .then((resp) => {
-        console.log('post then resp: ', resp.data);
-        axios
-          .get(`/user/${id}`)
-          .then((response) => {
-            console.log('getProfileData user response data: ', response.data);
-            const user = {
-              id,
-              firstname: fetchedVkUser.first_name,
-              lastname: fetchedVkUser.last_name,
-              score: response.data.score,
-            };
-            this.setState({ user });
-          })
-          .catch(error => console.log('fetchGetUserById error in get!!!', error));
+      .get(`/user/${user.id}`)
+      .then((response) => {
+        console.log('get user then resp: ', response.data);
+        if (typeof response.data.score !== 'undefined') {
+          user.score = response.data.score;
+          this.setState({ user });
+        }
       })
-      .catch(error => console.log('fetchGetUserById error in post!!!', error));
+      .catch((error) => {
+        if (error.status === 409) {
+          this.addProfile();
+        } else {
+          console.log('addProfile error!!!', error);
+        }
+      });
+  }
+
+  addProfile() {
+    const { user } = this.state;
+    console.log('add profile with id: ', user.id);
+    axios
+      .post('/user')
+      .then((response) => {
+        console.log('post user then resp: ', response.data);
+        user.score = response.data.score;
+        this.setState({ user });
+      })
+      .catch(error => console.log('addProfile error!!!', error));
   }
 
   render() {
