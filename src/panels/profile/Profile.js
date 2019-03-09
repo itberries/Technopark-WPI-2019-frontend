@@ -7,7 +7,7 @@ import User from '../../common.blocks/user/User';
 const Profile = ({ id, user }) => (
   <Panel id={id}>
     <PanelHeader>Profile</PanelHeader>
-    <User fetchedUser={user} />
+    <User user={user} />
   </Panel>
 );
 
@@ -15,18 +15,20 @@ Profile.propTypes = {
   id: PropTypes.string.isRequired,
   user: PropTypes.shape({
     id: PropTypes.number,
-    photo_200: PropTypes.string,
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
+    photo: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    score: PropTypes.number,
   }),
 };
 
 Profile.defaultProps = {
   user: PropTypes.shape({
     id: PropTypes.number,
-    photo_200: PropTypes.string,
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
+    photo: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    score: PropTypes.number,
   }),
 };
 

@@ -42,9 +42,10 @@ Navigation.propTypes = {
   panelsData: PropTypes.arrayOf(PropTypes.object).isRequired,
   onPanelChange: PropTypes.func,
   user: PropTypes.shape({
-    photo_200: PropTypes.string,
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
+    photo: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    score: PropTypes.number,
   }),
 };
 
@@ -52,9 +53,10 @@ Navigation.defaultProps = {
   activePanel: 'workflow',
   onPanelChange: () => {},
   user: PropTypes.shape({
-    photo_200: PropTypes.string,
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
+    photo: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    score: PropTypes.number,
   }),
 };
 

@@ -41,8 +41,9 @@ class App extends React.Component {
           if (typeof e.detail.data.id !== 'undefined') {
             const user = {
               id: e.detail.data.id,
-              firstname: e.detail.data.first_name,
-              lastname: e.detail.data.last_name,
+              photo: e.detail.data.photo_200,
+              firstName: e.detail.data.first_name,
+              lastName: e.detail.data.last_name,
             };
             this.setState({ user });
             this.getProfile();
