@@ -51,7 +51,7 @@ Navigation.propTypes = {
 
 Navigation.defaultProps = {
   activePanel: 'workflow',
-  onPanelChange: () => {},
+  onPanelChange: () => null,
   user: PropTypes.shape({
     photo: PropTypes.string,
     firstName: PropTypes.string,
