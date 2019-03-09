@@ -6,7 +6,7 @@ import {
 import './Navigation.css';
 
 const Navigation = ({
-  activePanel, panelsData, onPanelChange, fetchedUser,
+  activePanel, panelsData, onPanelChange, user,
 }) => {
   const tabbarItems = [];
   const panels = [];
@@ -14,6 +14,7 @@ const Navigation = ({
   panelsData.forEach((panelData) => {
     tabbarItems.push(
       <TabbarItem
+        key={panelData.name}
         onClick={onPanelChange}
         selected={activePanel === panelData.name}
         data-story={panelData.name}
@@ -23,18 +24,14 @@ const Navigation = ({
       </TabbarItem>,
     );
     panels.push(
-      <View id={panelData.name} activePanel={panelData.name}>
-        {React.createElement(panelData.tag, { id: panelData.name, fetchedUser })}
+      <View key={panelData.name} id={panelData.name} activePanel={panelData.name}>
+        {React.createElement(panelData.tag, { id: panelData.name, user })}
       </View>,
     );
   });
 
   return (
-    <Epic
-      // eslint-disable-next-line react/destructuring-assignment
-      activeStory={activePanel}
-      tabbar={<Tabbar>{tabbarItems}</Tabbar>}
-    >
+    <Epic activeStory={activePanel} tabbar={<Tabbar>{tabbarItems}</Tabbar>}>
       {panels}
     </Epic>
   );
@@ -44,7 +41,7 @@ Navigation.propTypes = {
   activePanel: PropTypes.string,
   panelsData: PropTypes.arrayOf(PropTypes.object).isRequired,
   onPanelChange: PropTypes.func,
-  fetchedUser: PropTypes.shape({
+  user: PropTypes.shape({
     photo_200: PropTypes.string,
     first_name: PropTypes.string,
     last_name: PropTypes.string,
@@ -54,7 +51,7 @@ Navigation.propTypes = {
 Navigation.defaultProps = {
   activePanel: 'workflow',
   onPanelChange: () => {},
-  fetchedUser: PropTypes.shape({
+  user: PropTypes.shape({
     photo_200: PropTypes.string,
     first_name: PropTypes.string,
     last_name: PropTypes.string,

@@ -18,7 +18,6 @@ import gamesIcon from './images/icons/games.svg';
 import leaderboardIcon from './images/icons/leaderboard.svg';
 import eventsIcon from './images/icons/events.svg';
 import profileIcon from './images/icons/profile.svg';
-// import PanelData from './panels/PanelData';
 
 const history = createBrowserHistory();
 
@@ -31,8 +30,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       activePanel: props.panelName,
-      fetchedUser: null,
-      backendUser: null,
+      user: null,
     };
     this.onPanelChange = this.onPanelChange.bind(this);
     console.log('in constructor');
@@ -43,8 +41,7 @@ class App extends React.Component {
       switch (e.detail.type) {
         case 'VKWebAppGetUserInfoResult':
           console.log('fetchedUser', e.detail.data);
-          this.setState({ fetchedUser: e.detail.data });
-          this.getProfileData();
+          this.getProfileData(e.detail.data);
           break;
         default:
           console.log(e.detail.type);
@@ -61,29 +58,29 @@ class App extends React.Component {
     this.setState({ activePanel: e.currentTarget.dataset.story });
   }
 
-  getProfileData() {
-    const id = this.state.fetchedUser ? this.state.fetchedUser.id : undefined;
+  getProfileData(fetchedVkUser) {
+    const id = fetchedVkUser ? fetchedVkUser.id : undefined;
     if (typeof id === 'undefined') {
       console.log('getProfileData no id!!!');
       return;
     }
-    const user = {
-      id,
-      score: 0,
-    };
-
     console.log('getProfileData user with id', id);
 
     axios
-      .post('/user', user)
+      .post('/user', { id, score: 0 })
       .then((resp) => {
         console.log('post then resp: ', resp.data);
         axios
           .get(`/user/${id}`)
           .then((response) => {
-            const backendUser = response.data;
-            this.setState({ backendUser });
-            console.log('getProfileData user: ', backendUser);
+            console.log('getProfileData user response data: ', response.data);
+            const user = {
+              id,
+              firstname: fetchedVkUser.first_name,
+              lastname: fetchedVkUser.last_name,
+              score: response.data.score,
+            };
+            this.setState({ user });
           })
           .catch(error => console.log('fetchGetUserById error in get!!!', error));
       })
@@ -122,18 +119,13 @@ class App extends React.Component {
         text: 'Profile',
         icon: profileIcon,
       },
-      /* PanelData(Workflow, 'workflow', 'Workflow', workflowIcon),
-      PanelData(Games, 'games', 'Games', gamesIcon),
-      PanelData(LeaderBoard, 'leaderboard', 'Leaderboard', leaderboardIcon),
-      PanelData(Events, 'events', 'Events', eventsIcon),
-      PanelData(Profile, 'profile', 'Profile', profileIcon) */
     ];
     const result = (
       <Navigation
         activePanel={this.state.activePanel}
         panelsData={panelsData}
         onPanelChange={this.onPanelChange}
-        fetchedUser={this.state.fetchedUser}
+        user={this.state.user}
       />
     );
     return result;
