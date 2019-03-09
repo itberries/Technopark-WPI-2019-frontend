@@ -12,7 +12,7 @@ const Navigation = ({
   const panels = [];
   console.log(panelsData);
 
-  Object.values(panelsData).forEach((panelData) => {
+  panelsData.forEach((panelData) => {
     tabbarItems.push(
       <TabbarItem
         onClick={onPanelChange}
