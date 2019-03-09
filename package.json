@@ -7,8 +7,7 @@
   "scripts": {
     "start": "cross-env PORT=10888 react-scripts start",
     "build": "react-scripts build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "now",
     "lint": "eslint 'src/**/*.js'",
     "lint:fix": "prettier-eslint 'src/**/*.js' --write",
     "clean": "rm -rf build",
