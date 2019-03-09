@@ -10,7 +10,6 @@ const Navigation = ({
 }) => {
   const tabbarItems = [];
   const panels = [];
-  console.log(panelsData);
 
   panelsData.forEach((panelData) => {
     tabbarItems.push(
@@ -43,7 +42,7 @@ const Navigation = ({
 
 Navigation.propTypes = {
   activePanel: PropTypes.string,
-  panelsData: PropTypes.array.isRequired,
+  panelsData: PropTypes.arrayOf(PropTypes.object).isRequired,
   onPanelChange: PropTypes.func,
   fetchedUser: PropTypes.shape({
     photo_200: PropTypes.string,
