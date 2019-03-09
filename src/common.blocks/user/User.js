@@ -16,8 +16,8 @@ const User = ({ fetchedUser }) => (
           {fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200} /> : null}
         </div>
         <div className="user_name">{`${fetchedUser.first_name} ${fetchedUser.last_name}`}</div>
-        <div className="user_score_title">Score:</div>
-        <div className="user_score_value">100</div>
+        <div className="user_score_title">Score (id):</div>
+        <div className="user_score_value">{`${fetchedUser.id}`}</div>
         <div className="user_level_title">Level:</div>
         <div className="user_level_value">Basic</div>
       </div>
@@ -38,6 +38,7 @@ const User = ({ fetchedUser }) => (
 
 User.propTypes = {
   fetchedUser: PropTypes.shape({
+    id: PropTypes.number,
     photo_200: PropTypes.string,
     first_name: PropTypes.string,
     last_name: PropTypes.string,
@@ -46,6 +47,7 @@ User.propTypes = {
 
 User.defaultProps = {
   fetchedUser: PropTypes.shape({
+    id: PropTypes.number,
     photo_200: PropTypes.string,
     first_name: PropTypes.string,
     last_name: PropTypes.string,

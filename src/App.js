@@ -1,4 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { createBrowserHistory } from 'history';
+import axios from 'axios';
+
 import connect from '@vkontakte/vkui-connect';
 import '@vkontakte/vkui/dist/vkui.css';
 
@@ -16,21 +20,29 @@ import eventsIcon from './images/icons/events.svg';
 import profileIcon from './images/icons/profile.svg';
 // import PanelData from './panels/PanelData';
 
+const history = createBrowserHistory();
+
+const BACKEND_API_ADDRESS = 'http://it-berries.ru:8080';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activePanel: 'workflow',
+      activePanel: props.panelName,
       fetchedUser: null,
+      backendUser: null,
     };
     this.onPanelChange = this.onPanelChange.bind(this);
+    console.log('in constructor');
   }
 
   componentDidMount() {
     connect.subscribe((e) => {
       switch (e.detail.type) {
         case 'VKWebAppGetUserInfoResult':
+          console.log('fetchedUser', e.detail.data);
           this.setState({ fetchedUser: e.detail.data });
+          this.getProfileData();
           break;
         default:
           console.log(e.detail.type);
@@ -40,7 +52,40 @@ class App extends React.Component {
   }
 
   onPanelChange(e) {
+    const location = {
+      pathname: `/${e.currentTarget.dataset.story}`,
+    };
+    history.push(location);
     this.setState({ activePanel: e.currentTarget.dataset.story });
+  }
+
+  getProfileData() {
+    const id = this.state.fetchedUser ? this.state.fetchedUser.id : undefined;
+    if (typeof id === 'undefined') {
+      console.log('getProfileData no id!!!');
+      return;
+    }
+    const user = {
+      id,
+      score: 0,
+    };
+
+    console.log('getProfileData user with id', id);
+
+    axios
+      .post(`${BACKEND_API_ADDRESS}/user/`, user)
+      .then((resp) => {
+        console.log('post then resp: ', resp.data);
+        axios
+          .get(`${BACKEND_API_ADDRESS}/user/${id}`)
+          .then((response) => {
+            const backendUser = response.data;
+            this.setState({ backendUser });
+            console.log('getProfileData user: ', backendUser);
+          })
+          .catch(error => console.log('fetchGetUserById error in get!!!', error));
+      })
+      .catch(error => console.log('fetchGetUserById error in post!!!', error));
   }
 
   render() {
@@ -92,5 +137,13 @@ class App extends React.Component {
     return result;
   }
 }
+
+App.propTypes = {
+  panelName: PropTypes.string,
+};
+
+App.defaultProps = {
+  panelName: 'workflow',
+};
 
 export default App;

@@ -2,6 +2,7 @@ import 'core-js/es6/map';
 import 'core-js/es6/set';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import connect from '@vkontakte/vkui-connect';
 import App from './App';
 // import registerServiceWorker from './sw';
@@ -15,4 +16,12 @@ connect.send('VKWebAppInit', {});
 // Подробнее про сервис воркеры можно почитать тут — https://vk.cc/8MHpmT
 // registerServiceWorker();
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <Router>
+    <Route
+      path="/:panelName?"
+      component={props => <App panelName={props.match.params.panelName} />}
+    />
+  </Router>,
+  document.getElementById('root'),
+);
