@@ -80,7 +80,7 @@ class App extends React.Component {
         if (error.status === 404) {
           this.addProfile();
         } else {
-          console.log('addProfile error!!!', error);
+          console.log('getProfile error!!!', error);
         }
       });
   }
