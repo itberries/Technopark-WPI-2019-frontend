@@ -13,7 +13,7 @@ const User = ({ user }) => (
         </div>
         <div className="user_name">{`${user.firstName} ${user.lastName}`}</div>
         <div className="user_score_title">Score:</div>
-        <div className="user_score_value">{user.score ? `${user.score}` : ''}</div>
+        <div className="user_score_value">{user.score}</div>
         <div className="user_level_title">Level:</div>
         <div className="user_level_value">Basic</div>
       </div>

@@ -37,7 +37,6 @@ class App extends React.Component {
     connect.subscribe((e) => {
       switch (e.detail.type) {
         case 'VKWebAppGetUserInfoResult':
-          console.log('fetchedUser', e.detail.data);
           if (typeof e.detail.data.id !== 'undefined') {
             const user = {
               id: e.detail.data.id,
@@ -66,40 +65,36 @@ class App extends React.Component {
 
   getProfile() {
     const { user } = this.state;
-    console.log('get profile with id: ', user.id);
     axios
       .get(`/user/${user.id}`)
       .then((response) => {
-        console.log('get user then resp: ', response.data);
         if (typeof response.data.score !== 'undefined') {
           user.score = response.data.score;
           this.setState({ user });
         }
       })
       .catch((error) => {
-        if (error.status === 404) {
+        if (typeof error.response !== 'undefined' && error.response.status === 404) {
           this.addProfile();
         } else {
-          console.log('getProfile error!!!', error);
+          console.error('getProfile error!!!', error.response);
         }
       });
   }
 
   addProfile() {
     const { user } = this.state;
-    console.log('add profile with id: ', user.id);
     axios
-      .post('/user')
+      .post('/user', { id: user.id })
       .then((response) => {
-        console.log('post user then resp: ', response.data);
         user.score = response.data.score;
         this.setState({ user });
       })
       .catch((error) => {
-        if (error.status === 409) {
-          console.log('addProfile conflict!!!', error);
+        if (typeof error.response !== 'undefined' && error.response.status === 409) {
+          console.error('addProfile conflict!!!', error.response);
         } else {
-          console.log('addProfile error!!!', error);
+          console.error('addProfile error!!!', error.response);
         }
       });
   }
