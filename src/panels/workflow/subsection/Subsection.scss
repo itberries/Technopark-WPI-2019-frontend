@@ -1,5 +1,7 @@
+$primary-subsection-color: #492B55;
+
 .subsection__container {
-  background-color: #492B55;
+  background-color: $primary-subsection-color;
   width: auto;
   height: 100%;
 }
