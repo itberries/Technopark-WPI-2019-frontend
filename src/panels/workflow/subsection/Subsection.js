@@ -46,8 +46,14 @@ class Subsection extends React.Component {
   render() {
     return (
       <Div className="subsection__container">
-        {this.state.blocks.map(block => (
-          <SubsectionBlock type={block.type}>{block.name}</SubsectionBlock>
+        {this.state.blocks.map((block, index) => (
+          <SubsectionBlock
+            key={block.name}
+            withSeparator={index !== this.state.blocks.length - 1}
+            type={block.type}
+          >
+            {block.name}
+          </SubsectionBlock>
         ))}
       </Div>
     );
