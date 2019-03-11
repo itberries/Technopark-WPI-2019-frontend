@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './learnMap__points.css';
+import './LearningMap__Points.scss';
 
 /**
- * LearnMap's block component with path points
+ * LearningMap's block component with path points
  */
-class LearnMapPoints extends React.Component {
+class LearningMapPoints extends React.Component {
   /**
    * constructor
    * @param {object} props
@@ -35,13 +35,13 @@ class LearnMapPoints extends React.Component {
   }
 }
 
-LearnMapPoints.propTypes = {
+LearningMapPoints.propTypes = {
   /* Description of prop "position". */
   position: PropTypes.number,
 };
 
-LearnMapPoints.defaultProps = {
+LearningMapPoints.defaultProps = {
   position: '',
 };
 
-export default LearnMapPoints;
+export default LearningMapPoints;

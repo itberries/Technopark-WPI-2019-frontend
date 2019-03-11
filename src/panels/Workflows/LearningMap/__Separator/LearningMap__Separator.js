@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './learnMap__separator.css';
+import './LearningMap__Separator.scss';
 
 /**
- * LearnMap's block component with title and separator
+ * LearningMap's block component with title and separator
  * @param {string} text separator title
  * @return {ReactElement} separator's block
  */
-const LearnMapSeparator = ({ text }) => (
+const LearningMapSeparator = ({ text }) => (
   <div className="learnMap__separator">
     <div className="separator__text">{text}</div>
     <div className="separator__line">
@@ -16,9 +16,9 @@ const LearnMapSeparator = ({ text }) => (
   </div>
 );
 
-LearnMapSeparator.propTypes = {
+LearningMapSeparator.propTypes = {
   /* Description of prop "text". */
   text: PropTypes.string.isRequired,
 };
 
-export default LearnMapSeparator;
+export default LearningMapSeparator;

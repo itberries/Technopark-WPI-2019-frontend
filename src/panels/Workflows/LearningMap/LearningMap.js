@@ -1,13 +1,13 @@
 import React from 'react';
 
-import LearnMapRow from './__row/learnMap__row';
-import LearnMapSeparator from './__separator/learnMap__separator';
-import LearnMapPoints from './__points/learnMap__points';
-import LearnMapSubsection from './__subsection/learnMap__subsection';
+import LearnMapRow from './__Row/LearningMap__Row';
+import LearnMapSeparator from './__Separator/LearningMap__Separator';
+import LearnMapPoints from './__Points/LearningMap__Points';
+import LearnMapSubsection from './__Subsection/LearningMap__Subsection';
 
-import './learnMap.css';
+import './LearningMap.scss';
 
-class LearnMap extends React.Component {
+class LearningMap extends React.Component {
   componentDidMount() {
     if (window.worfkflowScrollY === undefined) {
       window.worfkflowScrollY = document.getElementsByClassName('learnMap')[0].scrollHeight;
@@ -57,4 +57,4 @@ class LearnMap extends React.Component {
   }
 }
 
-export default LearnMap;
+export default LearningMap;

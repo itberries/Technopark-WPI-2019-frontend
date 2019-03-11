@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Panel, PanelHeader } from '@vkontakte/vkui';
-import LearnMap from './learnMap/learnMap';
+import LearningMap from './LearningMap/LearningMap';
 
 const Workflow = ({ id }) => (
   <Panel id={id}>
     <PanelHeader>Workflow</PanelHeader>
-    <LearnMap />
+    <LearningMap />
   </Panel>
 );
 

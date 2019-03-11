@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './learnMap__subsection.css';
-
 import { Button } from '@vkontakte/vkui';
+import './LearningMap__Subsection.scss';
 
 /**
- * LearnMap's block component with button
+ * LearningMap's block component with button
  */
-class LearnMapSubsection extends React.Component {
+class LearningMapSubsection extends React.Component {
   /**
    * constructor
    * @param {object} props
@@ -42,7 +41,7 @@ class LearnMapSubsection extends React.Component {
   }
 }
 
-LearnMapSubsection.propTypes = {
+LearningMapSubsection.propTypes = {
   /* Description of prop "text". */
   text: PropTypes.string,
   /* Description of prop "start". */
@@ -51,10 +50,10 @@ LearnMapSubsection.propTypes = {
   end: PropTypes.string,
 };
 
-LearnMapSubsection.defaultProps = {
+LearningMapSubsection.defaultProps = {
   text: 'subsection',
   start: '1',
   end: '2',
 };
 
-export default LearnMapSubsection;
+export default LearningMapSubsection;

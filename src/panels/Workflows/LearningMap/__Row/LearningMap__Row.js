@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './learnMap__row.css';
+import './LearningMap__Row.scss';
 
 /**
- * LearnMap's block component
+ * LearningMap's block component
  * @param {string} children inner content
  * @return {ReactElement} learnMap's row
  */
-const LearnMapRow = props => <div className="learnMap__row">{props.children}</div>;
+const LearningMapRow = props => <div className="learnMap__row">{props.children}</div>;
 
-LearnMapRow.propTypes = {
+LearningMapRow.propTypes = {
   /* Description of prop "children". */
   children: PropTypes.node,
 };
 
-LearnMapRow.defaultProps = {
+LearningMapRow.defaultProps = {
   children: '',
 };
 
-export default LearnMapRow;
+export default LearningMapRow;
