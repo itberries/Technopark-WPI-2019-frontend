@@ -8,7 +8,7 @@ import './LearningMap__Separator.scss';
  * @return {ReactElement} separator's block
  */
 const LearningMapSeparator = ({ text }) => (
-  <div className="learningMap__separator">
+  <div className="learningMap__separator separator">
     <div className="separator__text">{text}</div>
     <div className="separator__line">
       <hr />

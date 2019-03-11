@@ -13,12 +13,13 @@ class LearningMapPoints extends React.Component {
   constructor(props) {
     super(props);
     /**
-     * constructor
-     * @param {string} position block's position on map
+     * @type {object}
+     * @property {string} position block's position on map
+     * @property {bool} isActive is active or not
      */
-    const positionClass = props.position === '' ? '' : `learningMap__col_pos_${props.position}`;
     this.state = {
-      position: positionClass,
+      position: `learningMap__col_pos_${props.position}`,
+      isActive: props.isActive,
     };
   }
 
@@ -29,7 +30,13 @@ class LearningMapPoints extends React.Component {
   render() {
     const points = [];
     for (let i = 0; i < 3; i++) {
-      points.push(<div className="learningMap__point learningMap__point-active" />);
+      points.push(
+        <div
+          className={`learningMap__point learningMap__point-${
+            this.state.isActive ? 'active' : 'unactive'
+          }`}
+        />,
+      );
     }
     return (
       <div className={`learningMap__col ${this.state.position} learningMap__points`}>{points}</div>
@@ -40,10 +47,13 @@ class LearningMapPoints extends React.Component {
 LearningMapPoints.propTypes = {
   /* Description of prop "position". */
   position: PropTypes.string,
+  /* Description of prop "isActive". */
+  isActive: PropTypes.bool,
 };
 
 LearningMapPoints.defaultProps = {
   position: '',
+  isActive: false,
 };
 
 export default LearningMapPoints;

@@ -7,7 +7,7 @@ import './LearningMap__Row.scss';
  * @param {string} children inner content
  * @return {ReactElement} learningMap's row
  */
-const LearningMapRow = props => <div className="learningMap__row">{props.children}</div>;
+const LearningMapRow = ({ children }) => <div className="learningMap__row">{children}</div>;
 
 LearningMapRow.propTypes = {
   /* Description of prop "children". */
