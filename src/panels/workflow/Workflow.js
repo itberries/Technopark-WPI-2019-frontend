@@ -2,9 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Panel, PanelHeader } from '@vkontakte/vkui';
 
+import Subsection from './subsection/Subsection';
+
 const Workflow = ({ id }) => (
   <Panel id={id}>
-    <PanelHeader>Workflow</PanelHeader>
+    <PanelHeader>Subsection name</PanelHeader>
+    <Subsection />
   </Panel>
 );
 

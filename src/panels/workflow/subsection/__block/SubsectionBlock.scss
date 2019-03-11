@@ -1,0 +1,37 @@
+.subsection__block {
+  margin: 1em auto 1em;
+  align-items: center;
+}
+
+.subsection__button {
+  width: 90%;
+  height: 4.5em;
+  margin: 0 5%;
+}
+
+.subsection__button.subsection__button-theory {
+  background-color: rgba(187, 63, 231, 0.6);
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+}
+
+.subsection__button.subsection__button-interactive {
+  background-color: rgba(194, 132, 216, 0.67);
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 25px;
+}
+
+.subsection__button.subsection__button-training {
+  background-color: rgba(161, 141, 217, 0.82);
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+}
+
+.subsection__separator {
+  width: 1vh;
+  height: 1vh;
+  border-radius: 50%;
+  background-color: rgba(196, 196, 196, 0.59);
+  vertical-align: center;
+  border: 0;
+}
