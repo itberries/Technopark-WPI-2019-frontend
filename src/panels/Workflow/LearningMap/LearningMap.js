@@ -24,31 +24,41 @@ class LearningMap extends React.Component {
       <div className="learningMap">
         <div className="learningMap__container">
           <LearningMapRow>
-            <LearningMapPoints />
-          </LearningMapRow>
-          <LearningMapRow>
-            <LearningMapSubsection text="pos1" start="1" end="2" />
+            <LearningMapSubsection name="Programming" start="1" end="2" />
           </LearningMapRow>
           <LearningMapRow>
             <LearningMapPoints position="2" />
           </LearningMapRow>
           <LearningMapRow>
-            <LearningMapSubsection text="pos2" start="2" end="3" />
+            <LearningMapSubsection name="Algebra of logic" start="2" end="3" />
           </LearningMapRow>
           <LearningMapRow>
             <LearningMapPoints position="3" />
           </LearningMapRow>
+          <LearningMapSeparator text="Intermediate" />
           <LearningMapRow>
-            <LearningMapSubsection text="pos3" start="3" end="4" />
+            <LearningMapPoints position="3" />
+          </LearningMapRow>
+          <LearningMapRow>
+            <LearningMapSubsection name="Internet and URLs" start="3" end="4" />
           </LearningMapRow>
           <LearningMapRow>
             <LearningMapPoints position="4" />
           </LearningMapRow>
           <LearningMapRow>
-            <LearningMapSubsection text="pos4" start="4" end="5" />
+            <LearningMapSubsection
+              name="File system"
+              start="4"
+              end="5"
+              isActive="true"
+              isCurrent="true"
+            />
           </LearningMapRow>
           <LearningMapRow>
-            <LearningMapPoints position="5" />
+            <LearningMapPoints position="4" isActive="true" />
+          </LearningMapRow>
+          <LearningMapRow>
+            <LearningMapSubsection name="Numeric system" start="3" end="4" isActive="true" />
           </LearningMapRow>
           <LearningMapSeparator text="Basic" />
         </div>
