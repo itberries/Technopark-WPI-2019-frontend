@@ -46,21 +46,15 @@ class LearningMap extends React.Component {
             <LearningMapPoints position="4" />
           </LearningMapRow>
           <LearningMapRow>
-            <LearningMapSubsection
-              name="File system"
-              start="4"
-              end="5"
-              isActive="true"
-              isCurrent="true"
-            />
+            <LearningMapSubsection name="File system" start="4" end="5" isActive isCurrent />
           </LearningMapRow>
           <LearningMapRow>
-            <LearningMapPoints position="4" isActive="true" />
+            <LearningMapPoints position="4" isActive />
           </LearningMapRow>
           <LearningMapRow>
-            <LearningMapSubsection name="Numeric system" start="3" end="4" isActive="true" />
+            <LearningMapSubsection name="Numeric system" start="3" end="4" isActive />
           </LearningMapRow>
-          <LearningMapSeparator name="Basic" isActive="true" />
+          <LearningMapSeparator name="Basic" isActive />
         </div>
       </div>
     );
