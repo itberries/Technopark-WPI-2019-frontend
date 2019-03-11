@@ -8,7 +8,7 @@ import '@vkontakte/vkui/dist/vkui.css';
 import axios from 'axios';
 import './defaultApiSettings';
 
-import Workflow from './panels/workflow/Workflow';
+import Workflow from './panels/Workflow/Workflow';
 import Games from './panels/games/Games';
 import Profile from './panels/profile/Profile';
 import LeaderBoard from './panels/leaderboard/LeaderBoard';

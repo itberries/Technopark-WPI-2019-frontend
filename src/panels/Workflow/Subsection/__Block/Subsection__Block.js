@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@vkontakte/vkui';
-import './SubsectionBlock.scss';
+import './Subsection__Block.scss';
 
 /**
  * Subsection's block component with button and separator

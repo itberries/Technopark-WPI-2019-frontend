@@ -1,6 +1,6 @@
 import React from 'react';
 import { Div } from '@vkontakte/vkui';
-import SubsectionBlock from './__block/SubsectionBlock';
+import SubsectionBlock from './__Block/Subsection__Block';
 import './Subsection.scss';
 
 /**
