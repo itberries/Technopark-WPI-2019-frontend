@@ -20,6 +20,7 @@ class LearningMapSubsection extends React.Component {
      * @property {string} end button's end postion on LearningMap
      * @property {bool} isActive is subsection active or not
      * @property {bool} isCurrent is subsection current learning block or not
+     * @property {bool} isCompleted is learning of this subsection completed or not
      */
     this.state = {
       name: props.name,
@@ -27,6 +28,7 @@ class LearningMapSubsection extends React.Component {
       end: props.end,
       isActive: props.isActive,
       isCurrent: props.isCurrent,
+      isCompleted: props.isCompleted,
     };
   }
 
@@ -44,7 +46,9 @@ class LearningMapSubsection extends React.Component {
         <Button
           className={`learningMap__button${
             this.state.isActive ? ' learningMap__button-active' : ''
-          } ${this.state.isCurrent ? 'learningMap__button-current' : ''}`}
+          } ${this.state.isCurrent ? 'learningMap__button-current' : ''} ${
+            this.state.isCompleted ? 'learningMap__button-completed' : ''
+          }`}
         >
           {this.state.name}
         </Button>
@@ -64,6 +68,8 @@ LearningMapSubsection.propTypes = {
   isActive: PropTypes.bool,
   /* Description of prop "isCurrent". */
   isCurrent: PropTypes.bool,
+  /* Description of prop "isCompleted". */
+  isCompleted: PropTypes.bool,
 };
 
 LearningMapSubsection.defaultProps = {
@@ -72,6 +78,7 @@ LearningMapSubsection.defaultProps = {
   end: '2',
   isActive: false,
   isCurrent: false,
+  isCompleted: false,
 };
 
 export default LearningMapSubsection;

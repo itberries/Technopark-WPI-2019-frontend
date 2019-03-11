@@ -52,7 +52,7 @@ class LearningMap extends React.Component {
             <LearningMapPoints position="4" isActive />
           </LearningMapRow>
           <LearningMapRow>
-            <LearningMapSubsection name="Numeric system" start="3" end="4" isActive />
+            <LearningMapSubsection name="Numeric system" start="3" end="4" isActive isCompleted />
           </LearningMapRow>
           <LearningMapSeparator name="Basic" isActive />
         </div>
