@@ -21,39 +21,6 @@
   justify-content: flex-end;
 }
 
-.learnMap_path {
-  position: relative;
-  width: 100vw;
-  height: 200vh;
-  bottom: -35vh;
-  background-image: url('../../../images/test_path.png');
-  background-repeat: repeat;
-  background-size: 100vw 200vh;
-}
-
-.learnMap_number_systems {
-  position: relative;
-  left: 0vw;
-  bottom: 29vh;
-}
-
-.learnMap_logic_algebra {
-  position: relative;
-  bottom: 44vh;
-}
-
-.learnMap_file_system {
-  position: relative;
-  bottom: 78vh;
-  left: 10vw;
-}
-
-.learnMap_url {
-  position: relative;
-  bottom: 155vh;
-  left: 30vw;
-}
-
 .learnMap__container {
   display: grid;
   grid-auto-rows: minmax(min-content, max-content);
