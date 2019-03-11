@@ -1,0 +1,28 @@
+.learnMap__separator {
+  display: grid;
+  align-self: center;
+  grid-template-columns: 2vw min-content auto;
+}
+
+.learnMap__separator div {
+  align-self: center;
+}
+
+.separator__text{
+  grid-column: 2;
+  color: aliceblue;
+  font-size: 3vh;
+}
+
+.separator__line {
+  width: 90%;
+  padding: 3%;
+  grid-column: 3;
+}
+
+.separator__line hr {
+  height: 3vh;
+  background-color: aliceblue;
+  border: 0;
+  border-radius: 2vh;
+}

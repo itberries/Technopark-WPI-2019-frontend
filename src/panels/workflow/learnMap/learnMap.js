@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { Button } from '@vkontakte/vkui';
+import LearnMapRow from './__row/learnMap__row';
+import LearnMapSeparator from './__separator/learnMap__separator';
+import LearnMapPoints from './__points/learnMap__points';
+import LearnMapSubsection from './__subsection/learnMap__subsection';
 
 import './learnMap.css';
 
 class LearnMap extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     if (window.worfkflowScrollY === undefined) {
       console.log('set max scroll');
@@ -19,7 +18,6 @@ class LearnMap extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log('set scroll 3');
     window.worfkflowScrollY = window.scrollY;
   }
 
@@ -28,81 +26,34 @@ class LearnMap extends React.Component {
       <div className="learnMap">
         {/* <div className="learnMap_path" /> */}
         <div className="learnMap__container">
-          <div className="learnMap__row">
-            <div className="learnMap__col learnMap__points">
-              <div className="learnMap__point" />
-              <div className="learnMap__point" />
-              <div className="learnMap__point" />
-            </div>
-          </div>
-          <div className="learnMap__row">
-            <div className="learnMap__col learnMap__col_start_1 learnMap__col_end_2">
-              <Button className="learnMap__buttom">pos1</Button>
-            </div>
-          </div>
-          <div className="learnMap__row">
-            <div className="learnMap__col learnMap__col_pos_2 learnMap__points">
-              <div className="learnMap__point" />
-              <div className="learnMap__point" />
-              <div className="learnMap__point" />
-            </div>
-          </div>
-          <div className="learnMap__row">
-            <div className="learnMap__col learnMap__col_start_2 learnMap__col_end_3">
-              <Button className="learnMap__buttom">pos2</Button>
-            </div>
-          </div>
-          <div className="learnMap__row">
-            <div className="learnMap__col learnMap__col_pos_3 learnMap__points">
-              <div className="learnMap__point" />
-              <div className="learnMap__point" />
-              <div className="learnMap__point" />
-            </div>
-          </div>
-          <div className="learnMap__row">
-            <div className="learnMap__col learnMap__col_start_3 learnMap__col_end_4">
-              <Button className="learnMap__buttom">pos3</Button>
-            </div>
-          </div>
-          <div className="learnMap__row">
-            <div className="learnMap__col learnMap__col_pos_4 learnMap__points">
-              <div className="learnMap__point" />
-              <div className="learnMap__point" />
-              <div className="learnMap__point" />
-            </div>
-          </div>
-          <div className="learnMap__row">
-            <div className="learnMap__col learnMap__col_start_4 learnMap__col_end_5">
-              <Button className="learnMap__buttom">pos4</Button>
-            </div>
-          </div>
-          <div className="learnMap__row">
-            <div className="learnMap__col learnMap__col_pos_5 learnMap__points">
-              <div className="learnMap__point" />
-              <div className="learnMap__point" />
-              <div className="learnMap__point" />
-            </div>
-          </div>
-          <div className="learnMap__separator">
-            <div className="separator__text">Basic</div>
-            <div className="separator__line">
-              <hr />
-            </div>
-          </div>
-          {/*
-          <Div className="learnMap_url">
-            <Button>Url</Button>
-          </Div>
-          <Div className="learnMap_file_system">
-            <Button>Файловая система</Button>
-          </Div>
-          <Div className="learnMap_logic_algebra">
-            <Button>Алгебра логики</Button>
-          </Div>
-          <Div className="learnMap_number_systems">
-            <Button>Системы счисления</Button>
-          </Div>
-          */}
+          <LearnMapRow>
+            <LearnMapPoints />
+          </LearnMapRow>
+          <LearnMapRow>
+            <LearnMapSubsection text="pos1" start="1" end="2" />
+          </LearnMapRow>
+          <LearnMapRow>
+            <LearnMapPoints position="2" />
+          </LearnMapRow>
+          <LearnMapRow>
+            <LearnMapSubsection text="pos2" start="2" end="3" />
+          </LearnMapRow>
+          <LearnMapRow>
+            <LearnMapPoints position="3" />
+          </LearnMapRow>
+          <LearnMapRow>
+            <LearnMapSubsection text="pos3" start="3" end="4" />
+          </LearnMapRow>
+          <LearnMapRow>
+            <LearnMapPoints position="4" />
+          </LearnMapRow>
+          <LearnMapRow>
+            <LearnMapSubsection text="pos4" start="4" end="5" />
+          </LearnMapRow>
+          <LearnMapRow>
+            <LearnMapPoints position="5" />
+          </LearnMapRow>
+          <LearnMapSeparator text="Basic" />
         </div>
       </div>
     );

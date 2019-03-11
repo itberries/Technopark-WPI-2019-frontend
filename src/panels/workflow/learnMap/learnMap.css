@@ -61,41 +61,12 @@
   height: min-content;
 }
 
-.learnMap__row {
-  height: 12vh;
-  display: grid;
-  grid-template-columns: repeat(5, 20vw);
-}
-
 .learnMap__col {
   align-self: center;
   justify-self: center;
   width: 100%;
   height: 100%;
   display: grid;
-}
-
-.learnMap__points {
-  width: 1vh;
-  grid-template-rows: repeat(3, 4vh);
-}
-
-.learnMap__point {
-  align-self: center;
-  justify-self: center;
-  width: 1vh;
-  height: 1vh;
-  border-radius: 50%;
-  background-color: aliceblue;
-}
-
-.learnMap__buttom {
-  width: 80%;
-  height: 80%;
-  padding: 10%;
-  position: relative;
-  align-self: center;
-  justify-self: center;
 }
 
 .learnMap__col_pos_2 {
@@ -144,35 +115,6 @@
 
 .learnMap__col_end_5 {
   grid-column-end: 6;
-}
-
-.learnMap__separator {
-  display: grid;
-  align-self: center;
-  grid-template-columns: 2vw min-content auto;
-}
-
-.learnMap__separator div {
-  align-self: center;
-}
-
-.separator__text{
-  grid-column: 2;
-  color: aliceblue;
-  font-size: 3vh;
-}
-
-.separator__line {
-  width: 90%;
-  padding: 3%;
-  grid-column: 3;
-}
-
-.separator__line hr {
-  height: 3vh;
-  background-color: aliceblue;
-  border: 0;
-  border-radius: 2vh;
 }
 
 .Button__in .Button__content {

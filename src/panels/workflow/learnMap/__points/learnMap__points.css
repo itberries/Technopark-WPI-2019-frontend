@@ -1,0 +1,13 @@
+.learnMap__points {
+  width: 1vh;
+  grid-template-rows: repeat(3, 4vh);
+}
+
+.learnMap__point {
+  align-self: center;
+  justify-self: center;
+  width: 1vh;
+  height: 1vh;
+  border-radius: 50%;
+  background-color: aliceblue;
+}
