@@ -32,7 +32,6 @@ class App extends React.Component {
       backendUser: null,
     };
     this.onPanelChange = this.onPanelChange.bind(this);
-    console.log('in constructor');
   }
 
   componentDidMount() {

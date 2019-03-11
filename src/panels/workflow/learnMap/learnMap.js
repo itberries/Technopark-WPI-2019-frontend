@@ -10,10 +10,8 @@ import './learnMap.css';
 class LearnMap extends React.Component {
   componentDidMount() {
     if (window.worfkflowScrollY === undefined) {
-      console.log('set max scroll');
       window.worfkflowScrollY = document.getElementsByClassName('learnMap')[0].scrollHeight;
     }
-    console.log('set scroll 1');
     window.scrollTo(0, window.worfkflowScrollY);
   }
 
@@ -24,7 +22,6 @@ class LearnMap extends React.Component {
   render() {
     return (
       <div className="learnMap">
-        {/* <div className="learnMap_path" /> */}
         <div className="learnMap__container">
           <LearnMapRow>
             <LearnMapPoints />
