@@ -9,7 +9,7 @@ import '@vkontakte/vkui/dist/vkui.css';
 import Workflow from './panels/Workflow/Workflow';
 import Games from './panels/Games/Games';
 import Profile from './panels/Profile/Profile';
-import LeaderBoard from './panels/Leaderboards/LeaderBoard';
+import LeaderBoard from './panels/Leaderboard/Leaderboard';
 import Events from './panels/Events/Events';
 import Navigation from './common.blocks/navigation/Navigation';
 
@@ -47,7 +47,7 @@ class App extends React.Component {
       }
     });
     connect.send('VKWebAppGetUserInfo', {});
-    window.scrollTo(0, document.getElementsByClassName('learnMap')[0].scrollHeight);
+    window.scrollTo(0, document.getElementsByClassName('learningMap')[0].scrollHeight);
     console.log('App isload');
   }
 

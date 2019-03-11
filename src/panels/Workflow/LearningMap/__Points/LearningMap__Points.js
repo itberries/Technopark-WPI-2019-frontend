@@ -16,7 +16,7 @@ class LearningMapPoints extends React.Component {
      * constructor
      * @param {string} position block's position on map
      */
-    const positionClass = props.position === '' ? '' : `learnMap__col_pos_${props.position}`;
+    const positionClass = props.position === '' ? '' : `learningMap__col_pos_${props.position}`;
     this.state = {
       position: positionClass,
     };
@@ -29,9 +29,11 @@ class LearningMapPoints extends React.Component {
   render() {
     const points = [];
     for (let i = 0; i < 3; i++) {
-      points.push(<div className="learnMap__point" />);
+      points.push(<div className="learningMap__point" />);
     }
-    return <div className={`learnMap__col ${this.state.position} learnMap__points`}>{points}</div>;
+    return (
+      <div className={`learningMap__col ${this.state.position} learningMap__points`}>{points}</div>
+    );
   }
 }
 

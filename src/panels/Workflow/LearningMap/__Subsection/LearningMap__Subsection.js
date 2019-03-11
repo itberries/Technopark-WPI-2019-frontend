@@ -16,11 +16,11 @@ class LearningMapSubsection extends React.Component {
     /**
      * constructor
      * @param {string} text button's text
-     * @param {number} start button's start start position on LearnMap
-     * @param {number} end button's end postion on LearnMap
+     * @param {number} start button's start start position on LearningMap
+     * @param {number} end button's end postion on LearningMap
      */
-    const startPosClass = props.start === '' ? '' : `learnMap__col_start_${props.start}`;
-    const endPosClass = props.end === '' ? '' : `learnMap__col_end_${props.end}`;
+    const startPosClass = props.start === '' ? '' : `learningMap__col_start_${props.start}`;
+    const endPosClass = props.end === '' ? '' : `learningMap__col_end_${props.end}`;
     this.state = {
       text: props.text,
       start: startPosClass,
@@ -30,12 +30,12 @@ class LearningMapSubsection extends React.Component {
 
   /**
    * render
-   * @return {ReactElement} LearnMap's button block
+   * @return {ReactElement} LearningMap's button block
    */
   render() {
     return (
-      <div className={`learnMap__col ${this.state.start} ${this.state.end}`}>
-        <Button className="learnMap__button">{this.state.text}</Button>
+      <div className={`learningMap__col ${this.state.start} ${this.state.end}`}>
+        <Button className="learningMap__button">{this.state.text}</Button>
       </div>
     );
   }

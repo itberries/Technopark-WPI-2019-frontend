@@ -5,9 +5,9 @@ import './LearningMap__Row.scss';
 /**
  * LearningMap's block component
  * @param {string} children inner content
- * @return {ReactElement} learnMap's row
+ * @return {ReactElement} learningMap's row
  */
-const LearningMapRow = props => <div className="learnMap__row">{props.children}</div>;
+const LearningMapRow = props => <div className="learningMap__row">{props.children}</div>;
 
 LearningMapRow.propTypes = {
   /* Description of prop "children". */
