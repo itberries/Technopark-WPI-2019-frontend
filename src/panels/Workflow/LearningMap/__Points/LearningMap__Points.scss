@@ -13,11 +13,9 @@ $points-unactive-color: #727272;
   height: 1.5vh;
   border-radius: 50%;
 
+  background-color: $points-unactive-color;
+
   &-active {
     background-color: $points-active-color;
-  }
-
-  &-unactive {
-    background-color: $points-unactive-color;
   }
 }

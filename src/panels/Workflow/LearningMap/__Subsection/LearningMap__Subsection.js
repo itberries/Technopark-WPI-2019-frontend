@@ -15,16 +15,18 @@ class LearningMapSubsection extends React.Component {
     super(props);
     /**
      * @type {object}
-     * @property {string} text button's text
-     * @property {string} start button's start start position on LearningMap
+     * @property {string} name button's text
+     * @property {string} start button's start position on LearningMap
      * @property {string} end button's end postion on LearningMap
      * @property {bool} isActive is subsection active or not
+     * @property {bool} isCurrent is subsection current learning block or not
      */
     this.state = {
-      text: props.text,
-      start: `learningMap__col_start_${props.start}`,
-      end: `learningMap__col_end_${props.end}`,
+      name: props.name,
+      start: props.start,
+      end: props.end,
       isActive: props.isActive,
+      isCurrent: props.isCurrent,
     };
   }
 
@@ -34,13 +36,17 @@ class LearningMapSubsection extends React.Component {
    */
   render() {
     return (
-      <div className={`learningMap__col ${this.state.start} ${this.state.end}`}>
+      <div
+        className={`learningMap__col learningMap__col_start_${
+          this.state.start
+        } learningMap__col_end_${this.state.end}`}
+      >
         <Button
-          className={`learningMap__button learningMap__button-${
-            this.state.isActive ? 'active' : 'unactive'
-          }`}
+          className={`learningMap__button${
+            this.state.isActive ? ' learningMap__button-active' : ''
+          } ${this.state.isCurrent ? 'learningMap__button-current' : ''}`}
         >
-          {this.state.text}
+          {this.state.name}
         </Button>
       </div>
     );
@@ -48,14 +54,16 @@ class LearningMapSubsection extends React.Component {
 }
 
 LearningMapSubsection.propTypes = {
-  /* Description of prop "text". */
-  text: PropTypes.string,
+  /* Description of prop "name". */
+  name: PropTypes.string,
   /* Description of prop "start". */
   start: PropTypes.string,
   /* Description of prop "end". */
   end: PropTypes.string,
   /* Description of prop "isActive". */
   isActive: PropTypes.bool,
+  /* Description of prop "isCurrent". */
+  isCurrent: PropTypes.bool,
 };
 
 LearningMapSubsection.defaultProps = {
@@ -63,6 +71,7 @@ LearningMapSubsection.defaultProps = {
   start: '1',
   end: '2',
   isActive: false,
+  isCurrent: false,
 };
 
 export default LearningMapSubsection;

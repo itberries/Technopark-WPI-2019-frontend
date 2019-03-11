@@ -1,5 +1,6 @@
-$subsection-active: #9E248B;
-$subsection-unactive: #896283;;
+$subsection-active-color: #9E248B;
+$subsection-unactive-color: #896283;
+$subsection-current-color: #B95208;
 $shadow: 0px 7px 7px rgba(0, 0, 0, 0.25);
 
 .learningMap__button {
@@ -13,11 +14,13 @@ $shadow: 0px 7px 7px rgba(0, 0, 0, 0.25);
   border-radius: 25px; /* TODO: fix (border style doesn't work) */
   box-shadow: $shadow;
 
+  background-color: $subsection-unactive-color;
+
   &-active {
-    background-color: $subsection-active;
+    background-color: $subsection-active-color;
   }
 
-  &-unactive {
-    background-color: $subsection-unactive;
+  &-current {
+    border: 2px solid $subsection-current-color;
   }
 }
