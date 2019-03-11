@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './rocket.css';
+import './Rocket.scss';
 
 const Rocket = () => <div className="Rocket" />;
 
