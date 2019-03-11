@@ -67,7 +67,7 @@ LearningMapSubsection.propTypes = {
 };
 
 LearningMapSubsection.defaultProps = {
-  text: 'subsection',
+  name: 'subsection',
   start: '1',
   end: '2',
   isActive: false,

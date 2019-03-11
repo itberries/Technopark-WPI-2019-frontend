@@ -4,13 +4,13 @@ import './LearningMap__Separator.scss';
 
 /**
  * LearningMap's block component with title and separator
- * @param {string} text separator title
+ * @param {string} name separator title
  * @return {ReactElement} separator's block
  */
-const LearningMapSeparator = ({ text }) => (
+const LearningMapSeparator = ({ name, isActive }) => (
   <div className="learningMap__separator separator">
-    <div className="separator__text">{text}</div>
-    <div className="separator__line">
+    <div className={`separator__text${isActive ? ' separator__text-active' : ''}`}>{name}</div>
+    <div className={`separator__line${isActive ? ' separator__line-active' : ''}`}>
       <hr />
     </div>
   </div>
@@ -18,7 +18,13 @@ const LearningMapSeparator = ({ text }) => (
 
 LearningMapSeparator.propTypes = {
   /* Description of prop "text". */
-  text: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  /* Description of prop "isActive". */
+  isActive: PropTypes.string,
+};
+
+LearningMapSeparator.defaultProps = {
+  isActive: false,
 };
 
 export default LearningMapSeparator;
