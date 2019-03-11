@@ -5,7 +5,7 @@ $section-separotor-color: rgba(161, 141, 217, 0.82);
 $shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
 
 .subsection__block {
-  margin: 1em auto 1em;
+  margin: 0.5em auto 0.5em;
   align-items: center;
 }
 
@@ -33,10 +33,10 @@ $shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
 }
 
 .subsection__separator {
-  width: 1vh;
-  height: 1vh;
+  width: 0.5em;
+  height: 0.5em;
   border-radius: 50%;
   background-color: $section-separotor-color;
-  vertical-align: center;
   border: 0;
+  margin-bottom: 0;
 }
