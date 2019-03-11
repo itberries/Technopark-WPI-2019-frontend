@@ -1,3 +1,7 @@
+$subsection-active: #9E248B;
+$subsection-unactive: #896283;;
+$shadow: 0px 7px 7px rgba(0, 0, 0, 0.25);
+
 .learningMap__button {
   width: 80%;
   height: 80%;
@@ -5,4 +9,15 @@
   position: relative;
   align-self: center;
   justify-self: center;
+
+  border-radius: 25px; /* TODO: fix (border style doesn't work) */
+  box-shadow: $shadow;
+
+  &-active {
+    background-color: $subsection-active;
+  }
+
+  &-unactive {
+    background-color: $subsection-unactive;
+  }
 }

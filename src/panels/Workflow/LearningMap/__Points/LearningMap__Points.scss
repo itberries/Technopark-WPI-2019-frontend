@@ -1,3 +1,6 @@
+$points-active-color: #E5E5E5;
+$points-unactive-color: #727272;
+
 .learningMap__points {
   width: 1vh;
   grid-template-rows: repeat(3, 4vh);
@@ -6,8 +9,15 @@
 .learningMap__point {
   align-self: center;
   justify-self: center;
-  width: 1vh;
-  height: 1vh;
+  width: 1.5vh;
+  height: 1.5vh;
   border-radius: 50%;
-  background-color: aliceblue;
+
+  &-active {
+    background-color: $points-active-color;
+  }
+
+  &-unactive {
+    background-color: $points-unactive-color;
+  }
 }
