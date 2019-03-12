@@ -4,29 +4,31 @@ import { Panel, PanelHeader } from '@vkontakte/vkui';
 
 import User from '../../common.blocks/user/User';
 
-const Profile = ({ id, fetchedUser }) => (
+const Profile = ({ id, user }) => (
   <Panel id={id}>
     <PanelHeader>Profile</PanelHeader>
-    <User fetchedUser={fetchedUser} />
+    <User user={user} />
   </Panel>
 );
 
 Profile.propTypes = {
   id: PropTypes.string.isRequired,
-  fetchedUser: PropTypes.shape({
+  user: PropTypes.shape({
     id: PropTypes.number,
-    photo_200: PropTypes.string,
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
+    photo: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    score: PropTypes.number,
   }),
 };
 
 Profile.defaultProps = {
-  fetchedUser: PropTypes.shape({
+  user: PropTypes.shape({
     id: PropTypes.number,
-    photo_200: PropTypes.string,
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
+    photo: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    score: PropTypes.number,
   }),
 };
 

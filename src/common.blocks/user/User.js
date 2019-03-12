@@ -4,20 +4,16 @@ import { Group, Avatar } from '@vkontakte/vkui';
 import profileIcon from '../../images/icons/profile.svg';
 import './User.scss';
 
-const User = ({ fetchedUser }) => (
+const User = ({ user }) => (
   <Group title="User Data" className="profile">
-    {fetchedUser ? (
-      <div
-        before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200} /> : null}
-        size=" l"
-        className="container"
-      >
+    {user ? (
+      <div before={user.photo ? <Avatar src={user.photo} /> : null} size=" l" className="container">
         <div className="user_avatar" size=" l" align="center">
-          {fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200} /> : null}
+          {user.photo ? <Avatar src={user.photo} /> : null}
         </div>
-        <div className="user_name">{`${fetchedUser.first_name} ${fetchedUser.last_name}`}</div>
-        <div className="user_score_title">Score (id):</div>
-        <div className="user_score_value">{`${fetchedUser.id}`}</div>
+        <div className="user_name">{`${user.firstName} ${user.lastName}`}</div>
+        <div className="user_score_title">Score:</div>
+        <div className="user_score_value">{user.score}</div>
         <div className="user_level_title">Level:</div>
         <div className="user_level_value">Basic</div>
       </div>
@@ -28,7 +24,7 @@ const User = ({ fetchedUser }) => (
         </div>
         <div className="user_name">No user data</div>
         <div className="user_score_title">Score:</div>
-        <div className="user_score_value">100</div>
+        <div className="user_score_value">0</div>
         <div className="user_level_title">Level:</div>
         <div className="user_level_value">Basic</div>
       </div>
@@ -37,20 +33,22 @@ const User = ({ fetchedUser }) => (
 );
 
 User.propTypes = {
-  fetchedUser: PropTypes.shape({
+  user: PropTypes.shape({
     id: PropTypes.number,
-    photo_200: PropTypes.string,
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
+    photo: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    score: PropTypes.number,
   }),
 };
 
 User.defaultProps = {
-  fetchedUser: PropTypes.shape({
+  user: PropTypes.shape({
     id: PropTypes.number,
-    photo_200: PropTypes.string,
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
+    photo: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    score: PropTypes.number,
   }),
 };
 
