@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeader } from '@vkontakte/vkui';
+import { View, Panel, PanelHeader } from '@vkontakte/vkui';
 
 import User from '../../common.blocks/User/User';
 
-const Profile = ({ id, user }) => (
-  <Panel id={id}>
-    <PanelHeader>Profile</PanelHeader>
-    <User user={user} />
-  </Panel>
+const Profile = ({ user, viewData }) => (
+  <View key={viewData.name} id={viewData.name} activePanel="profile">
+    <Panel id="profile">
+      <PanelHeader>Profile</PanelHeader>
+      <User user={user} />
+    </Panel>
+  </View>
 );
 
 Profile.propTypes = {
-  id: PropTypes.string.isRequired,
+  viewData: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({
     id: PropTypes.number,
     photo: PropTypes.string,

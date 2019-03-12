@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeader } from '@vkontakte/vkui';
+import { View, Panel, PanelHeader } from '@vkontakte/vkui';
 
-const Events = ({ id }) => (
-  <Panel id={id}>
-    <PanelHeader>Events</PanelHeader>
-  </Panel>
+const Events = ({ viewData }) => (
+  <View key={viewData.name} id={viewData.name} activePanel="events">
+    <Panel id="events">
+      <PanelHeader>Events</PanelHeader>
+    </Panel>
+  </View>
 );
 
 Events.propTypes = {
-  id: PropTypes.string.isRequired,
+  viewData: PropTypes.shape({}).isRequired,
 };
 
 export default Events;

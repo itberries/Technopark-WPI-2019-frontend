@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeader } from '@vkontakte/vkui';
+import { View, Panel, PanelHeader } from '@vkontakte/vkui';
 
-const LeaderBoard = ({ id }) => (
-  <Panel id={id}>
-    <PanelHeader>LeaderBoard</PanelHeader>
-  </Panel>
+const LeaderBoard = ({ viewData }) => (
+  <View key={viewData.name} id={viewData.name} activePanel="leaderboard">
+    <Panel id="leaderboard">
+      <PanelHeader>LeaderBoard</PanelHeader>
+    </Panel>
+  </View>
 );
 
 LeaderBoard.propTypes = {
-  id: PropTypes.string.isRequired,
+  viewData: PropTypes.shape({}).isRequired,
 };
 
 export default LeaderBoard;

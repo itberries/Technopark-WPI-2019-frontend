@@ -18,10 +18,7 @@ connect.send('VKWebAppInit', {});
 
 ReactDOM.render(
   <Router>
-    <Route
-      path="/:panelName?"
-      component={props => <App panelName={props.match.params.panelName} />}
-    />
+    <Route path="/:viewName?" component={props => <App viewName={props.match.params.viewName} />} />
   </Router>,
   document.getElementById('root'),
 );

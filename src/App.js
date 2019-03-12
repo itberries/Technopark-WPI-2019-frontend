@@ -37,10 +37,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activePanel: props.panelName,
+      activeView: props.viewName,
       user: null,
     };
-    this.onPanelChange = this.onPanelChange.bind(this);
+    this.onViewChange = this.onViewChange.bind(this);
   }
 
   /**
@@ -71,16 +71,16 @@ class App extends React.Component {
   }
 
   /**
-   * Change the active panel after tabbar switched
+   * Change the active view after tabbar switched
    * @param {Event} e
    * @memberof App
    */
-  onPanelChange(e) {
+  onViewChange(e) {
     const location = {
       pathname: `/${e.currentTarget.dataset.story}`,
     };
     history.push(location);
-    this.setState({ activePanel: e.currentTarget.dataset.story });
+    this.setState({ activeView: e.currentTarget.dataset.story });
   }
 
   getProfile() {
@@ -120,33 +120,33 @@ class App extends React.Component {
   }
 
   render() {
-    const panelsData = [
+    const viewsData = [
       {
-        tag: Workflow,
+        view: Workflow,
         name: 'workflow',
         text: 'Workflow',
         icon: workflowIcon,
       },
       {
-        tag: Games,
+        view: Games,
         name: 'games',
         text: 'Games',
         icon: gamesIcon,
       },
       {
-        tag: LeaderBoard,
+        view: LeaderBoard,
         name: 'leaderboard',
         text: 'Leaderboard',
         icon: leaderboardIcon,
       },
       {
-        tag: Events,
+        view: Events,
         name: 'events',
         text: 'Events',
         icon: eventsIcon,
       },
       {
-        tag: Profile,
+        view: Profile,
         name: 'profile',
         text: 'Profile',
         icon: profileIcon,
@@ -154,9 +154,9 @@ class App extends React.Component {
     ];
     const result = (
       <Navigation
-        activePanel={this.state.activePanel}
-        panelsData={panelsData}
-        onPanelChange={this.onPanelChange}
+        activeView={this.state.activeView}
+        viewsData={viewsData}
+        onViewChange={this.onViewChange}
         user={this.state.user}
       />
     );
@@ -165,11 +165,11 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  panelName: PropTypes.string,
+  viewName: PropTypes.string,
 };
 
 App.defaultProps = {
-  panelName: 'workflow',
+  viewName: 'workflow',
 };
 
 export default App;

@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeader } from '@vkontakte/vkui';
+import { View, Panel, PanelHeader } from '@vkontakte/vkui';
 
-const Games = ({ id }) => (
-  <Panel id={id}>
-    <PanelHeader>Games</PanelHeader>
-  </Panel>
+const Games = ({ viewData }) => (
+  <View key={viewData.name} id={viewData.name} activePanel="games">
+    <Panel id="games">
+      <PanelHeader>Games</PanelHeader>
+    </Panel>
+  </View>
 );
 
 Games.propTypes = {
-  id: PropTypes.string.isRequired,
+  viewData: PropTypes.shape({}).isRequired,
 };
 export default Games;

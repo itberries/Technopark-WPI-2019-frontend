@@ -1,46 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  View, Epic, Tabbar, TabbarItem,
-} from '@vkontakte/vkui';
+import { Epic, Tabbar, TabbarItem } from '@vkontakte/vkui';
 import './Navigation.scss';
 
 const Navigation = ({
-  activePanel, panelsData, onPanelChange, user,
+  activeView, viewsData, onViewChange, user,
 }) => {
   const tabbarItems = [];
-  const panels = [];
+  const views = [];
 
-  panelsData.forEach((panelData) => {
+  viewsData.forEach((viewData) => {
     tabbarItems.push(
       <TabbarItem
-        key={panelData.name}
-        onClick={onPanelChange}
-        selected={activePanel === panelData.name}
-        data-story={panelData.name}
-        text={panelData.text}
+        key={viewData.name}
+        onClick={onViewChange}
+        selected={activeView === viewData.name}
+        data-story={viewData.name}
+        text={viewData.text}
       >
-        {<img src={panelData.icon} alt={`${panelData.name} icon`} />}
+        {<img src={viewData.icon} alt={`${viewData.name} icon`} />}
       </TabbarItem>,
     );
-    panels.push(
-      <View key={panelData.name} id={panelData.name} activePanel={panelData.name}>
-        {React.createElement(panelData.tag, { id: panelData.name, user })}
-      </View>,
-    );
+    views.push(React.createElement(viewData.view, { viewData, user }));
   });
 
   return (
-    <Epic activeStory={activePanel} tabbar={<Tabbar>{tabbarItems}</Tabbar>}>
-      {panels}
+    <Epic activeStory={activeView} tabbar={<Tabbar>{tabbarItems}</Tabbar>}>
+      {views}
     </Epic>
   );
 };
 
 Navigation.propTypes = {
-  activePanel: PropTypes.string,
-  panelsData: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onPanelChange: PropTypes.func,
+  activeView: PropTypes.string,
+  viewsData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onViewChange: PropTypes.func,
   user: PropTypes.shape({
     photo: PropTypes.string,
     firstName: PropTypes.string,
@@ -50,8 +44,8 @@ Navigation.propTypes = {
 };
 
 Navigation.defaultProps = {
-  activePanel: 'workflow',
-  onPanelChange: () => null,
+  activeView: 'workflow',
+  onViewChange: () => null,
   user: PropTypes.shape({
     photo: PropTypes.string,
     firstName: PropTypes.string,
