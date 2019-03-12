@@ -1,0 +1,45 @@
+$separator-line-unactive-color: rgba(252, 154, 254, 0.32);
+$separator-line-active-color: #FC9AFE;
+$separator-text-unactive-color: #BEBABA;
+$separator-text-active-color: #FFFFFF;
+
+.learningMap__separator {
+  display: grid;
+  align-self: center;
+  grid-template-columns: 2vw min-content auto;
+
+  div {
+    align-self: center;
+  }
+}
+
+.separator {
+  &__text {
+    grid-column: 2;
+    font-size: 1.25em;
+    text-transform: uppercase;
+    color: $separator-text-unactive-color;
+
+    &-active {
+      color: $separator-text-active-color;
+    }
+  }
+
+  &__line {
+    width: 90%;
+    padding: 3%;
+    grid-column: 3;
+
+    hr {
+      height: 0.5em;
+      border: 0;
+      border-radius: 2vh;
+      background-color: $separator-line-unactive-color;
+    }
+
+    &-active hr {
+      background-color: $separator-line-active-color;
+    }
+
+  }
+}

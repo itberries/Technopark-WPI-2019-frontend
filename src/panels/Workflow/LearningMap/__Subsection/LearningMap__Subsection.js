@@ -1,0 +1,84 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Button } from '@vkontakte/vkui';
+import './LearningMap__Subsection.scss';
+
+/**
+ * LearningMap's block component with button
+ */
+class LearningMapSubsection extends React.Component {
+  /**
+   * constructor
+   * @param {object} props
+   */
+  constructor(props) {
+    super(props);
+    /**
+     * @type {object}
+     * @property {string} name button's text
+     * @property {string} start button's start position on LearningMap
+     * @property {string} end button's end postion on LearningMap
+     * @property {bool} isActive is subsection active or not
+     * @property {bool} isCurrent is subsection current learning block or not
+     * @property {bool} isCompleted is learning of this subsection completed or not
+     */
+    this.state = {
+      name: props.name,
+      start: props.start,
+      end: props.end,
+      isActive: props.isActive,
+      isCurrent: props.isCurrent,
+      isCompleted: props.isCompleted,
+    };
+  }
+
+  /**
+   * render
+   * @return {ReactElement} LearningMap's subsection block with button
+   */
+  render() {
+    return (
+      <div
+        className={`learningMap__col learningMap__col_start_${
+          this.state.start
+        } learningMap__col_end_${this.state.end}`}
+      >
+        <Button
+          className={`learningMap__button${
+            this.state.isActive ? ' learningMap__button-active' : ''
+          } ${this.state.isCurrent ? 'learningMap__button-current' : ''} ${
+            this.state.isCompleted ? 'learningMap__button-completed' : ''
+          }`}
+        >
+          {this.state.name}
+        </Button>
+      </div>
+    );
+  }
+}
+
+LearningMapSubsection.propTypes = {
+  /* Description of prop "name". */
+  name: PropTypes.string,
+  /* Description of prop "start". */
+  start: PropTypes.string,
+  /* Description of prop "end". */
+  end: PropTypes.string,
+  /* Description of prop "isActive". */
+  isActive: PropTypes.bool,
+  /* Description of prop "isCurrent". */
+  isCurrent: PropTypes.bool,
+  /* Description of prop "isCompleted". */
+  isCompleted: PropTypes.bool,
+};
+
+LearningMapSubsection.defaultProps = {
+  name: 'subsection',
+  start: '1',
+  end: '2',
+  isActive: false,
+  isCurrent: false,
+  isCompleted: false,
+};
+
+export default LearningMapSubsection;
