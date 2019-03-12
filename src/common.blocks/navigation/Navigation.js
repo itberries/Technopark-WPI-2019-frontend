@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   View, Epic, Tabbar, TabbarItem,
 } from '@vkontakte/vkui';
-import './Navigation.css';
+import './Navigation.scss';
 
 const Navigation = ({
   activePanel, panelsData, onPanelChange, user,

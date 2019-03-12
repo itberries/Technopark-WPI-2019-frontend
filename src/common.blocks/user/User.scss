@@ -1,46 +1,46 @@
 .container {
-    display: grid;
-    grid-template-columns: 30% 30% 30% 10%;
-    grid-template-rows: 30% 30% 30%;
+  display: grid;
+  grid-template-columns: 30% 30% 30% 10%;
+  grid-template-rows: 30% 30% 30%;
 }
 
 .profile {
-    background-color: RGB(235, 237, 240);
-    border-style: none;
-    box-shadow: none;
+  background-color: RGB(235, 237, 240);
+  border-style: none;
+  box-shadow: none;
 }
 
 .user_avatar {
-    grid-row-start: 1;
-    grid-row-end: 4;
-    grid-column: 1;
+  grid-row-start: 1;
+  grid-row-end: 4;
+  grid-column: 1;
 }
 
 .user_name {
-    grid-row: 1;
-    grid-column-start: 2;
-    grid-column-end: 4;
-    padding-left: 15%;
-  }
+  grid-row: 1;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  padding-left: 15%;
+}
 
 .user_score_title {
-    padding-left: 15%;
-    grid-row: 2;
-    grid-column: 2;
+  padding-left: 15%;
+  grid-row: 2;
+  grid-column: 2;
 }
 
 .user_score_value {
-    grid-row: 2;
-    grid-column: 3;
+  grid-row: 2;
+  grid-column: 3;
 }
 
 .user_level_title {
-    padding-left: 15%;
-    grid-row: 3;
-    grid-column: 2;
+  padding-left: 15%;
+  grid-row: 3;
+  grid-column: 2;
 }
 
 .user_level_value {
-    grid-row: 3;
-    grid-column: 3;
+  grid-row: 3;
+  grid-column: 3;
 }

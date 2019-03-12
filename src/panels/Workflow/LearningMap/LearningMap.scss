@@ -1,0 +1,89 @@
+#workflow {
+  overflow:hidden;
+  width: auto;
+  height: auto;
+}
+
+.learningMap {
+  width: 100vw;
+  height: 200vh;
+
+  background-image: url('../../../images/workflow/sky.png');
+  background-repeat: repeat;
+  background-size: 100vw 200vh;
+
+  overflow-y: scroll;
+  padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+  box-sizing: content-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.learningMap__container {
+  display: grid;
+  grid-auto-rows: minmax(min-content, max-content);
+  align-items: end;
+  height: min-content;
+}
+
+.learningMap__col {
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  height: 100%;
+  display: grid;
+}
+
+.learningMap__col_pos_2 {
+  grid-column: 2;
+}
+
+.learningMap__col_pos_3 {
+  grid-column: 3;
+}
+
+.learningMap__col_pos_4 {
+  grid-column: 4;
+}
+
+.learningMap__col_pos_5 {
+  grid-column: 5;
+}
+
+.learningMap__col_start_1 {
+  grid-column-start: 1;
+}
+
+.learningMap__col_start_2 {
+  grid-column-start: 2;
+}
+
+.learningMap__col_start_3 {
+  grid-column-start: 3;
+}
+
+.learningMap__col_start_4 {
+  grid-column-start: 4;
+}
+
+.learningMap__col_end_2 {
+  grid-column-end: 3;
+}
+
+.learningMap__col_end_3 {
+  grid-column-end: 4;
+}
+
+.learningMap__col_end_4 {
+  grid-column-end: 5;
+}
+
+.learningMap__col_end_5 {
+  grid-column-end: 6;
+}
+
+.Button__in .Button__content {
+  font-size: 2vh;
+}

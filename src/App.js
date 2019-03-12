@@ -9,10 +9,10 @@ import axios from 'axios';
 import './defaultApiSettings';
 
 import Workflow from './panels/Workflow/Workflow';
-import Games from './panels/games/Games';
-import Profile from './panels/profile/Profile';
-import LeaderBoard from './panels/leaderboard/LeaderBoard';
-import Events from './panels/events/Events';
+import Games from './panels/Games/Games';
+import Profile from './panels/Profile/Profile';
+import LeaderBoard from './panels/Leaderboard/Leaderboard';
+import Events from './panels/Events/Events';
 import Navigation from './common.blocks/navigation/Navigation';
 
 import workflowIcon from './images/icons/workflow.svg';
@@ -53,6 +53,8 @@ class App extends React.Component {
       }
     });
     connect.send('VKWebAppGetUserInfo', {});
+    window.scrollTo(0, document.getElementsByClassName('learningMap')[0].scrollHeight);
+    console.log('App isload');
   }
 
   onPanelChange(e) {
