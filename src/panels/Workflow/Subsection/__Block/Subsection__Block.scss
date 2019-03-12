@@ -1,0 +1,42 @@
+$theory-color: rgba(187, 63, 231, 0.6);
+$interactive-color: rgba(194, 132, 216, 0.67);
+$training-color: rgba(161, 141, 217, 0.82);
+$section-separotor-color: rgba(161, 141, 217, 0.82);
+$shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+
+.subsection__block {
+  margin: 0.5em auto 0.5em;
+  align-items: center;
+}
+
+.subsection__button {
+  width: 90%;
+  height: 4.5em;
+  margin: 0 5%;
+
+  box-shadow: $shadow;
+
+  &.subsection__button-theory {
+    background-color: $theory-color;
+    border-radius: 3px;
+  }
+
+  &.subsection__button-interactive {
+    background-color: $interactive-color;
+    border-radius: 25px;
+  }
+
+  &.subsection__button-training {
+    background-color: $training-color;
+    border-radius: 15px;
+  }
+}
+
+.subsection__separator {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background-color: $section-separotor-color;
+  border: 0;
+  margin-bottom: 0;
+}
