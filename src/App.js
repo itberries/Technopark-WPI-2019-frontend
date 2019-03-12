@@ -13,7 +13,7 @@ import Games from './panels/Games/Games';
 import Profile from './panels/Profile/Profile';
 import LeaderBoard from './panels/Leaderboard/Leaderboard';
 import Events from './panels/Events/Events';
-import Navigation from './common.blocks/navigation/Navigation';
+import Navigation from './common.blocks/Navigation/Navigation';
 
 import workflowIcon from './images/icons/workflow.svg';
 import gamesIcon from './images/icons/games.svg';
