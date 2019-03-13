@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Panel, PanelHeader } from '@vkontakte/vkui';
+import { Panel, PanelHeader, View } from '@vkontakte/vkui';
+// import * as UI from '@vkontakte/vkui';
 import LearningMap from './LearningMap/LearningMap';
 import Subsection from './Subsection/Subsection';
 
@@ -30,9 +31,9 @@ class Workflow extends React.Component {
   }
 
   render() {
-    const { viewData } = this.props;
+    console.log('render');
     return (
-      <View key={viewData.name} id={viewData.name} activePanel={this.state.activePanel}>
+      <View id="workflow" activePanel={this.state.activePanel}>
         <Panel id="learningmap">
           <PanelHeader>Learning Map</PanelHeader>
           <LearningMap />

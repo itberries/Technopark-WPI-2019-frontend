@@ -4,8 +4,8 @@ import { View, Panel, PanelHeader } from '@vkontakte/vkui';
 
 import User from '../../common.blocks/User/User';
 
-const Profile = ({ user, viewData }) => (
-  <View key={viewData.name} id={viewData.name} activePanel="profile">
+const Profile = ({ user, id }) => (
+  <View key={id} id={id} activePanel="profile">
     <Panel id="profile">
       <PanelHeader>Profile</PanelHeader>
       <User user={user} />
