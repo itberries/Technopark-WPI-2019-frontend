@@ -14,7 +14,7 @@ const Navigation = ({
       <TabbarItem
         key={viewData.name}
         onClick={onViewChange}
-        selected={activeView === 'workflow'}
+        selected={activeView === viewData.name}
         data-story={viewData.name}
         text={viewData.text}
       >
