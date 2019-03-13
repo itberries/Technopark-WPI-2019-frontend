@@ -8,11 +8,11 @@ import '@vkontakte/vkui/dist/vkui.css';
 import axios from 'axios';
 import './defaultApiSettings';
 
-import Workflow from './panels/Workflow/Workflow';
-import Games from './panels/Games/Games';
-import Profile from './panels/Profile/Profile';
-import LeaderBoard from './panels/Leaderboard/Leaderboard';
-import Events from './panels/Events/Events';
+import Workflow from './views/Workflow/Workflow';
+import Games from './views/Games/Games';
+import Profile from './views/Profile/Profile';
+import LeaderBoard from './views/Leaderboard/Leaderboard';
+import Events from './views/Events/Events';
 import Navigation from './common.blocks/Navigation/Navigation';
 
 import workflowIcon from './images/icons/workflow.svg';
