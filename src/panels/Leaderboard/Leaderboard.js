@@ -11,7 +11,7 @@ const LeaderBoard = ({ id }) => (
 );
 
 LeaderBoard.propTypes = {
-  viewData: PropTypes.shape({}).isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default LeaderBoard;

@@ -14,7 +14,7 @@ const Profile = ({ user, id }) => (
 );
 
 Profile.propTypes = {
-  viewData: PropTypes.shape({}).isRequired,
+  id: PropTypes.string.isRequired,
   user: PropTypes.shape({
     id: PropTypes.number,
     photo: PropTypes.string,

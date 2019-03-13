@@ -11,7 +11,7 @@ const Events = ({ id }) => (
 );
 
 Events.propTypes = {
-  viewData: PropTypes.shape({}).isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default Events;

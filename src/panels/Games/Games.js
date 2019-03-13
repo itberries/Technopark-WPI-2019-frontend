@@ -11,6 +11,6 @@ const Games = ({ id }) => (
 );
 
 Games.propTypes = {
-  viewData: PropTypes.shape({}).isRequired,
+  id: PropTypes.string.isRequired,
 };
 export default Games;
