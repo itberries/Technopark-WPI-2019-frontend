@@ -7,7 +7,7 @@ import Subsection from './Subsection/Subsection';
 const Workflow = ({ id }) => (
   <Panel id={id}>
     <PanelHeader>Workflow</PanelHeader>
-    <Subsection />
+    <LearningMap />
   </Panel>
 );
 

@@ -1,3 +1,5 @@
+$subsection-height: calc( 100vh - 92px );
+
 #workflow {
   overflow:hidden;
   width: auto;
@@ -6,11 +8,12 @@
 
 .learningMap {
   width: 100vw;
-  height: 200vh;
+  min-height: $subsection-height;
+  max-height: auto;
 
   background-image: url('../../../images/workflow/sky.png');
   background-repeat: repeat;
-  background-size: 100vw 200vh;
+  background-size: auto;
 
   overflow-y: scroll;
   padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
