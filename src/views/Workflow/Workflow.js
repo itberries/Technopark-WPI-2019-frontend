@@ -1,10 +1,11 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {
   Panel, PanelHeader, View, ConfigProvider,
 } from '@vkontakte/vkui';
 // import * as UI from '@vkontakte/vkui';
 import connect from '@vkontakte/vkui-connect';
+
 import LearningMap from './LearningMap/LearningMap';
 import Subsection from './Subsection/Subsection';
 import Header from '../../common.blocks/Header/Header';
@@ -53,7 +54,6 @@ class Workflow extends React.Component {
   }
 
   render() {
-    console.log('render workflow');
     return (
       <ConfigProvider isWebView>
         <View
@@ -76,10 +76,8 @@ class Workflow extends React.Component {
   }
 }
 
-/*
 Workflow.propTypes = {
-  viewData: PropTypes.shape({}).isRequired,
+  id: PropTypes.string.isRequired,
 };
-*/
 
 export default Workflow;
