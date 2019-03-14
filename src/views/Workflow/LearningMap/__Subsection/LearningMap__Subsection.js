@@ -55,7 +55,7 @@ class LearningMapSubsection extends React.Component {
           }`}
           onClick={(e) => {
             console.log('on click subsection button');
-            this.props.onSelectSubsection(this.state.id, e);
+            this.props.onSelectSubsection('subsection', e, this.state.id);
           }}
         >
           {this.state.name}

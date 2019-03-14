@@ -4,6 +4,7 @@ import { Panel, PanelHeader, View } from '@vkontakte/vkui';
 // import * as UI from '@vkontakte/vkui';
 import LearningMap from './LearningMap/LearningMap';
 import Subsection from './Subsection/Subsection';
+import Header from '../../common.blocks/Header/Header';
 
 class Workflow extends React.Component {
   /**
@@ -28,7 +29,7 @@ class Workflow extends React.Component {
   onPanelChange(id, e) {
     console.log('onPanelChange with subsection id = ', id);
     e.preventDefault();
-    this.setState({ activePanel: 'subsection' });
+    this.setState({ activePanel: id });
   }
 
   render() {
@@ -40,7 +41,7 @@ class Workflow extends React.Component {
           <LearningMap onSelectSubsection={this.onPanelChange} />
         </Panel>
         <Panel id="subsection">
-          <PanelHeader>Subsection</PanelHeader>
+          <Header text="Subsection" onBackClick={this.onPanelChange} previousPanel="learningmap" />
           <Subsection />
         </Panel>
       </View>
