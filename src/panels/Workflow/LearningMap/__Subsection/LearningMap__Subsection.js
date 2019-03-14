@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@vkontakte/vkui';
 import './LearningMap__Subsection.scss';
+import MarkAsCompleted from '../../../../common.blocks/MarkAsCompleted/MarkAsCompleted';
 
 /**
  * LearningMap's block component with button
@@ -43,15 +44,21 @@ class LearningMapSubsection extends React.Component {
           this.state.start
         } learningMap__col_end_${this.state.end}`}
       >
-        <Button
-          className={`learningMap__button${
-            this.state.isActive ? ' learningMap__button-active' : ''
-          } ${this.state.isCurrent ? 'learningMap__button-current' : ''} ${
-            this.state.isCompleted ? 'learningMap__button-completed' : ''
-          }`}
-        >
-          {this.state.name}
-        </Button>
+        <div className="LearningMap__Subsection_wrapper">
+          <MarkAsCompleted
+            isCompleted={this.state.isCompleted}
+            className="LearningMap__Subsection_mark"
+          />
+          <Button
+            className={`learningMap__button${
+              this.state.isActive ? ' learningMap__button-active' : ''
+            } ${this.state.isCurrent ? 'learningMap__button-current' : ''} ${
+              this.state.isCompleted ? 'learningMap__button-completed' : ''
+            }`}
+          >
+            {this.state.name}
+          </Button>
+        </div>
       </div>
     );
   }

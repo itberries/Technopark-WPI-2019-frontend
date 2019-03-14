@@ -1,35 +1,46 @@
 $subsection-active-color: #9E248B;
 $subsection-unactive-color: #896283;
 $subsection-current-color: #B95208;
+$mark-left: calc((100vw * 2/ 5) * 0.8 - 1.1em);
 $shadow: 0px 7px 7px rgba(0, 0, 0, 0.25);
 
 .learningMap__col {
-  .learningMap__button {
+  .LearningMap__Subsection_wrapper {
     width: 80%;
     height: 80%;
-    position: relative;
     align-self: center;
     justify-self: center;
-  
-    border-radius: 25px;
-    box-shadow: $shadow;
-  
-    background-color: $subsection-unactive-color;
-    
-    .Button__in {
-      height: auto;
+
+    .LearningMap__Subsection_mark {
+      margin-left: $mark-left;
+      margin-top: -0.5em;
     }
 
-    &-active {
-      background-color: $subsection-active-color;
-    }
-  
-    &-current {
-      border: 2px solid $subsection-current-color;
-    }
-  
-    &-completed {
-      /* TODO: need to add div with green mark */
+    .learningMap__button {
+      width: 100%;
+      height: 100%;
+      position: relative;
+
+      border-radius: 25px;
+      box-shadow: $shadow;
+
+      background-color: $subsection-unactive-color;
+
+      .Button__in {
+        height: auto;
+      }
+
+      &-active {
+        background-color: $subsection-active-color;
+      }
+
+      &-current {
+        border: 2px solid $subsection-current-color;
+      }
+
+      &-completed {
+        /* TODO: need to add div with green mark */
+      }
     }
   }
 }

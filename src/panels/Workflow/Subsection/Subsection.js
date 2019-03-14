@@ -22,30 +22,37 @@ class Subsection extends React.Component {
         {
           type: 'theory',
           name: 'Theory part one',
+          isCompleted: true,
         },
         {
           type: 'theory',
           name: 'Theory part two',
+          isCompleted: true,
         },
         {
           type: 'interactive',
           name: 'Interactive task 1',
+          isCompleted: false,
         },
         {
           type: 'interactive',
           name: 'Interactive task 2',
+          isCompleted: false,
         },
         {
           type: 'theory',
           name: 'Theory part three',
+          isCompleted: false,
         },
         {
           type: 'training',
           name: 'Training task 1',
+          isCompleted: false,
         },
         {
           type: 'training',
           name: 'Training task 2',
+          isCompleted: false,
         },
       ],
     };
@@ -64,6 +71,7 @@ class Subsection extends React.Component {
               key={block.name}
               withSeparator={index !== this.state.blocks.length - 1}
               type={block.type}
+              isCompleted={block.isCompleted}
             >
               {block.name}
             </SubsectionBlock>
