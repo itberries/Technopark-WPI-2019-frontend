@@ -1,7 +1,10 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { Panel, PanelHeader, View } from '@vkontakte/vkui';
+import {
+  Panel, PanelHeader, View, ConfigProvider,
+} from '@vkontakte/vkui';
 // import * as UI from '@vkontakte/vkui';
+import connect from '@vkontakte/vkui-connect';
 import LearningMap from './LearningMap/LearningMap';
 import Subsection from './Subsection/Subsection';
 import Header from '../../common.blocks/Header/Header';
@@ -16,8 +19,10 @@ class Workflow extends React.Component {
     super(props);
     this.state = {
       activePanel: 'learningmap',
+      history: ['learningmap'],
     };
-    this.onPanelChange = this.onPanelChange.bind(this);
+    this.goBack = this.goBack.bind(this);
+    this.goForward = this.goForward.bind(this);
   }
 
   /**
@@ -26,25 +31,47 @@ class Workflow extends React.Component {
    * @param {Event} e
    * @memberof Workflow
    */
-  onPanelChange(id, e) {
-    console.log('onPanelChange with subsection id = ', id);
-    e.preventDefault();
-    this.setState({ activePanel: id });
+  goBack() {
+    console.log('back!');
+    const history = [...this.state.history];
+    history.pop();
+    const activePanel = history[history.length - 1];
+    if (activePanel === 'learningmap') {
+      connect.send('VKWebAppDisableSwipeBack');
+    }
+    this.setState({ history, activePanel });
+  }
+
+  goForward(activePanel) {
+    console.log('forward!');
+    const history = [...this.state.history];
+    history.push(activePanel);
+    if (this.state.activePanel === 'learningmap') {
+      connect.send('VKWebAppEnableSwipeBack');
+    }
+    this.setState({ history, activePanel });
   }
 
   render() {
     console.log('render workflow');
     return (
-      <View id="workflow" activePanel={this.state.activePanel}>
-        <Panel id="learningmap">
-          <PanelHeader>Learning Map</PanelHeader>
-          <LearningMap onSelectSubsection={this.onPanelChange} />
-        </Panel>
-        <Panel id="subsection">
-          <Header text="Subsection" onBackClick={this.onPanelChange} previousPanel="learningmap" />
-          <Subsection />
-        </Panel>
-      </View>
+      <ConfigProvider isWebView>
+        <View
+          id="workflow"
+          activePanel={this.state.activePanel}
+          onSwipeBack={this.goBack}
+          history={this.state.history}
+        >
+          <Panel id="learningmap">
+            <PanelHeader>Learning Map</PanelHeader>
+            <LearningMap onSelectSubsection={this.goForward} />
+          </Panel>
+          <Panel id="subsection">
+            <Header text="Subsection" onBackClick={this.goBack} previousPanel="learningmap" />
+            <Subsection />
+          </Panel>
+        </View>
+      </ConfigProvider>
     );
   }
 }
