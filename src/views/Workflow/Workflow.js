@@ -1,7 +1,6 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Panel, PanelHeader, View } from '@vkontakte/vkui';
-// import * as UI from '@vkontakte/vkui';
 import LearningMap from './LearningMap/LearningMap';
 import Subsection from './Subsection/Subsection';
 
@@ -26,15 +25,13 @@ class Workflow extends React.Component {
    * @memberof Workflow
    */
   onPanelChange(id, e) {
-    console.log('onPanelChange with subsection id = ', id);
     e.preventDefault();
     this.setState({ activePanel: 'subsection' });
   }
 
   render() {
-    console.log('render workflow');
     return (
-      <View id="workflow" activePanel={this.state.activePanel}>
+      <View id={this.props.id} activePanel={this.state.activePanel}>
         <Panel id="learningmap">
           <PanelHeader>Learning Map</PanelHeader>
           <LearningMap onSelectSubsection={this.onPanelChange} />
@@ -48,10 +45,8 @@ class Workflow extends React.Component {
   }
 }
 
-/*
 Workflow.propTypes = {
-  viewData: PropTypes.shape({}).isRequired,
+  id: PropTypes.string.isRequired,
 };
-*/
 
 export default Workflow;

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { View, Panel, PanelHeader } from '@vkontakte/vkui';
 
 const Events = ({ id }) => (
-  <View key={id} id={id} activePanel="events">
-    <Panel id="events">
+  <View key={id} id={id} activePanel={id}>
+    <Panel id={id}>
       <PanelHeader>Events</PanelHeader>
     </Panel>
   </View>

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { View, Panel, PanelHeader } from '@vkontakte/vkui';
 
 const LeaderBoard = ({ id }) => (
-  <View key={id} id={id} activePanel="leaderboard">
-    <Panel id="leaderboard">
+  <View key={id} id={id} activePanel={id}>
+    <Panel id={id}>
       <PanelHeader>LeaderBoard</PanelHeader>
     </Panel>
   </View>
