@@ -32,8 +32,9 @@ class Workflow extends React.Component {
    * @param {Event} e
    * @memberof Workflow
    */
-  goBack() {
+  goBack(e) {
     console.log('back!');
+    e.preventDefault();
     const history = [...this.state.history];
     history.pop();
     const activePanel = history[history.length - 1];
@@ -43,8 +44,9 @@ class Workflow extends React.Component {
     this.setState({ history, activePanel });
   }
 
-  goForward(activePanel) {
+  goForward(activePanel, e) {
     console.log('forward!');
+    e.preventDefault();
     const history = [...this.state.history];
     history.push(activePanel);
     if (this.state.activePanel === 'learningmap') {
