@@ -1,0 +1,35 @@
+
+.mark_container {
+  position: absolute;
+  max-width: 100px;
+  max-height: 100px;
+  height: 1.7em;
+  width: 2em;
+  opacity: 0;
+
+  .markAsCompleted {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('../../images/common.blocks/MarkAsCompleted/Mark.svg') 100% 100% no-repeat;
+    background-size: cover;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+  }
+
+  .markShadow {
+    position: absolute;
+    margin-top: 12%;
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    background: url('../../images/common.blocks/MarkAsCompleted/MarkShadow.svg') 100% 100% no-repeat;
+    background-size: cover;
+    z-index: 9;
+  }
+
+  &-active {
+    opacity: 1;
+  }
+}
