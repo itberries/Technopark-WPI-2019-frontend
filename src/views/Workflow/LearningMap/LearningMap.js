@@ -61,66 +61,89 @@ class LearningMap extends React.Component {
     window.worfkflowScrollY = window.scrollY;
   }
 
+  /**
+   * Generate learning map - the list of topics for study
+   * @param {*} sections of learning map
+   * @returns learning map
+   * @memberof LearningMap
+   */
   generateLearnMap(sections) {
     const learningMap = [];
-    let position = 3;
-    let vector = 1;
-    const minCol = 1;
-    const maxCol = 5;
+    const generateProps = {
+      position: 3,
+      vector: 1,
+    };
 
     sections.forEach((section, i) => {
       learningMap.unshift(<LearningMapSeparator name={section.name} isActive />);
       if (i !== 0) {
         learningMap.unshift(
           <LearningMapRow>
-            <LearningMapPoints position={position} isActive />
+            <LearningMapPoints position={generateProps.position} isActive />
           </LearningMapRow>,
         );
       }
-      section.subsections.forEach((subsection, j) => {
-        let start = 0;
-        let end = 0;
-        if (vector === 1) {
-          start = position;
-          end = position + 1;
-          if (start === maxCol) {
-            start = maxCol - 1;
-            end = maxCol;
-          }
-        } else {
-          start = position - 1;
-          end = position;
-          if (end === minCol) {
-            start = minCol;
-            end = minCol + 1;
-          }
-        }
-        learningMap.unshift(
-          <LearningMapRow>
-            <LearningMapSubsection
-              name={subsection.name}
-              start={start}
-              end={end}
-              isActive
-              isCompleted
-              onSelectSubsection={this.props.onSelectSubsection}
-            />
-          </LearningMapRow>,
-        );
-        if (position === 1 || position === 5) {
-          vector *= -1;
-        }
-        position += vector;
-        if (i !== sections.length - 1 || j !== section.subsections.length - 1) {
-          learningMap.unshift(
-            <LearningMapRow>
-              <LearningMapPoints position={position} isActive />
-            </LearningMapRow>,
-          );
-        }
-      });
+      learningMap.unshift(this.generateSection(section, i !== sections.length - 1, generateProps));
     });
     return learningMap;
+  }
+
+  /**
+   * Generate learning map section
+   * @param {Object} section of learning map
+   * @param {Number} isLast section
+   * @param {Object} generateProps
+   * @memberof LearningMap
+   */
+  generateSection(section, isLast, generateProps) {
+    const minCol = 1;
+    const maxCol = 5;
+
+    const sectionChain = [];
+
+    section.subsections.forEach((subsection, j) => {
+      let start = 0;
+      let end = 0;
+      if (generateProps.vector === 1) {
+        start = generateProps.position;
+        end = generateProps.position + 1;
+        if (start === maxCol) {
+          start = maxCol - 1;
+          end = maxCol;
+        }
+      } else {
+        start = generateProps.position - 1;
+        end = generateProps.position;
+        if (end === minCol) {
+          start = minCol;
+          end = minCol + 1;
+        }
+      }
+      sectionChain.unshift(
+        <LearningMapRow>
+          <LearningMapSubsection
+            name={subsection.name}
+            start={start}
+            end={end}
+            isActive
+            isCompleted
+            onSelectSubsection={this.props.onSelectSubsection}
+          />
+        </LearningMapRow>,
+      );
+      if (generateProps.position === 1 || generateProps.position === 5) {
+        generateProps.vector *= -1;
+      }
+      generateProps.position += generateProps.vector;
+      if (isLast || j !== section.subsections.length - 1) {
+        sectionChain.unshift(
+          <LearningMapRow>
+            <LearningMapPoints position={generateProps.position} isActive />
+          </LearningMapRow>,
+        );
+      }
+    });
+    return sectionChain;
   }
 
   /**
