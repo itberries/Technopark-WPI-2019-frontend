@@ -12,6 +12,44 @@ import './LearningMap.scss';
  * LearningMap block with sections and their subsections of learning workflow
  */
 class LearningMap extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sections: [
+        {
+          name: 'Basic',
+          subsections: [
+            {
+              id: 1,
+              name: 'Numeric system',
+            },
+            {
+              id: 2,
+              name: 'File system',
+            },
+            {
+              id: 3,
+              name: 'Internet and URLs',
+            },
+          ],
+        },
+        {
+          name: 'Intermediate',
+          subsections: [
+            {
+              id: 4,
+              name: 'Algebra of logic',
+            },
+            {
+              id: 5,
+              name: 'Programming',
+            },
+          ],
+        },
+      ],
+    };
+  }
+
   componentDidMount() {
     if (window.worfkflowScrollY === undefined) {
       window.worfkflowScrollY = document.getElementsByClassName('learningMap')[0].scrollHeight;
@@ -21,6 +59,67 @@ class LearningMap extends React.Component {
 
   componentWillUnmount() {
     window.worfkflowScrollY = window.scrollY;
+  }
+
+  generateLearnMap(sections) {
+    const learningMap = [];
+    let position = 3;
+    let vector = 1;
+    const minCol = 1;
+    const maxCol = 5;
+
+    sections.forEach((section, i) => {
+      learningMap.unshift(<LearningMapSeparator name={section.name} isActive />);
+      if (i !== 0) {
+        learningMap.unshift(
+          <LearningMapRow>
+            <LearningMapPoints position={position} isActive />
+          </LearningMapRow>,
+        );
+      }
+      section.subsections.forEach((subsection, j) => {
+        let start = 0;
+        let end = 0;
+        if (vector === 1) {
+          start = position;
+          end = position + 1;
+          if (start === maxCol) {
+            start = maxCol - 1;
+            end = maxCol;
+          }
+        } else {
+          start = position - 1;
+          end = position;
+          if (end === minCol) {
+            start = minCol;
+            end = minCol + 1;
+          }
+        }
+        learningMap.unshift(
+          <LearningMapRow>
+            <LearningMapSubsection
+              name={subsection.name}
+              start={start}
+              end={end}
+              isActive
+              isCompleted
+            />
+          </LearningMapRow>,
+        );
+        if (position === 1 || position === 5) {
+          vector *= -1;
+        }
+        position += vector;
+        if (i !== sections.length - 1 || j !== section.subsections.length - 1) {
+          learningMap.unshift(
+            <LearningMapRow>
+              <LearningMapPoints position={position} isActive />
+            </LearningMapRow>,
+          );
+        }
+      });
+    });
+    return learningMap;
   }
 
   /**
@@ -98,6 +197,7 @@ class LearningMap extends React.Component {
           </LearningMapRow>
           <LearningMapSeparator name="Basic" isActive />
         </div>
+        <div className="learningMap__container">{this.generateLearnMap(this.state.sections)}</div>
       </div>
     );
   }
