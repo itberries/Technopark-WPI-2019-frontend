@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { Button } from '@vkontakte/vkui';
+
 import './LearningMap__Subsection.scss';
 
 /**
@@ -15,7 +17,8 @@ class LearningMapSubsection extends React.Component {
     super(props);
     /**
      * @type {object}
-     * @property {string} name button's text
+     * @property {string} id subsection id to send it to button onClick callback
+     * @property {string} name subsection name, equal to button's text
      * @property {string} start button's start position on LearningMap
      * @property {string} end button's end postion on LearningMap
      * @property {bool} isActive is subsection active or not
@@ -23,6 +26,7 @@ class LearningMapSubsection extends React.Component {
      * @property {bool} isCompleted is learning of this subsection completed or not
      */
     this.state = {
+      id: props.id,
       name: props.name,
       start: props.start,
       end: props.end,
@@ -49,6 +53,10 @@ class LearningMapSubsection extends React.Component {
           } ${this.state.isCurrent ? 'learningMap__button-current' : ''} ${
             this.state.isCompleted ? 'learningMap__button-completed' : ''
           }`}
+          onClick={(e) => {
+            console.log('on click subsection button');
+            this.props.onSelectSubsection('subsection', this.state.id, e);
+          }}
         >
           {this.state.name}
         </Button>
@@ -58,6 +66,8 @@ class LearningMapSubsection extends React.Component {
 }
 
 LearningMapSubsection.propTypes = {
+  /* Description of prop "id". */
+  id: PropTypes.string.isRequired,
   /* Description of prop "name". */
   name: PropTypes.string,
   /* Description of prop "start". */
@@ -70,6 +80,8 @@ LearningMapSubsection.propTypes = {
   isCurrent: PropTypes.bool,
   /* Description of prop "isCompleted". */
   isCompleted: PropTypes.bool,
+  /* Description of prop "onSelectSubsection". */
+  onSelectSubsection: PropTypes.func,
 };
 
 LearningMapSubsection.defaultProps = {
@@ -79,6 +91,7 @@ LearningMapSubsection.defaultProps = {
   isActive: false,
   isCurrent: false,
   isCompleted: false,
+  onSelectSubsection: () => null,
 };
 
 export default LearningMapSubsection;

@@ -20,7 +20,7 @@ LearningMapSeparator.propTypes = {
   /* Description of prop "text". */
   name: PropTypes.string.isRequired,
   /* Description of prop "isActive". */
-  isActive: PropTypes.string,
+  isActive: PropTypes.bool,
 };
 
 LearningMapSeparator.defaultProps = {
