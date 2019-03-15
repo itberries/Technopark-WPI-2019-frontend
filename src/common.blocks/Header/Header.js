@@ -6,47 +6,34 @@ import {
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 
-class Header extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      previousPanel: props.previousPanel,
-    };
-  }
-
-  render() {
-    return (
-      <PanelHeader
-        left={(
-          <HeaderButton
-            onClick={(e) => {
-              this.props.onBackClick(this.state.previousPanel, e);
-            }}
-          >
-            {osname === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
-          </HeaderButton>
-)}
-        addon={(
-          <HeaderButton
-            onClick={(e) => {
-              this.props.onBackClick(this.state.previousPanel, e);
-            }}
-          >
-            Назад
-          </HeaderButton>
-)}
+const Header = ({ text, onBackClick }) => (
+  <PanelHeader
+    left={(
+      <HeaderButton
+        onClick={(e) => {
+          onBackClick(e);
+        }}
       >
-        {this.props.text}
-      </PanelHeader>
-    );
-  }
-}
+        {osname === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
+      </HeaderButton>
+)}
+    addon={(
+      <HeaderButton
+        onClick={(e) => {
+          onBackClick(e);
+        }}
+      >
+        Назад
+      </HeaderButton>
+)}
+  >
+    {text}
+  </PanelHeader>
+);
 
 Header.propTypes = {
   text: PropTypes.string.isRequired,
   onBackClick: PropTypes.func.isRequired,
-  previousPanel: PropTypes.string.isRequired,
 };
 
 export default Header;

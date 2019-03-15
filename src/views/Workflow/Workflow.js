@@ -34,7 +34,9 @@ class Workflow extends React.Component {
    */
   goBack(e) {
     console.log('back!');
-    e.preventDefault();
+    if (e !== undefined) {
+      e.preventDefault();
+    }
     const history = [...this.state.history];
     history.pop();
     const activePanel = history[history.length - 1];
@@ -44,7 +46,7 @@ class Workflow extends React.Component {
     this.setState({ history, activePanel });
   }
 
-  goForward(activePanel, e) {
+  goForward(activePanel, id, e) {
     console.log('forward!');
     e.preventDefault();
     const history = [...this.state.history];

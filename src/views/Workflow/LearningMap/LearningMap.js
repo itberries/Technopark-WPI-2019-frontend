@@ -103,6 +103,7 @@ class LearningMap extends React.Component {
               end={end}
               isActive
               isCompleted
+              onSelectSubsection={this.props.onSelectSubsection}
             />
           </LearningMapRow>,
         );
