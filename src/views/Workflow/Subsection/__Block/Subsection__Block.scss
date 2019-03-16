@@ -1,9 +1,11 @@
 $theory-color: rgba(187, 63, 231, 0.6);
 $interactive-color: rgba(194, 132, 216, 0.67);
 $training-color: rgba(161, 141, 217, 0.82);
-$section-separotor-color: rgba(161, 141, 217, 0.82);
+$section-separotor-color: #E5E5E5;
 $shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
 $mark-left: calc(90vw - 1.5em - 12px);
+$subsection-unactive-color: #7a757a;
+$section-separotor-unactive-color: #727272;
 
 .subsection__block {
   margin: 0.5em auto 0.5em;
@@ -25,20 +27,23 @@ $mark-left: calc(90vw - 1.5em - 12px);
   height: 4.5em;
 
   box-shadow: $shadow;
+  background-color: $subsection-unactive-color;
 
-  &.subsection__button-theory {
-    background-color: $theory-color;
-    border-radius: 3px;
-  }
-
-  &.subsection__button-interactive {
-    background-color: $interactive-color;
-    border-radius: 25px;
-  }
-
-  &.subsection__button-training {
-    background-color: $training-color;
-    border-radius: 15px;
+  &.subsection__button-active {
+    &.subsection__button-theory {
+      background-color: $theory-color;
+      border-radius: 3px;
+    }
+  
+    &.subsection__button-interactive {
+      background-color: $interactive-color;
+      border-radius: 25px;
+    }
+  
+    &.subsection__button-training {
+      background-color: $training-color;
+      border-radius: 15px;
+    }
   }
 }
 
@@ -46,7 +51,11 @@ $mark-left: calc(90vw - 1.5em - 12px);
   width: 0.5em;
   height: 0.5em;
   border-radius: 50%;
-  background-color: $section-separotor-color;
+  background-color: $section-separotor-unactive-color;
   border: 0;
   margin-bottom: 0;
+
+  &.subsection__separator-active {
+    background-color: $section-separotor-color;
+  }
 }
