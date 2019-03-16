@@ -1,0 +1,11 @@
+.card__container {
+
+  height: min-content;
+  width: 50wv;
+
+  .card__image {
+    height: min-content;
+    width: 50wv;
+    object-fit: scale-down;
+  }
+}

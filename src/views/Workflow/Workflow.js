@@ -9,6 +9,7 @@ import connect from '@vkontakte/vkui-connect';
 import LearningMap from './LearningMap/LearningMap';
 import Subsection from './Subsection/Subsection';
 import Header from '../../common.blocks/Header/Header';
+import Step from './Step/Step';
 
 class Workflow extends React.Component {
   /**
@@ -19,7 +20,7 @@ class Workflow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activePanel: 'learningmap',
+      activePanel: 'step',
       history: ['learningmap'],
     };
     this.goBack = this.goBack.bind(this);
@@ -71,8 +72,17 @@ class Workflow extends React.Component {
             <LearningMap onSelectSubsection={this.goForward} />
           </Panel>
           <Panel id="subsection">
-            <Header text="Subsection" onBackClick={this.goBack} previousPanel="learningmap" />
+            <Header
+              text="Subsection"
+              onBackClick={this.goBack}
+              onSelectStep={this.goForward}
+              previousPanel="learningmap"
+            />
             <Subsection />
+          </Panel>
+          <Panel id="step">
+            <Header text="Step" onBackClick={this.goBack} previousPanel="learningmap" />
+            <Step id="1" name="The Step" type="theory" />
           </Panel>
         </View>
       </ConfigProvider>

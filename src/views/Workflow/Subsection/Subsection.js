@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Div } from '@vkontakte/vkui';
 import SubsectionBlock from './__Block/Subsection__Block';
 import './Subsection.scss';
@@ -72,6 +73,7 @@ class Subsection extends React.Component {
               withSeparator={index !== this.state.blocks.length - 1}
               type={block.type}
               isCompleted={block.isCompleted}
+              onSelectStep={this.props.onSelectStep}
             >
               {block.name}
             </SubsectionBlock>
@@ -81,5 +83,9 @@ class Subsection extends React.Component {
     );
   }
 }
+
+Subsection.propTypes = {
+  onSelectStep: PropTypes.func.isRequired,
+};
 
 export default Subsection;
