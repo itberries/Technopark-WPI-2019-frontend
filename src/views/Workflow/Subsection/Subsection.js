@@ -63,20 +63,27 @@ class Subsection extends React.Component {
    * @return {ReactElement} markup with list of blocks in subsection container
    */
   render() {
+    const blocks = [];
+    let afterLast = false;
+    this.state.blocks.forEach((block, index) => {
+      blocks.push(
+        <SubsectionBlock
+          key={block.name}
+          withSeparator={index !== this.state.blocks.length - 1}
+          type={block.type}
+          isCompleted={block.isCompleted}
+          isActive={!afterLast}
+        >
+          {block.name}
+        </SubsectionBlock>,
+      );
+      if (!block.isCompleted) {
+        afterLast = true;
+      }
+    });
     return (
       <Div className="subsection">
-        <Div className="subsection__container">
-          {this.state.blocks.map((block, index) => (
-            <SubsectionBlock
-              key={block.name}
-              withSeparator={index !== this.state.blocks.length - 1}
-              type={block.type}
-              isCompleted={block.isCompleted}
-            >
-              {block.name}
-            </SubsectionBlock>
-          ))}
-        </Div>
+        <Div className="subsection__container">{blocks}</Div>
       </Div>
     );
   }

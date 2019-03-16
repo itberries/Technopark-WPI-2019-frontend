@@ -13,14 +13,24 @@ import MarkAsCompleted from '../../../../common.blocks/MarkAsCompleted/MarkAsCom
  * @return {ReactElement} markup with subsection's block
  */
 const SubsectionBlock = ({
-  withSeparator, type, children, isCompleted,
+  withSeparator, type, children, isCompleted, isActive,
 }) => (
   <div className="subsection__block">
     <div className="subsection__block_wrapper">
       <MarkAsCompleted className="subsection__block_mark" isCompleted={isCompleted} />
-      <Button className={`subsection__button subsection__button-${type}`}>{children}</Button>
+      <Button
+        className={`subsection__button ${
+          isActive ? 'subsection__button-active' : ''
+        } subsection__button-${type}`}
+      >
+        {children}
+      </Button>
     </div>
-    {withSeparator && <hr className="subsection__separator" />}
+    {withSeparator && (
+      <hr
+        className={`subsection__separator ${isCompleted ? 'subsection__separator-active' : ''}`}
+      />
+    )}
   </div>
 );
 
@@ -33,11 +43,14 @@ SubsectionBlock.propTypes = {
   children: PropTypes.string.isRequired,
   /** Description of prop "isCompleted". */
   isCompleted: PropTypes.bool,
+  /** Description of prop "isActive". */
+  isActive: PropTypes.bool,
 };
 
 SubsectionBlock.defaultProps = {
   withSeparator: true,
   isCompleted: false,
+  isActive: false,
 };
 
 export default SubsectionBlock;

@@ -22,14 +22,17 @@ class LearningMap extends React.Component {
             {
               id: 1,
               name: 'Numeric system',
+              isCompleted: true,
             },
             {
               id: 2,
               name: 'File system',
+              isCompleted: true,
             },
             {
               id: 3,
               name: 'Internet and URLs',
+              isCompleted: false,
             },
           ],
         },
@@ -39,10 +42,12 @@ class LearningMap extends React.Component {
             {
               id: 4,
               name: 'Algebra of logic',
+              isCompleted: false,
             },
             {
               id: 5,
               name: 'Programming',
+              isCompleted: false,
             },
           ],
         },
@@ -72,14 +77,20 @@ class LearningMap extends React.Component {
     const generateProps = {
       position: 3,
       vector: 1,
+      afterLast: false,
     };
 
     sections.forEach((section, i) => {
-      learningMap.unshift(<LearningMapSeparator name={section.name} isActive />);
+      learningMap.unshift(
+        <LearningMapSeparator name={section.name} isActive={!generateProps.afterLast} />,
+      );
       if (i !== 0) {
         learningMap.unshift(
           <LearningMapRow>
-            <LearningMapPoints position={generateProps.position} isActive />
+            <LearningMapPoints
+              position={generateProps.position}
+              isActive={!generateProps.afterLast}
+            />
           </LearningMapRow>,
         );
       }
@@ -125,12 +136,16 @@ class LearningMap extends React.Component {
             name={subsection.name}
             start={start}
             end={end}
-            isActive
-            isCompleted
+            isCompleted={subsection.isCompleted}
+            isCurrent={!(generateProps.afterLast || subsection.isCompleted)}
+            isActive={!generateProps.afterLast}
             onSelectSubsection={this.props.onSelectSubsection}
           />
         </LearningMapRow>,
       );
+      if (!(generateProps.afterLast || subsection.isCompleted)) {
+        generateProps.afterLast = true;
+      }
       if (generateProps.position === 1 || generateProps.position === 5) {
         generateProps.vector *= -1;
       }
@@ -138,7 +153,10 @@ class LearningMap extends React.Component {
       if (isLast || j !== section.subsections.length - 1) {
         sectionChain.unshift(
           <LearningMapRow>
-            <LearningMapPoints position={generateProps.position} isActive />
+            <LearningMapPoints
+              position={generateProps.position}
+              isActive={!generateProps.afterLast}
+            />
           </LearningMapRow>,
         );
       }
