@@ -59,15 +59,14 @@ class LearningMap extends React.Component {
    * @returns learning map
    * @memberof LearningMap
    */
-  generateLearnMap() {
+  generateLearnMap(sections) {
     const learningMap = [];
     const generateProps = {
       position: 3,
       vector: 1,
       afterLast: false,
     };
-
-    this.state.sections.forEach((section, i) => {
+    sections.forEach((section, i) => {
       learningMap.unshift(
         <LearningMapSeparator name={section.name} isActive={!generateProps.afterLast} />,
       );
@@ -122,6 +121,7 @@ class LearningMap extends React.Component {
       sectionChain.unshift(
         <LearningMapRow>
           <LearningMapSubsection
+            id={subsection.id}
             name={subsection.name}
             start={start}
             end={end}
