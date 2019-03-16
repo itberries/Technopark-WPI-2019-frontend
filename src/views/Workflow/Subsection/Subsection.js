@@ -1,5 +1,9 @@
 import React from 'react';
+
+import axios from 'axios';
+
 import { Div } from '@vkontakte/vkui';
+
 import SubsectionBlock from './__Block/Subsection__Block';
 import './Subsection.scss';
 
@@ -15,47 +19,32 @@ class Subsection extends React.Component {
     super(props);
     /**
      * @type {object}
-     * @property {array[object]} blocks Array of subsection's blocks
+     * @property {array[object]} steps Array of subsection's steps
      */
     this.state = {
-      blocks: [
-        {
-          type: 'theory',
-          name: 'Theory part one',
-          isCompleted: true,
-        },
-        {
-          type: 'theory',
-          name: 'Theory part two',
-          isCompleted: true,
-        },
-        {
-          type: 'interactive',
-          name: 'Interactive task 1',
-          isCompleted: false,
-        },
-        {
-          type: 'interactive',
-          name: 'Interactive task 2',
-          isCompleted: false,
-        },
-        {
-          type: 'theory',
-          name: 'Theory part three',
-          isCompleted: false,
-        },
-        {
-          type: 'training',
-          name: 'Training task 1',
-          isCompleted: false,
-        },
-        {
-          type: 'training',
-          name: 'Training task 2',
-          isCompleted: false,
-        },
-      ],
+      id: null,
+      steps: [],
     };
+  }
+
+  componentDidMount() {
+    this.getSteps();
+  }
+
+  getSteps() {
+    axios
+      .get(`/subsections/${this.state.id}/steps/`)
+      .then((response) => {
+        const steps = response.data;
+        this.setState({ steps });
+      })
+      .catch((error) => {
+        if (typeof error.response !== 'undefined' && error.response.status === 404) {
+          console.error('getSteps not found!!!', error.response);
+        } else {
+          console.error('getSteps error!!!', error.response);
+        }
+      });
   }
 
   /**
@@ -63,27 +52,27 @@ class Subsection extends React.Component {
    * @return {ReactElement} markup with list of blocks in subsection container
    */
   render() {
-    const blocks = [];
+    const steps = [];
     let afterLast = false;
-    this.state.blocks.forEach((block, index) => {
-      blocks.push(
+    this.state.steps.forEach((step, index) => {
+      steps.push(
         <SubsectionBlock
-          key={block.name}
-          withSeparator={index !== this.state.blocks.length - 1}
-          type={block.type}
-          isCompleted={block.isCompleted}
+          key={step.name}
+          withSeparator={index !== this.state.steps.length - 1}
+          type={step.type}
+          isCompleted={step.isCompleted}
           isActive={!afterLast}
         >
-          {block.name}
+          {step.name}
         </SubsectionBlock>,
       );
-      if (!block.isCompleted) {
+      if (!step.isCompleted) {
         afterLast = true;
       }
     });
     return (
       <Div className="subsection">
-        <Div className="subsection__container">{blocks}</Div>
+        <Div className="subsection__container">{steps}</Div>
       </Div>
     );
   }
