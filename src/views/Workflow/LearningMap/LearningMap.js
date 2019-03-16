@@ -34,11 +34,10 @@ class LearningMap extends React.Component {
   }
 
   getSections() {
-    let { sections } = this.state;
     axios
       .get('/sections/')
       .then((response) => {
-        sections = response.data;
+        const sections = response.data;
         this.setState({ sections });
       })
       .catch((error) => {
