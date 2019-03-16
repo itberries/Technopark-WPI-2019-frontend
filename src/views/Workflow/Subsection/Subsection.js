@@ -31,6 +31,10 @@ class Subsection extends React.Component {
     this.getSteps();
   }
 
+  /**
+   * Get steps by subsection id from API
+   * @memberof Subsection
+   */
   getSteps() {
     axios
       .get(`/subsections/${this.state.id}/steps/`)

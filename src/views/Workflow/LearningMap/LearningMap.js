@@ -11,7 +11,7 @@ import LearningMapSubsection from './__Subsection/LearningMap__Subsection';
 import './LearningMap.scss';
 
 /**
- * LearningMap block with sections and their subsections of learning workflow
+ * LearningMap with sections and their subsections of learning workflow
  */
 class LearningMap extends React.Component {
   constructor(props) {
@@ -33,6 +33,10 @@ class LearningMap extends React.Component {
     window.worfkflowScrollY = window.scrollY;
   }
 
+  /**
+   * Get all sections with their subsections from API
+   * @memberof Subsection
+   */
   getSections() {
     axios
       .get('/sections/')
