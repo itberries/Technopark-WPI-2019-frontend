@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import axios from 'axios';
+
 import LearningMapRow from './__Row/LearningMap__Row';
 import LearningMapSeparator from './__Separator/LearningMap__Separator';
 import LearningMapPoints from './__Points/LearningMap__Points';
@@ -15,43 +17,7 @@ class LearningMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sections: [
-        {
-          name: 'Basic',
-          subsections: [
-            {
-              id: 1,
-              name: 'Numeric system',
-              isCompleted: true,
-            },
-            {
-              id: 2,
-              name: 'File system',
-              isCompleted: true,
-            },
-            {
-              id: 3,
-              name: 'Internet and URLs',
-              isCompleted: false,
-            },
-          ],
-        },
-        {
-          name: 'Intermediate',
-          subsections: [
-            {
-              id: 4,
-              name: 'Algebra of logic',
-              isCompleted: false,
-            },
-            {
-              id: 5,
-              name: 'Programming',
-              isCompleted: false,
-            },
-          ],
-        },
-      ],
+      sections: [],
     };
   }
 
@@ -60,10 +26,28 @@ class LearningMap extends React.Component {
       window.worfkflowScrollY = document.getElementsByClassName('learningMap')[0].scrollHeight;
     }
     window.scrollTo(0, window.worfkflowScrollY);
+    this.getSections();
   }
 
   componentWillUnmount() {
     window.worfkflowScrollY = window.scrollY;
+  }
+
+  getSections() {
+    let { sections } = this.state;
+    axios
+      .get('/sections/')
+      .then((response) => {
+        sections = response.data;
+        this.setState({ sections });
+      })
+      .catch((error) => {
+        if (typeof error.response !== 'undefined' && error.response.status === 404) {
+          console.error('getSections not found!!!', error.response);
+        } else {
+          console.error('getSections error!!!', error.response);
+        }
+      });
   }
 
   /**
@@ -72,7 +56,7 @@ class LearningMap extends React.Component {
    * @returns learning map
    * @memberof LearningMap
    */
-  generateLearnMap(sections) {
+  generateLearnMap() {
     const learningMap = [];
     const generateProps = {
       position: 3,
@@ -80,7 +64,7 @@ class LearningMap extends React.Component {
       afterLast: false,
     };
 
-    sections.forEach((section, i) => {
+    this.state.sections.forEach((section, i) => {
       learningMap.unshift(
         <LearningMapSeparator name={section.name} isActive={!generateProps.afterLast} />,
       );
@@ -94,7 +78,9 @@ class LearningMap extends React.Component {
           </LearningMapRow>,
         );
       }
-      learningMap.unshift(this.generateSection(section, i !== sections.length - 1, generateProps));
+      learningMap.unshift(
+        this.generateSection(section, i !== this.state.sections.length - 1, generateProps),
+      );
     });
     return learningMap;
   }
@@ -169,76 +155,9 @@ class LearningMap extends React.Component {
    * @return {ReactElement} Sections rows with their subsection buttons and separators
    */
   render() {
+    console.log('render learningmap, sections: ', this.state.sections);
     return (
       <div className="learningMap">
-        <div className="learningMap__container">
-          <LearningMapRow>
-            <LearningMapSubsection
-              id="4"
-              name="Programming"
-              start="1"
-              end="2"
-              onSelectSubsection={this.props.onSelectSubsection}
-            />
-          </LearningMapRow>
-          <LearningMapRow>
-            <LearningMapPoints position="2" />
-          </LearningMapRow>
-          <LearningMapRow>
-            <LearningMapSubsection
-              id="3"
-              name="Algebra of logic"
-              start="2"
-              end="3"
-              onSelectSubsection={this.props.onSelectSubsection}
-            />
-          </LearningMapRow>
-          <LearningMapRow>
-            <LearningMapPoints position="3" />
-          </LearningMapRow>
-          <LearningMapSeparator name="Intermediate" />
-          <LearningMapRow>
-            <LearningMapPoints position="3" />
-          </LearningMapRow>
-          <LearningMapRow>
-            <LearningMapSubsection
-              id="2"
-              name="Internet and URLs"
-              start="3"
-              end="4"
-              onSelectSubsection={this.props.onSelectSubsection}
-            />
-          </LearningMapRow>
-          <LearningMapRow>
-            <LearningMapPoints position="4" />
-          </LearningMapRow>
-          <LearningMapRow>
-            <LearningMapSubsection
-              id="1"
-              name="File system"
-              start="4"
-              end="5"
-              isActive
-              isCurrent
-              onSelectSubsection={this.props.onSelectSubsection}
-            />
-          </LearningMapRow>
-          <LearningMapRow>
-            <LearningMapPoints position="4" isActive />
-          </LearningMapRow>
-          <LearningMapRow>
-            <LearningMapSubsection
-              id="0"
-              name="Numeric system"
-              start="3"
-              end="4"
-              isActive
-              isCompleted
-              onSelectSubsection={this.props.onSelectSubsection}
-            />
-          </LearningMapRow>
-          <LearningMapSeparator name="Basic" isActive />
-        </div>
         <div className="learningMap__container">{this.generateLearnMap(this.state.sections)}</div>
       </div>
     );
