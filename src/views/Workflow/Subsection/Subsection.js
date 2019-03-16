@@ -1,7 +1,7 @@
 import React from 'react';
 
 import axios from 'axios';
-
+import PropTypes from 'prop-types';
 import { Div } from '@vkontakte/vkui';
 
 import SubsectionBlock from './__Block/Subsection__Block';
@@ -66,6 +66,8 @@ class Subsection extends React.Component {
           type={step.type}
           isCompleted={step.isCompleted}
           isActive={!afterLast}
+          onSelectStep={this.props.onSelectStep}
+          id={index}
         >
           {step.name}
         </SubsectionBlock>,
@@ -81,5 +83,9 @@ class Subsection extends React.Component {
     );
   }
 }
+
+Subsection.propTypes = {
+  onSelectStep: PropTypes.func.isRequired,
+};
 
 export default Subsection;

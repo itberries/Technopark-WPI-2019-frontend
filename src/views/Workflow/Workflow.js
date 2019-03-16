@@ -9,6 +9,7 @@ import connect from '@vkontakte/vkui-connect';
 import LearningMap from './LearningMap/LearningMap';
 import Subsection from './Subsection/Subsection';
 import Header from '../../common.blocks/Header/Header';
+import Step from './Step/Step';
 
 class Workflow extends React.Component {
   /**
@@ -72,7 +73,11 @@ class Workflow extends React.Component {
           </Panel>
           <Panel id="subsection">
             <Header text="Subsection" onBackClick={this.goBack} previousPanel="learningmap" />
-            <Subsection />
+            <Subsection onSelectStep={this.goForward} />
+          </Panel>
+          <Panel id="step">
+            <Header text="Step" onBackClick={this.goBack} previousPanel="learningmap" />
+            <Step id="1" name="The Step" type="theory" />
           </Panel>
         </View>
       </ConfigProvider>

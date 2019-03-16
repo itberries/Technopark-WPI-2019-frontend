@@ -1,0 +1,28 @@
+.card__container {
+
+  height: min-content;
+  width: 50wv;
+
+  .card__container{
+    margin: 0;
+  }
+
+  .card__image {
+    height: min-content;
+    width: 50wv;
+
+    img {
+      width: 100%;
+      .wide {
+        max-width: 100%;
+        max-height: 100%;
+        height: auto;
+      }
+      .wide {
+        max-width: 100%;
+        max-height: 100%;
+        height: auto;
+      }
+    }
+  }
+}
