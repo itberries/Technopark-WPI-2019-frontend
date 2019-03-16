@@ -32,6 +32,7 @@ class LearningMapPoints extends React.Component {
     for (let i = 0; i < 3; i++) {
       points.push(
         <div
+          key={`learningMap__point_${i}`}
           className={`learningMap__point ${this.state.isActive ? 'learningMap__point-active' : ''}`}
         />,
       );
