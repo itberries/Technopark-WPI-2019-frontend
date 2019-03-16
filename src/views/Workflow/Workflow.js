@@ -20,7 +20,7 @@ class Workflow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activePanel: 'step',
+      activePanel: 'learningmap',
       history: ['learningmap'],
     };
     this.goBack = this.goBack.bind(this);
@@ -72,13 +72,8 @@ class Workflow extends React.Component {
             <LearningMap onSelectSubsection={this.goForward} />
           </Panel>
           <Panel id="subsection">
-            <Header
-              text="Subsection"
-              onBackClick={this.goBack}
-              onSelectStep={this.goForward}
-              previousPanel="learningmap"
-            />
-            <Subsection />
+            <Header text="Subsection" onBackClick={this.goBack} previousPanel="learningmap" />
+            <Subsection onSelectStep={this.goForward} />
           </Panel>
           <Panel id="step">
             <Header text="Step" onBackClick={this.goBack} previousPanel="learningmap" />

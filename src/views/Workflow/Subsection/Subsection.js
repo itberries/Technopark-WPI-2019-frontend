@@ -74,6 +74,7 @@ class Subsection extends React.Component {
               type={block.type}
               isCompleted={block.isCompleted}
               onSelectStep={this.props.onSelectStep}
+              id={index}
             >
               {block.name}
             </SubsectionBlock>

@@ -6,6 +6,8 @@ import Theory from './types/__Theory/Theory';
 import Interact from './types/__Interact/Interact';
 import Traning from './types/__Traning/Traning';
 
+import './Step.scss';
+
 class Step extends React.Component {
   constructor(props) {
     super(props);
@@ -44,8 +46,8 @@ class Step extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Header>{this.state.name}</Header>
-        <Div>{this.state.content}</Div>
+        <Header className="step__header">{this.state.name}</Header>
+        <Div className="step__content">{this.state.content}</Div>
       </React.Fragment>
     );
   }
