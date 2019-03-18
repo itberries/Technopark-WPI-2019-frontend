@@ -19,9 +19,13 @@ class Workflow extends React.Component {
    */
   constructor(props) {
     super(props);
+    const map = new Map();
+    map.set('learningmap', 1);
+    map.set('subsection', 1);
+    map.set('step', 3);
     this.state = {
       activePanel: 'learningmap',
-      history: ['learningmap'],
+      history: map,
     };
     this.goBack = this.goBack.bind(this);
     this.goForward = this.goForward.bind(this);
@@ -38,23 +42,25 @@ class Workflow extends React.Component {
     if (e !== undefined) {
       e.preventDefault();
     }
-    const history = [...this.state.history];
+    let history = [...this.state.history];
     history.pop();
-    const activePanel = history[history.length - 1];
+    const activePanel = history[history.length - 1][0];
     if (activePanel === 'learningmap') {
       connect.send('VKWebAppDisableSwipeBack');
     }
+    history = new Map(history);
     this.setState({ history, activePanel });
   }
 
   goForward(activePanel, id, e) {
     console.log('forward!');
     e.preventDefault();
-    const history = [...this.state.history];
-    history.push(activePanel);
+    let history = [...this.state.history];
+    history.push([activePanel, id]);
     if (this.state.activePanel === 'learningmap') {
       connect.send('VKWebAppEnableSwipeBack');
     }
+    history = new Map(history);
     this.setState({ history, activePanel });
   }
 
@@ -73,11 +79,11 @@ class Workflow extends React.Component {
           </Panel>
           <Panel id="subsection">
             <Header text="Subsection" onBackClick={this.goBack} previousPanel="learningmap" />
-            <Subsection onSelectStep={this.goForward} />
+            <Subsection id={this.state.history.get('subsection')} onSelectStep={this.goForward} />
           </Panel>
           <Panel id="step">
             <Header text="Step" onBackClick={this.goBack} previousPanel="learningmap" />
-            <Step id="1" name="The Step" type="theory" />
+            <Step id={this.state.history.get('step')} name="The Step" type="theory" />
           </Panel>
         </View>
       </ConfigProvider>

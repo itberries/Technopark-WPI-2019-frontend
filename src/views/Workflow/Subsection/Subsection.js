@@ -22,8 +22,45 @@ class Subsection extends React.Component {
      * @property {array[object]} steps Array of subsection's steps
      */
     this.state = {
-      id: null,
-      steps: [],
+      id: this.props.id,
+      steps: [
+        {
+          id: 1,
+          name: 'first',
+          type: 'theory',
+          isCompleted: true,
+        },
+        {
+          id: 2,
+          name: 'second',
+          type: 'interactive',
+          isCompleted: true,
+        },
+        {
+          id: 3,
+          name: 'thrid',
+          type: 'training',
+          isCompleted: true,
+        },
+        {
+          id: 4,
+          name: 'fourth',
+          type: 'theory',
+          isCompleted: false,
+        },
+        {
+          id: 5,
+          name: 'fifth',
+          type: 'interactive',
+          isCompleted: false,
+        },
+        {
+          id: 6,
+          name: 'sixth',
+          type: 'training',
+          isCompleted: false,
+        },
+      ],
     };
   }
 
@@ -67,7 +104,7 @@ class Subsection extends React.Component {
           isCompleted={step.isCompleted}
           isActive={!afterLast}
           onSelectStep={this.props.onSelectStep}
-          id={index}
+          id={step.id}
         >
           {step.name}
         </SubsectionBlock>,
@@ -85,6 +122,7 @@ class Subsection extends React.Component {
 }
 
 Subsection.propTypes = {
+  id: PropTypes.number.isRequired,
   onSelectStep: PropTypes.func.isRequired,
 };
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header, Div } from '@vkontakte/vkui';
+import { Header, Div, Button } from '@vkontakte/vkui';
 
 import Theory from './types/__Theory/Theory';
-import Interact from './types/__Interact/Interact';
-import Traning from './types/__Traning/Traning';
+import Interact from './types/__Interactive/Interactive';
+import Traning from './types/__Training/Training';
 
 import './Step.scss';
 
@@ -30,11 +30,11 @@ class Step extends React.Component {
         content = React.createElement(Theory, { name: this.state.name, id: this.state.id });
         this.setState({ content });
         break;
-      case 'interact':
+      case 'interactive':
         content = React.createElement(Interact, { name: this.state.name });
         this.setState({ content });
         break;
-      case 'traning':
+      case 'training':
         content = React.createElement(Traning, { name: this.state.name });
         this.setState({ content });
         break;
@@ -48,6 +48,18 @@ class Step extends React.Component {
       <React.Fragment>
         <Header className="step__header">{this.state.name}</Header>
         <Div className="step__content">{this.state.content}</Div>
+        <Div className="step__buttons">
+          <Div>
+            <Button level="commerce" className="step__button step__button-unactive">
+              Previous
+            </Button>
+          </Div>
+          <Div>
+            <Button level="commerce" className="step__button">
+              Next
+            </Button>
+          </Div>
+        </Div>
       </React.Fragment>
     );
   }

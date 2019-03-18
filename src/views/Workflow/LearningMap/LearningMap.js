@@ -17,7 +17,48 @@ class LearningMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sections: [],
+      sections: [
+        {
+          name: 'First',
+          subsections: [
+            {
+              id: 1,
+              name: 'first',
+              isCompleted: true,
+            },
+            {
+              id: 2,
+              name: 'second',
+              isCompleted: true,
+            },
+            {
+              id: 3,
+              name: 'thrid',
+              isCompleted: false,
+            },
+          ],
+        },
+        {
+          name: 'Second',
+          subsections: [
+            {
+              id: 4,
+              name: 'first',
+              isCompleted: false,
+            },
+            {
+              id: 5,
+              name: 'second',
+              isCompleted: false,
+            },
+            {
+              id: 6,
+              name: 'thrid',
+              isCompleted: false,
+            },
+          ],
+        },
+      ],
     };
   }
 

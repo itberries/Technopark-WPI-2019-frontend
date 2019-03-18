@@ -13,13 +13,21 @@ import MarkAsCompleted from '../../../../common.blocks/MarkAsCompleted/MarkAsCom
  * @return {ReactElement} markup with subsection's block
  */
 const SubsectionBlock = ({
-  withSeparator, type, children, isCompleted, onSelectStep, id,
+  withSeparator,
+  type,
+  children,
+  isCompleted,
+  isActive,
+  onSelectStep,
+  id,
 }) => (
   <div className="subsection__block">
     <div className="subsection__block_wrapper">
       <MarkAsCompleted className="subsection__block_mark" isCompleted={isCompleted} />
       <Button
-        className={`subsection__button subsection__button-${type}`}
+        className={`subsection__button ${
+          isActive ? 'subsection__button-active' : ''
+        } subsection__button-${type}`}
         onClick={(e) => {
           console.log('on click subsection button');
           console.log(onSelectStep('step', id, e));
