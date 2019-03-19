@@ -21,8 +21,6 @@ class Workflow extends React.Component {
     super(props);
     const map = new Map();
     map.set('learningmap', 1);
-    map.set('subsection', 1);
-    map.set('step', 3);
     this.state = {
       activePanel: 'learningmap',
       history: map,

@@ -16,7 +16,8 @@ $subsection-height: calc( 100vh - 92px );
   background-size: auto;
 
   overflow-y: scroll;
-  padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+  overflow-x: hidden;
+  
   box-sizing: content-box;
 
   display: flex;

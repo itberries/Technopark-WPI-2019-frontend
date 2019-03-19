@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@vkontakte/vkui';
 import './Subsection__Block.scss';
+import { NONAME } from 'dns';
 import MarkAsCompleted from '../../../../common.blocks/MarkAsCompleted/MarkAsCompleted';
 
 /**
@@ -29,8 +30,17 @@ const SubsectionBlock = ({
           isActive ? 'subsection__button-active' : ''
         } subsection__button-${type}`}
         onClick={(e) => {
+          const stepId = id;
           console.log('on click subsection button');
-          console.log(onSelectStep('step', id, e));
+          console.log(
+            onSelectStep(
+              'step',
+              {
+                id: stepId,
+              },
+              e,
+            ),
+          );
         }}
       >
         {children}
@@ -55,12 +65,17 @@ SubsectionBlock.propTypes = {
   isCompleted: PropTypes.bool,
   /** Description of prop "isActive". */
   isActive: PropTypes.bool,
+  /** Description of prop "isActive". */
+  onSelectStep: PropTypes.func,
+  /** Description of prop "isActive". */
+  id: PropTypes.number.isRequired,
 };
 
 SubsectionBlock.defaultProps = {
   withSeparator: true,
   isCompleted: false,
   isActive: false,
+  onSelectStep: null,
 };
 
 export default SubsectionBlock;

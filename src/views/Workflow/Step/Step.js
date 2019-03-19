@@ -16,6 +16,8 @@ class Step extends React.Component {
       name: props.name,
       type: props.type,
       content: '',
+      next: 3,
+      previous: 1,
     };
   }
 
@@ -27,15 +29,15 @@ class Step extends React.Component {
     let content = '';
     switch (this.state.type) {
       case 'theory':
-        content = React.createElement(Theory, { name: this.state.name, id: this.state.id });
+        content = React.createElement(Theory, { id: this.state.id });
         this.setState({ content });
         break;
       case 'interactive':
-        content = React.createElement(Interact, { name: this.state.name });
+        content = React.createElement(Interact, { id: this.state.id });
         this.setState({ content });
         break;
       case 'training':
-        content = React.createElement(Traning, { name: this.state.name });
+        content = React.createElement(Traning, { id: this.state.id });
         this.setState({ content });
         break;
       default:
@@ -50,12 +52,22 @@ class Step extends React.Component {
         <Div className="step__content">{this.state.content}</Div>
         <Div className="step__buttons">
           <Div>
-            <Button level="commerce" className="step__button step__button-unactive">
+            <Button
+              level="commerce"
+              className={`step__button ${
+                this.state.previous !== 'undefined' ? 'step__button-unactive' : ''
+              }`}
+            >
               Previous
             </Button>
           </Div>
           <Div>
-            <Button level="commerce" className="step__button">
+            <Button
+              level="commerce"
+              className={`step__button ${
+                this.state.next !== 'undefined' ? 'step__button-unactive' : ''
+              }`}
+            >
               Next
             </Button>
           </Div>
