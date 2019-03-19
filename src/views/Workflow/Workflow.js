@@ -11,6 +11,9 @@ import Subsection from './Subsection/Subsection';
 import Header from '../../common.blocks/Header/Header';
 import Step from './Step/Step';
 
+/**
+ * Workflow component for learning process, includes sections and their subsections
+ */
 class Workflow extends React.Component {
   /**
    * Creates an instance of Workflow.

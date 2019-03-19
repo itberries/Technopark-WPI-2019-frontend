@@ -1,6 +1,8 @@
 {
   "version": 2,
   "name": "itberries-frontend",
+  "alias": "itberries-frontend",
+  "scope": "itberries",
   "builds": [
     {
       "src": "package.json",
