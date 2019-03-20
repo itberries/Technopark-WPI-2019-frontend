@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header, Div } from '@vkontakte/vkui';
+import { Header, Div, Button } from '@vkontakte/vkui';
 
 import Theory from './types/__Theory/Theory';
-import Interact from './types/__Interact/Interact';
-import Traning from './types/__Traning/Traning';
+import Interact from './types/__Interactive/Interactive';
+import Traning from './types/__Training/Training';
 
 import './Step.scss';
 
@@ -16,6 +16,8 @@ class Step extends React.Component {
       name: props.name,
       type: props.type,
       content: '',
+      next: 3,
+      previous: 1,
     };
   }
 
@@ -27,15 +29,15 @@ class Step extends React.Component {
     let content = '';
     switch (this.state.type) {
       case 'theory':
-        content = React.createElement(Theory, { name: this.state.name, id: this.state.id });
+        content = React.createElement(Theory, { id: this.state.id });
         this.setState({ content });
         break;
-      case 'interact':
-        content = React.createElement(Interact, { name: this.state.name });
+      case 'interactive':
+        content = React.createElement(Interact, { id: this.state.id });
         this.setState({ content });
         break;
-      case 'traning':
-        content = React.createElement(Traning, { name: this.state.name });
+      case 'training':
+        content = React.createElement(Traning, { id: this.state.id });
         this.setState({ content });
         break;
       default:
@@ -48,6 +50,28 @@ class Step extends React.Component {
       <React.Fragment>
         <Header className="step__header">{this.state.name}</Header>
         <Div className="step__content">{this.state.content}</Div>
+        <Div className="step__buttons">
+          <Div>
+            <Button
+              level="commerce"
+              className={`step__button ${
+                this.state.previous !== 'undefined' ? 'step__button-unactive' : ''
+              }`}
+            >
+              Previous
+            </Button>
+          </Div>
+          <Div>
+            <Button
+              level="commerce"
+              className={`step__button ${
+                this.state.next !== 'undefined' ? 'step__button-unactive' : ''
+              }`}
+            >
+              Next
+            </Button>
+          </Div>
+        </Div>
       </React.Fragment>
     );
   }

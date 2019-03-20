@@ -1,3 +1,5 @@
+$step__button-unactive-color: #A6BAA6;
+
 .Panel__in {
   .step__header {
     margin-top: 12px;
@@ -9,4 +11,28 @@
   .Group {
     margin: 0;
   }
+}
+
+.step__buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+ 
+  padding: 0;
+  bottom: 0;
+
+  .step__button {
+    width: 30vw;
+    height: 3em;
+
+    &.step__button-unactive {
+      background-color: $step__button-unactive-color;
+    }
+
+    .button-in {
+      .button__content {
+        font-size: 2em;
+      }
+    }
+  }  
 }

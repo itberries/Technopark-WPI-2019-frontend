@@ -1,20 +1,26 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { Div } from '@vkontakte/vkui';
 
 import './Card.scss';
 
-const Card = () => (
+const Card = ({ note, image }) => (
   <Div className="card__container">
-    <Div className="card__note">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, optio mollitia repellendus
-      officiis est odio quia adipisci eum facere consequuntur odit laborum animi itaque, sapiente
-      asperiores quibusdam enim? Numquam, nemo?
-    </Div>
+    <Div className="card__note">{note}</Div>
     <Div className="card__image">
-      <img src="https://pp.userapi.com/c850124/v850124866/c28df/W98Le2Vc10I.jpg" alt="Card icon" />
+      <img src={image} alt="Card icon" />
     </Div>
   </Div>
 );
+
+Card.propTypes = {
+  note: PropTypes.string,
+  image: PropTypes.string,
+};
+
+Card.defaultProps = {
+  note: '',
+  image: '',
+};
 
 export default Card;
