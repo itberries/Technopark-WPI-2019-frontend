@@ -25,43 +25,50 @@ class Subsection extends React.Component {
       id: this.props.id,
       steps: [
         {
-          id: 1,
-          name: 'first',
-          type: 'theory',
-          isCompleted: true,
-        },
-        {
-          id: 2,
-          name: 'second',
-          type: 'interactive',
-          isCompleted: true,
-        },
-        {
-          id: 3,
-          name: 'thrid',
-          type: 'training',
-          isCompleted: true,
-        },
-        {
+          childId: 5,
           id: 4,
           name: 'fourth',
+          parentId: 3,
           type: 'theory',
-          isCompleted: false,
         },
         {
-          id: 5,
-          name: 'fifth',
-          type: 'interactive',
-          isCompleted: false,
+          childId: 4,
+          id: 3,
+          name: 'third',
+          parentId: 2,
+          type: 'training',
         },
         {
+          childId: 2,
+          id: 1,
+          name: 'first',
+          parentId: 'undefined',
+          type: 'theory',
+        },
+        {
+          childId: 'undefined',
           id: 6,
           name: 'sixth',
+          parentId: 5,
           type: 'training',
-          isCompleted: false,
+        },
+        {
+          childId: 3,
+          id: 2,
+          name: 'second',
+          parentId: 1,
+          type: 'interactive',
+        },
+        {
+          childId: 6,
+          id: 5,
+          name: 'fifth',
+          parentId: 4,
+          type: 'interactive',
         },
       ],
     };
+    this.props.data.set('steps', this.state.steps);
   }
 
   componentDidMount() {
@@ -78,6 +85,7 @@ class Subsection extends React.Component {
       .then((response) => {
         const steps = response.data;
         this.setState({ steps });
+        this.props.data.set('steps', steps);
       })
       .catch((error) => {
         if (typeof error.response !== 'undefined' && error.response.status === 404) {
@@ -124,6 +132,7 @@ class Subsection extends React.Component {
 Subsection.propTypes = {
   id: PropTypes.number.isRequired,
   onSelectStep: PropTypes.func.isRequired,
+  data: PropTypes.instanceOf(Map).isRequired,
 };
 
 export default Subsection;

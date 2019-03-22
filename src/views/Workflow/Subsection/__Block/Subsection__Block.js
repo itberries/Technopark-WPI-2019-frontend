@@ -32,15 +32,7 @@ const SubsectionBlock = ({
         onClick={(e) => {
           const stepId = id;
           console.log('on click subsection button');
-          console.log(
-            onSelectStep(
-              'step',
-              {
-                id: stepId,
-              },
-              e,
-            ),
-          );
+          console.log(onSelectStep('steps', stepId, e));
         }}
       >
         {children}
