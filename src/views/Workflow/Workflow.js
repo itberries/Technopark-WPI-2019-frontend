@@ -9,7 +9,7 @@ import connect from '@vkontakte/vkui-connect';
 import LearningMap from './LearningMap/LearningMap';
 import Subsection from './Subsection/Subsection';
 import Header from '../../common.blocks/Header/Header';
-import Step from './Step/Step';
+import Steps from './Steps/Steps';
 
 /**
  * Workflow component for learning process, includes sections and their subsections
@@ -23,10 +23,12 @@ class Workflow extends React.Component {
   constructor(props) {
     super(props);
     const map = new Map();
+    const dates = new Map();
     map.set('learningmap', 1);
     this.state = {
       activePanel: 'learningmap',
       history: map,
+      panelsData: dates,
     };
     this.goBack = this.goBack.bind(this);
     this.goForward = this.goForward.bind(this);
@@ -39,30 +41,32 @@ class Workflow extends React.Component {
    * @memberof Workflow
    */
   goBack(e) {
-    console.log('back!');
     if (e !== undefined) {
       e.preventDefault();
     }
-    let history = [...this.state.history];
-    history.pop();
-    const activePanel = history[history.length - 1][0];
-    if (activePanel === 'learningmap') {
-      connect.send('VKWebAppDisableSwipeBack');
-    }
-    history = new Map(history);
-    this.setState({ history, activePanel });
+    this.setState((prevState) => {
+      let history = [...prevState.history];
+      history.pop();
+      const activePanel = history[history.length - 1][0];
+      if (activePanel === 'learningmap') {
+        connect.send('VKWebAppDisableSwipeBack');
+      }
+      history = new Map(history);
+      return { history, activePanel };
+    });
   }
 
   goForward(activePanel, id, e) {
-    console.log('forward!');
     e.preventDefault();
-    let history = [...this.state.history];
-    history.push([activePanel, id]);
-    if (this.state.activePanel === 'learningmap') {
-      connect.send('VKWebAppEnableSwipeBack');
-    }
-    history = new Map(history);
-    this.setState({ history, activePanel });
+    this.setState((prevState) => {
+      let history = [...prevState.history];
+      history.push([activePanel, id]);
+      if (prevState.activePanel === 'learningmap') {
+        connect.send('VKWebAppEnableSwipeBack');
+      }
+      history = new Map(history);
+      return { history, activePanel };
+    });
   }
 
   render() {
@@ -76,15 +80,23 @@ class Workflow extends React.Component {
         >
           <Panel id="learningmap">
             <PanelHeader>Learning Map</PanelHeader>
-            <LearningMap onSelectSubsection={this.goForward} />
+            <LearningMap onSelectSubsection={this.goForward} data={this.state.panelsData} />
           </Panel>
           <Panel id="subsection">
             <Header text="Subsection" onBackClick={this.goBack} previousPanel="learningmap" />
-            <Subsection id={this.state.history.get('subsection')} onSelectStep={this.goForward} />
+            <Subsection
+              id={this.state.history.get('subsection')}
+              onSelectStep={this.goForward}
+              data={this.state.panelsData}
+            />
           </Panel>
-          <Panel id="step">
-            <Header text="Step" onBackClick={this.goBack} previousPanel="learningmap" />
-            <Step id={this.state.history.get('step')} name="The Step" type="theory" />
+          <Panel id="steps">
+            <Header text="Steps" onBackClick={this.goBack} previousPanel="learningmap" />
+            <Steps
+              id={this.state.history.get('steps')}
+              data={this.state.panelsData}
+              goBack={this.goBack}
+            />
           </Panel>
         </View>
       </ConfigProvider>

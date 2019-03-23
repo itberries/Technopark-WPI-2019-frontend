@@ -9,7 +9,6 @@ class Theory extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: this.props.id,
       cards: [
         {
           note: 'first text',
@@ -24,9 +23,17 @@ class Theory extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.getCards();
+  }
+
+  componentDidUpdate() {
+    this.getCards();
+  }
+
   getCards() {
     axios
-      .get(`/steps/${this.state.id}/cards/`)
+      .get(`/steps/${this.props.id}/cards`)
       .then((response) => {
         const cards = response.data;
         this.setState({ cards });

@@ -17,50 +17,11 @@ class Subsection extends React.Component {
    */
   constructor(props) {
     super(props);
-    /**
-     * @type {object}
-     * @property {array[object]} steps Array of subsection's steps
-     */
     this.state = {
       id: this.props.id,
-      steps: [
-        {
-          id: 1,
-          name: 'first',
-          type: 'theory',
-          isCompleted: true,
-        },
-        {
-          id: 2,
-          name: 'second',
-          type: 'interactive',
-          isCompleted: true,
-        },
-        {
-          id: 3,
-          name: 'thrid',
-          type: 'training',
-          isCompleted: true,
-        },
-        {
-          id: 4,
-          name: 'fourth',
-          type: 'theory',
-          isCompleted: false,
-        },
-        {
-          id: 5,
-          name: 'fifth',
-          type: 'interactive',
-          isCompleted: false,
-        },
-        {
-          id: 6,
-          name: 'sixth',
-          type: 'training',
-          isCompleted: false,
-        },
-      ],
+      steps: new Map(),
+      startStepId: undefined,
+      lastCompletedStepId: undefined,
     };
   }
 
@@ -73,11 +34,82 @@ class Subsection extends React.Component {
    * @memberof Subsection
    */
   getSteps() {
+    const stepsArray = [
+      {
+        childId: 5,
+        id: 4,
+        name: 'fourth',
+        parentId: 3,
+        type: 'theory',
+      },
+      {
+        childId: 4,
+        id: 3,
+        name: 'third',
+        parentId: 2,
+        type: 'training',
+      },
+      {
+        childId: 2,
+        id: 1,
+        name: 'first',
+        parentId: 'undefined',
+        type: 'theory',
+      },
+      {
+        childId: 'undefined',
+        id: 6,
+        name: 'sixth',
+        parentId: 5,
+        type: 'training',
+      },
+      {
+        childId: 3,
+        id: 2,
+        name: 'second',
+        parentId: 1,
+        type: 'interactive',
+      },
+      {
+        childId: 6,
+        id: 5,
+        name: 'fifth',
+        parentId: 4,
+        type: 'interactive',
+      },
+    ];
+
+    let { startStepId } = this.state;
+    const { steps } = this.state;
+    stepsArray.forEach((step) => {
+      if (step.parentId === 'undefined') {
+        startStepId = step.id;
+      }
+      steps.set(step.id, step);
+    });
+
+    // This is how out backend send us currentStep
+    const currentStep = {
+      childId: 4,
+      id: 3,
+      name: 'third',
+      parentId: 2,
+      type: 'training',
+    };
+
+    this.props.data.set('steps', steps);
+
+    console.log('did mound almost, state: ', this.state);
+    this.setState({ steps, startStepId, lastCompletedStepId: currentStep.id });
+    console.log('did mound, state: ', this.state);
+
+    /*
     axios
       .get(`/subsections/${this.state.id}/steps/`)
       .then((response) => {
         const steps = response.data;
         this.setState({ steps });
+        this.props.data.set('steps', steps);
       })
       .catch((error) => {
         if (typeof error.response !== 'undefined' && error.response.status === 404) {
@@ -86,6 +118,7 @@ class Subsection extends React.Component {
           console.error('getSteps error!!!', error.response);
         }
       });
+    */
   }
 
   /**
@@ -93,29 +126,40 @@ class Subsection extends React.Component {
    * @return {ReactElement} markup with list of blocks in subsection container
    */
   render() {
-    const steps = [];
-    let afterLast = false;
-    this.state.steps.forEach((step, index) => {
-      steps.push(
-        <SubsectionBlock
-          key={step.name}
-          withSeparator={index !== this.state.steps.length - 1}
-          type={step.type}
-          isCompleted={step.isCompleted}
-          isActive={!afterLast}
-          onSelectStep={this.props.onSelectStep}
-          id={step.id}
-        >
-          {step.name}
-        </SubsectionBlock>,
-      );
-      if (!step.isCompleted) {
-        afterLast = true;
+    const subsectionBlocks = [];
+    let step;
+    let afterLastCompleted = false;
+    const { steps } = this.state;
+    if (typeof this.state.startStepId !== 'undefined') {
+      step = steps.get(this.state.startStepId);
+      let isLastStep = false;
+      while (!isLastStep) {
+        if (step.id > this.state.lastCompletedStepId) {
+          afterLastCompleted = true;
+        }
+        if (step.childId === 'undefined') {
+          isLastStep = true;
+        }
+        subsectionBlocks.push(
+          <SubsectionBlock
+            key={step.name}
+            withSeparator={!isLastStep} // {index !== this.state.steps.length - 1}
+            type={step.type}
+            isCompleted={step.isCompleted}
+            isActive={!afterLastCompleted}
+            onSelectStep={this.props.onSelectStep}
+            id={step.id}
+          >
+            {step.name}
+          </SubsectionBlock>,
+        );
+        step = steps.get(step.childId);
       }
-    });
+    }
+
     return (
       <Div className="subsection">
-        <Div className="subsection__container">{steps}</Div>
+        <Div className="subsection__container">{subsectionBlocks}</Div>
       </Div>
     );
   }
@@ -124,6 +168,7 @@ class Subsection extends React.Component {
 Subsection.propTypes = {
   id: PropTypes.number.isRequired,
   onSelectStep: PropTypes.func.isRequired,
+  data: PropTypes.instanceOf(Map).isRequired,
 };
 
 export default Subsection;

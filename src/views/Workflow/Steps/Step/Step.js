@@ -12,34 +12,23 @@ class Step extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.id,
-      name: props.name,
-      type: props.type,
-      content: '',
-      next: 3,
-      previous: 1,
+      goBack: this.props.goBack,
+      goForward: this.props.goForward,
     };
-  }
-
-  componentDidMount() {
-    this.setContent();
   }
 
   setContent() {
     let content = '';
-    switch (this.state.type) {
+    switch (this.props.type) {
       case 'theory':
-        content = React.createElement(Theory, { id: this.state.id });
-        this.setState({ content });
-        break;
+        content = React.createElement(Theory, { id: this.props.id });
+        return content;
       case 'interactive':
-        content = React.createElement(Interact, { id: this.state.id });
-        this.setState({ content });
-        break;
+        content = React.createElement(Interact, { id: this.props.id });
+        return content;
       case 'training':
-        content = React.createElement(Traning, { id: this.state.id });
-        this.setState({ content });
-        break;
+        content = React.createElement(Traning, { id: this.props.id });
+        return content;
       default:
         console.error('unregistered step type');
     }
@@ -48,15 +37,19 @@ class Step extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Header className="step__header">{this.state.name}</Header>
-        <Div className="step__content">{this.state.content}</Div>
+        <Header className="step__header">{this.props.name}</Header>
+        <Div className="step__content">{this.setContent()}</Div>
         <Div className="step__buttons">
           <Div>
             <Button
               level="commerce"
               className={`step__button ${
-                this.state.previous !== 'undefined' ? 'step__button-unactive' : ''
+                this.props.previous === 'undefined' ? 'step__button-unactive' : ''
               }`}
+              onClick={() => {
+                this.state.goBack();
+                this.setContent();
+              }}
             >
               Previous
             </Button>
@@ -65,8 +58,12 @@ class Step extends React.Component {
             <Button
               level="commerce"
               className={`step__button ${
-                this.state.next !== 'undefined' ? 'step__button-unactive' : ''
+                this.props.next === 'undefined' ? 'step__button-unactive' : ''
               }`}
+              onClick={() => {
+                this.state.goForward();
+                this.setContent();
+              }}
             >
               Next
             </Button>
@@ -84,6 +81,14 @@ Step.propTypes = {
   name: PropTypes.string.isRequired,
   /* Description of prop "type". */
   type: PropTypes.string.isRequired,
+  /* Description of prop "goBack". */
+  goBack: PropTypes.func.isRequired,
+  /* Description of prop "goForward". */
+  goForward: PropTypes.func.isRequired,
+  /* Description of prop "goForward". */
+  next: PropTypes.number.isRequired,
+  /* Description of prop "previous". */
+  previous: PropTypes.number.isRequired,
 };
 
 export default Step;

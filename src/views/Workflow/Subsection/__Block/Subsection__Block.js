@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { Button } from '@vkontakte/vkui';
-import './Subsection__Block.scss';
-import { NONAME } from 'dns';
+
 import MarkAsCompleted from '../../../../common.blocks/MarkAsCompleted/MarkAsCompleted';
+import './Subsection__Block.scss';
 
 /**
  * Subsection's block component with button and separator
@@ -32,15 +33,7 @@ const SubsectionBlock = ({
         onClick={(e) => {
           const stepId = id;
           console.log('on click subsection button');
-          console.log(
-            onSelectStep(
-              'step',
-              {
-                id: stepId,
-              },
-              e,
-            ),
-          );
+          console.log(onSelectStep('steps', stepId, e));
         }}
       >
         {children}
