@@ -97,6 +97,8 @@ class Subsection extends React.Component {
       type: 'training',
     };
 
+    this.props.data.set('steps', steps);
+
     console.log('did mound almost, state: ', this.state);
     this.setState({ steps, startStepId, lastCompletedStepId: currentStep.id });
     console.log('did mound, state: ', this.state);

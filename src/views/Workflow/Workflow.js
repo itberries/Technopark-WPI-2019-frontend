@@ -41,7 +41,6 @@ class Workflow extends React.Component {
    * @memberof Workflow
    */
   goBack(e) {
-    console.log('back!');
     if (e !== undefined) {
       e.preventDefault();
     }
@@ -58,7 +57,6 @@ class Workflow extends React.Component {
   }
 
   goForward(activePanel, id, e) {
-    console.log('forward!');
     e.preventDefault();
     this.setState((prevState) => {
       let history = [...prevState.history];
@@ -96,7 +94,8 @@ class Workflow extends React.Component {
             <Header text="Steps" onBackClick={this.goBack} previousPanel="learningmap" />
             <Steps
               id={this.state.history.get('steps')}
-              arrayOfSteps={this.state.panelsData.get('steps')}
+              data={this.state.panelsData}
+              goBack={this.goBack}
             />
           </Panel>
         </View>

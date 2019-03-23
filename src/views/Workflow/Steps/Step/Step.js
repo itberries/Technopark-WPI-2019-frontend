@@ -12,14 +12,9 @@ class Step extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      content: '',
       goBack: this.props.goBack,
       goForward: this.props.goForward,
     };
-  }
-
-  componentDidMount() {
-    this.setContent();
   }
 
   setContent() {
@@ -27,27 +22,23 @@ class Step extends React.Component {
     switch (this.props.type) {
       case 'theory':
         content = React.createElement(Theory, { id: this.props.id });
-        this.setState({ content });
-        break;
+        return content;
       case 'interactive':
         content = React.createElement(Interact, { id: this.props.id });
-        this.setState({ content });
-        break;
+        return content;
       case 'training':
         content = React.createElement(Traning, { id: this.props.id });
-        this.setState({ content });
-        break;
+        return content;
       default:
         console.error('unregistered step type');
     }
   }
 
   render() {
-    console.log('props', this.props);
     return (
       <React.Fragment>
         <Header className="step__header">{this.props.name}</Header>
-        <Div className="step__content">{this.state.content}</Div>
+        <Div className="step__content">{this.setContent()}</Div>
         <Div className="step__buttons">
           <Div>
             <Button
@@ -56,10 +47,8 @@ class Step extends React.Component {
                 this.props.previous === 'undefined' ? 'step__button-unactive' : ''
               }`}
               onClick={() => {
-                if (this.props.previous !== 'undefined') {
-                  this.state.goBack();
-                  this.setContent();
-                }
+                this.state.goBack();
+                this.setContent();
               }}
             >
               Previous
@@ -72,10 +61,8 @@ class Step extends React.Component {
                 this.props.next === 'undefined' ? 'step__button-unactive' : ''
               }`}
               onClick={() => {
-                if (this.props.next !== 'undefined') {
-                  this.state.goForward();
-                  this.setContent();
-                }
+                this.state.goForward();
+                this.setContent();
               }}
             >
               Next

@@ -6,50 +6,11 @@ import Step from './Step/Step';
 class Steps extends React.Component {
   constructor(props) {
     super(props);
-    const steps = [];
-    if (props.arrayOfSteps !== undefined && props.arrayOfSteps.length > 0) {
-      console.log('array: ', props.arrayOfSteps);
-      let step = props.arrayOfSteps.find(elem => elem.parentId === 'undefined');
-      console.log('step: ', step);
-      steps.push(step);
-      while (step.childId !== 'undefined') {
-        console.log('child: ', step.childId);
-        step = props.arrayOfSteps.find(elem => elem.parentId === step.id);
-        steps.push(step);
-      }
-    }
-    console.log('props.arrayOfSteps:', props.arrayOfSteps);
-    const activeStepId = 0;
+    const steps = props.data.get('steps');
     this.state = {
-      arrayOfSteps:
-        steps.length > 0
-          ? steps
-          : [
-            {
-              id: 1,
-              name: 'first',
-              type: 'theory',
-              childId: 2,
-              parentId: 'undefined',
-            },
-            {
-              id: 2,
-              name: 'second',
-              type: 'theory',
-              childId: 3,
-              parentId: 1,
-            },
-            {
-              id: 3,
-              name: 'thried',
-              type: 'theory',
-              childId: 'undefined',
-              parentId: 2,
-            },
-          ],
-      activeStep: activeStepId,
+      arrayOfSteps: steps,
+      activeStep: steps.get(this.props.id),
     };
-    console.log('steps: ', this.state.arrayOfSteps);
     this.goBack = this.goBack.bind(this);
     this.goForward = this.goForward.bind(this);
   }
@@ -59,24 +20,22 @@ class Steps extends React.Component {
   }
 
   goBack() {
-    console.log('Back!');
-    if (this.state.activeStep > 0) {
+    console.log('goBack');
+    if (this.state.activeStep.parentId !== 'undefined') {
       this.setState((prevState) => {
-        const activeStep = prevState.activeStep - 1;
+        const activeStep = prevState.arrayOfSteps.get(prevState.activeStep.parentId);
         return { activeStep };
       });
     } else {
+      console.log('goBack');
       this.askNewSteps();
     }
   }
 
   goForward() {
-    console.log('Forward!');
-    console.log('activeStep: ', this.state.activeStep);
-    console.log('arrayOfSteps: ', this.state.arrayOfSteps);
-    if (this.state.activeStep < this.state.arrayOfSteps.length - 1) {
+    if (this.state.activeStep.childId !== 'undefined') {
       this.setState((prevState) => {
-        const activeStep = prevState.activeStep + 1;
+        const activeStep = prevState.arrayOfSteps.get(prevState.activeStep.childId);
         return { activeStep };
       });
     } else {
@@ -85,12 +44,12 @@ class Steps extends React.Component {
   }
 
   askNewSteps() {
-    /* TODO: make load new steps */
+    console.log('goBack');
+    this.props.goBack();
   }
 
   render() {
-    const step = this.state.arrayOfSteps[this.state.activeStep];
-    console.log('render! ', step);
+    const step = this.state.activeStep;
     return (
       <Step
         id={step.id}
@@ -114,7 +73,8 @@ Steps.propTypes = {
     next: PropTypes.number,
     previous: PropTypes.number,
   }).isRequired,
-  arrayOfSteps: PropTypes.arrayOf({}).isRequired,
+  data: PropTypes.instanceOf(Map).isRequired,
+  goBack: PropTypes.func.isRequired,
 };
 
 export default Steps;
