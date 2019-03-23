@@ -8,6 +8,8 @@ import LearningMapSeparator from './__Separator/LearningMap__Separator';
 import LearningMapPoints from './__Points/LearningMap__Points';
 import LearningMapSubsection from './__Subsection/LearningMap__Subsection';
 
+import Utils from '../../../utils/utils';
+
 import './LearningMap.scss';
 
 /**
@@ -16,49 +18,54 @@ import './LearningMap.scss';
 class LearningMap extends React.Component {
   constructor(props) {
     super(props);
+    const sections = [
+      {
+        id: 1,
+        name: 'First',
+        subsections: [
+          {
+            id: 1,
+            name: 'Формальные описания реальных объектов и процессов',
+            isCompleted: false,
+          },
+          {
+            id: 2,
+            name: 'second',
+            isCompleted: false,
+          },
+          {
+            id: 3,
+            name: 'thrid',
+            isCompleted: false,
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: 'Second',
+        subsections: [
+          {
+            id: 4,
+            name: 'first',
+            isCompleted: false,
+          },
+          {
+            id: 5,
+            name: 'second',
+            isCompleted: false,
+          },
+          {
+            id: 6,
+            name: 'thrid',
+            isCompleted: false,
+          },
+        ],
+      },
+    ];
+    const sectionMap = this.generateSectionsMap(sections);
     this.state = {
-      sections: [
-        {
-          name: 'First',
-          subsections: [
-            {
-              id: 1,
-              name: 'first',
-              isCompleted: true,
-            },
-            {
-              id: 2,
-              name: 'second',
-              isCompleted: true,
-            },
-            {
-              id: 3,
-              name: 'thrid',
-              isCompleted: false,
-            },
-          ],
-        },
-        {
-          name: 'Second',
-          subsections: [
-            {
-              id: 4,
-              name: 'first',
-              isCompleted: false,
-            },
-            {
-              id: 5,
-              name: 'second',
-              isCompleted: false,
-            },
-            {
-              id: 6,
-              name: 'thrid',
-              isCompleted: false,
-            },
-          ],
-        },
-      ],
+      lastSection: 'First',
+      sections: sectionMap,
     };
   }
 
@@ -72,6 +79,12 @@ class LearningMap extends React.Component {
 
   componentWillUnmount() {
     window.worfkflowScrollY = window.scrollY;
+  }
+
+  generateSectionsMap(sections) {
+    const map = Utils.makeMapFromArray(sections);
+    map.forEach(section => (section.subsections = Utils.makeMapFromArray(section.subsections)));
+    return map;
   }
 
   /**
@@ -193,6 +206,8 @@ class LearningMap extends React.Component {
     });
     return sectionChain;
   }
+
+  subsectionDone(id) {}
 
   /**
    * render

@@ -36,15 +36,20 @@ class Steps extends React.Component {
     if (this.state.activeStep.childId !== 'undefined') {
       this.setState((prevState) => {
         const activeStep = prevState.arrayOfSteps.get(prevState.activeStep.childId);
+        if (activeStep.parentId === this.props.data.get('last_step').id) {
+          this.props.data.set('last_step', activeStep);
+          console.log('open new step');
+        }
         return { activeStep };
       });
     } else {
+      this.props.data.set('section_done', true);
+      console.log('section_done: ', this.props.data.get('section_done'));
       this.askNewSteps();
     }
   }
 
   askNewSteps() {
-    console.log('goBack');
     this.props.goBack();
   }
 
