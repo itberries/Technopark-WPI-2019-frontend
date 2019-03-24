@@ -18,55 +18,16 @@ import './LearningMap.scss';
 class LearningMap extends React.Component {
   constructor(props) {
     super(props);
-    const sections = [
-      {
-        id: 1,
-        name: 'First',
-        subsections: [
-          {
-            id: 1,
-            name: 'Формальные описания реальных объектов и процессов',
-            isCompleted: false,
-          },
-          {
-            id: 2,
-            name: 'second',
-            isCompleted: false,
-          },
-          {
-            id: 3,
-            name: 'thrid',
-            isCompleted: false,
-          },
-        ],
-      },
-      {
-        id: 2,
-        name: 'Second',
-        subsections: [
-          {
-            id: 4,
-            name: 'first',
-            isCompleted: false,
-          },
-          {
-            id: 5,
-            name: 'second',
-            isCompleted: false,
-          },
-          {
-            id: 6,
-            name: 'thrid',
-            isCompleted: false,
-          },
-        ],
-      },
-    ];
-    const sectionMap = this.generateSectionsMap(sections);
-    this.state = {
-      lastSection: 'First',
-      sections: sectionMap,
-    };
+    const state = this.props.data.get('learningMap');
+    if (state !== undefined) {
+      this.state = state;
+    } else {
+      this.state = {
+        sections: null,
+        rootId: 0,
+      };
+      this.getSections();
+    }
   }
 
   componentDidMount() {
@@ -74,17 +35,10 @@ class LearningMap extends React.Component {
       window.worfkflowScrollY = document.getElementsByClassName('learningMap')[0].scrollHeight;
     }
     window.scrollTo(0, window.worfkflowScrollY);
-    this.getSections();
   }
 
   componentWillUnmount() {
     window.worfkflowScrollY = window.scrollY;
-  }
-
-  generateSectionsMap(sections) {
-    const map = Utils.makeMapFromArray(sections);
-    map.forEach(section => (section.subsections = Utils.makeMapFromArray(section.subsections)));
-    return map;
   }
 
   /**
@@ -95,8 +49,15 @@ class LearningMap extends React.Component {
     axios
       .get('/sections/')
       .then((response) => {
-        const sections = response.data;
-        this.setState({ sections });
+        const result = response.data;
+        const sections = Utils.makeMapFromArray(result);
+        Utils.goThroughTheList(sections.map, sections.rootId, (section) => {
+          const subsectionsMap = Utils.makeMapFromArray(section.subsections);
+          section.subsections = subsectionsMap.map;
+          section.rootId = subsectionsMap.rootId;
+        });
+        this.setState({ sections: sections.map, rootId: sections.rootId });
+        this.props.data.set('learningMap', this.state);
       })
       .catch((error) => {
         if (typeof error.response !== 'undefined' && error.response.status === 404) {
@@ -114,17 +75,23 @@ class LearningMap extends React.Component {
    * @memberof LearningMap
    */
   generateLearnMap(sections) {
+    console.log('learning map sections', sections);
+    if (sections === null) {
+      return [];
+    }
+    console.log('generrate learning map');
     const learningMap = [];
     const generateProps = {
       position: 3,
       vector: 1,
       afterLast: false,
     };
-    sections.forEach((section, i) => {
+    Utils.goThroughTheList(sections, this.state.rootId, (section) => {
       learningMap.unshift(
         <LearningMapSeparator name={section.name} isActive={!generateProps.afterLast} />,
       );
-      if (i !== 0) {
+      console.log('section: ', section);
+      if (section.parentId !== 0) {
         learningMap.unshift(
           <LearningMapRow>
             <LearningMapPoints
@@ -134,9 +101,7 @@ class LearningMap extends React.Component {
           </LearningMapRow>,
         );
       }
-      learningMap.unshift(
-        this.generateSection(section, i !== this.state.sections.length - 1, generateProps),
-      );
+      learningMap.unshift(this.generateSection(section, section.childId === 0, generateProps));
     });
     return learningMap;
   }
@@ -149,12 +114,14 @@ class LearningMap extends React.Component {
    * @memberof LearningMap
    */
   generateSection(section, isLast, generateProps) {
+    console.log('section: ', section);
     const minCol = 1;
     const maxCol = 5;
-
     const sectionChain = [];
 
-    section.subsections.forEach((subsection, j) => {
+    Utils.goThroughTheList(section.subsections, section.rootId, (subsection) => {
+      console.log('section.subsections: ', section.subsections);
+      console.log('rootId: ', section.rootId);
       let start = 0;
       let end = 0;
       if (generateProps.vector === 1) {
@@ -193,7 +160,7 @@ class LearningMap extends React.Component {
         generateProps.vector *= -1;
       }
       generateProps.position += generateProps.vector;
-      if (isLast || j !== section.subsections.length - 1) {
+      if (!isLast) {
         sectionChain.unshift(
           <LearningMapRow>
             <LearningMapPoints
@@ -207,14 +174,11 @@ class LearningMap extends React.Component {
     return sectionChain;
   }
 
-  subsectionDone(id) {}
-
   /**
    * render
    * @return {ReactElement} Sections rows with their subsection buttons and separators
    */
   render() {
-    console.log('render learningmap, sections: ', this.state.sections);
     return (
       <div className="learningMap">
         <div className="learningMap__container">{this.generateLearnMap(this.state.sections)}</div>
@@ -226,6 +190,7 @@ class LearningMap extends React.Component {
 LearningMap.propTypes = {
   /* Description of prop "onSelectSubsection". */
   onSelectSubsection: PropTypes.func,
+  data: PropTypes.instanceOf(Map).isRequired,
 };
 
 LearningMap.defaultProps = {
