@@ -1,6 +1,5 @@
 import React from 'react';
 
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Div } from '@vkontakte/vkui';
 
@@ -89,15 +88,21 @@ class Subsection extends React.Component {
     });
 
     // This is how out backend send us currentStep
-    const currentStep = {
-      childId: 4,
-      id: 3,
-      name: 'third',
-      parentId: 2,
-      type: 'training',
-    };
+    const currentStep = this.props.data.get('last_step') !== undefined
+      ? this.props.data.get('last_step')
+      : {
+        childId: 2,
+        id: 1,
+        name: 'first',
+        parentId: 'undefined',
+        type: 'theory',
+      };
 
     this.props.data.set('steps', steps);
+    this.props.data.set('last_step', currentStep);
+    if (this.props.data.get('section_done') === undefined) {
+      this.props.data.set('section_done', false);
+    }
 
     console.log('did mound almost, state: ', this.state);
     this.setState({ steps, startStepId, lastCompletedStepId: currentStep.id });
@@ -134,19 +139,19 @@ class Subsection extends React.Component {
       step = steps.get(this.state.startStepId);
       let isLastStep = false;
       while (!isLastStep) {
-        if (step.id > this.state.lastCompletedStepId) {
-          afterLastCompleted = true;
-        }
         if (step.childId === 'undefined') {
           isLastStep = true;
+        }
+        if (step.id === this.props.data.get('last_step').id) {
+          afterLastCompleted = true;
         }
         subsectionBlocks.push(
           <SubsectionBlock
             key={step.name}
             withSeparator={!isLastStep} // {index !== this.state.steps.length - 1}
             type={step.type}
-            isCompleted={step.isCompleted}
-            isActive={!afterLastCompleted}
+            isCompleted={!afterLastCompleted || (this.props.data.get('section_done') && isLastStep)}
+            isActive={!afterLastCompleted || this.props.data.get('last_step').id === step.id}
             onSelectStep={this.props.onSelectStep}
             id={step.id}
           >
