@@ -42,7 +42,7 @@ class Subsection extends React.Component {
         let { startStepId } = this.state;
         const { steps } = this.state;
         stepResponses.forEach((step) => {
-          if (step.parentId === 'undefined') {
+          if (step.parentId === 0) {
             startStepId = step.id;
           }
           steps.set(step.id, step);
@@ -77,7 +77,7 @@ class Subsection extends React.Component {
       step = steps.get(this.state.startStepId);
       let isLastStep = false;
       while (!isLastStep) {
-        if (step.childId === 'undefined') {
+        if (step.childId === 0) {
           isLastStep = true;
         }
         if (step.id === this.props.data.get('last_step').id) {
