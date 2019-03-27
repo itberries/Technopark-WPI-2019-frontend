@@ -18,15 +18,42 @@ import './LearningMap.scss';
 class LearningMap extends React.Component {
   constructor(props) {
     super(props);
-    const state = this.props.data.get('learningMap');
+    const state = window.learningMap;
     if (state !== undefined) {
+      console.log('state is undefined');
       this.state = state;
     } else {
+      console.log('state is not undefined');
       this.state = {
         sections: null,
-        rootId: 0,
+        rootId: 1,
+        lastSectionId: 1,
+        lastSubsectionId: 1,
       };
       this.getSections();
+    }
+  }
+
+  componentWillMount() {
+    if (this.props.data.get('section_done')) {
+      this.setState((prevState) => {
+        let section = prevState.sections.get(prevState.lastSectionId);
+        console.log('section: ', section);
+        let subsection = section.subsections.get(prevState.lastSubsectionId);
+        console.log('subsection: ', subsection);
+        if (subsection.childId !== 0) {
+          subsection = section.subsections.get(subsection.childId);
+        } else if (section.childId !== 0) {
+          section = prevState.sections.get(section.childId);
+          subsection = section.rootId;
+        }
+        console.log('section_done: ', section, subsection);
+        const state = window.learningMap;
+        state.lastSectionId = subsection.id;
+        state.lastSectionId = section.id;
+        window.learningMap = state;
+        return { lastSectionId: section.id, lastSubsectionId: subsection.id };
+      });
     }
   }
 
@@ -57,7 +84,7 @@ class LearningMap extends React.Component {
           section.rootId = subsectionsMap.rootId;
         });
         this.setState({ sections: sections.map, rootId: sections.rootId });
-        this.props.data.set('learningMap', this.state);
+        window.learningMap = this.state;
       })
       .catch((error) => {
         if (typeof error.response !== 'undefined' && error.response.status === 404) {
@@ -75,22 +102,20 @@ class LearningMap extends React.Component {
    * @memberof LearningMap
    */
   generateLearnMap(sections) {
-    console.log('learning map sections', sections);
     if (sections === null) {
       return [];
     }
-    console.log('generrate learning map');
     const learningMap = [];
     const generateProps = {
       position: 3,
       vector: 1,
       afterLast: false,
+      isCompleted: true,
     };
     Utils.goThroughTheList(sections, this.state.rootId, (section) => {
       learningMap.unshift(
         <LearningMapSeparator name={section.name} isActive={!generateProps.afterLast} />,
       );
-      console.log('section: ', section);
       if (section.parentId !== 0) {
         learningMap.unshift(
           <LearningMapRow>
@@ -114,14 +139,11 @@ class LearningMap extends React.Component {
    * @memberof LearningMap
    */
   generateSection(section, isLast, generateProps) {
-    console.log('section: ', section);
     const minCol = 1;
     const maxCol = 5;
     const sectionChain = [];
 
     Utils.goThroughTheList(section.subsections, section.rootId, (subsection) => {
-      console.log('section.subsections: ', section.subsections);
-      console.log('rootId: ', section.rootId);
       let start = 0;
       let end = 0;
       if (generateProps.vector === 1) {
@@ -139,6 +161,9 @@ class LearningMap extends React.Component {
           end = minCol + 1;
         }
       }
+      if (subsection.id === this.state.lastSubsectionId) {
+        generateProps.isCompleted = false;
+      }
       sectionChain.unshift(
         <LearningMapRow>
           <LearningMapSubsection
@@ -146,14 +171,14 @@ class LearningMap extends React.Component {
             name={subsection.name}
             start={start}
             end={end}
-            isCompleted={subsection.isCompleted}
-            isCurrent={!(generateProps.afterLast || subsection.isCompleted)}
+            isCompleted={generateProps.isCompleted}
+            isCurrent={!(generateProps.afterLast || generateProps.isCompleted)}
             isActive={!generateProps.afterLast}
             onSelectSubsection={this.props.onSelectSubsection}
           />
         </LearningMapRow>,
       );
-      if (!(generateProps.afterLast || subsection.isCompleted)) {
+      if (!(generateProps.afterLast || generateProps.isCompleted)) {
         generateProps.afterLast = true;
       }
       if (generateProps.position === 1 || generateProps.position === 5) {

@@ -27,10 +27,6 @@ class Theory extends React.Component {
     this.getCards();
   }
 
-  componentDidUpdate() {
-    this.getCards();
-  }
-
   getCards() {
     axios
       .get(`/steps/${this.props.id}/cards`)

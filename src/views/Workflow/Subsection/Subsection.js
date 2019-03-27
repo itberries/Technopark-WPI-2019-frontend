@@ -1,5 +1,7 @@
 import React from 'react';
 
+import axios from 'axios';
+
 import PropTypes from 'prop-types';
 import { Div } from '@vkontakte/vkui';
 
@@ -33,88 +35,28 @@ class Subsection extends React.Component {
    * @memberof Subsection
    */
   getSteps() {
-    const stepsArray = [
-      {
-        childId: 5,
-        id: 4,
-        name: 'fourth',
-        parentId: 3,
-        type: 'theory',
-      },
-      {
-        childId: 4,
-        id: 3,
-        name: 'third',
-        parentId: 2,
-        type: 'training',
-      },
-      {
-        childId: 2,
-        id: 1,
-        name: 'first',
-        parentId: 'undefined',
-        type: 'theory',
-      },
-      {
-        childId: 'undefined',
-        id: 6,
-        name: 'sixth',
-        parentId: 5,
-        type: 'training',
-      },
-      {
-        childId: 3,
-        id: 2,
-        name: 'second',
-        parentId: 1,
-        type: 'interactive',
-      },
-      {
-        childId: 6,
-        id: 5,
-        name: 'fifth',
-        parentId: 4,
-        type: 'interactive',
-      },
-    ];
-
-    let { startStepId } = this.state;
-    const { steps } = this.state;
-    stepsArray.forEach((step) => {
-      if (step.parentId === 'undefined') {
-        startStepId = step.id;
-      }
-      steps.set(step.id, step);
-    });
-
-    // This is how out backend send us currentStep
-    const currentStep = this.props.data.get('last_step') !== undefined
-      ? this.props.data.get('last_step')
-      : {
-        childId: 2,
-        id: 1,
-        name: 'first',
-        parentId: 'undefined',
-        type: 'theory',
-      };
-
-    this.props.data.set('steps', steps);
-    this.props.data.set('last_step', currentStep);
-    if (this.props.data.get('section_done') === undefined) {
-      this.props.data.set('section_done', false);
-    }
-
-    console.log('did mound almost, state: ', this.state);
-    this.setState({ steps, startStepId, lastCompletedStepId: currentStep.id });
-    console.log('did mound, state: ', this.state);
-
-    /*
     axios
       .get(`/subsections/${this.state.id}/steps/`)
       .then((response) => {
-        const steps = response.data;
-        this.setState({ steps });
+        const { stepResponses, currentStep } = response.data;
+
+        let { startStepId } = this.state;
+        const { steps } = this.state;
+        stepResponses.forEach((step) => {
+          if (step.parentId === 0) {
+            startStepId = step.id;
+          }
+          steps.set(step.id, step);
+        });
+
         this.props.data.set('steps', steps);
+        if (window.last_step === undefined) {
+          window.last_step = currentStep;
+        }
+        if (this.props.data.get('section_done') === undefined) {
+          this.props.data.set('section_done', false);
+        }
+        this.setState({ steps, startStepId });
       })
       .catch((error) => {
         if (typeof error.response !== 'undefined' && error.response.status === 404) {
@@ -123,7 +65,6 @@ class Subsection extends React.Component {
           console.error('getSteps error!!!', error.response);
         }
       });
-    */
   }
 
   /**
@@ -139,10 +80,12 @@ class Subsection extends React.Component {
       step = steps.get(this.state.startStepId);
       let isLastStep = false;
       while (!isLastStep) {
-        if (step.childId === 'undefined') {
+        if (step.childId === 0) {
           isLastStep = true;
         }
-        if (step.id === this.props.data.get('last_step').id) {
+        if (step.id === window.last_step.id) {
+          console.log('step.id: ', step.id);
+          console.log('last.id: ', window.last_step.id);
           afterLastCompleted = true;
         }
         subsectionBlocks.push(
@@ -151,7 +94,7 @@ class Subsection extends React.Component {
             withSeparator={!isLastStep} // {index !== this.state.steps.length - 1}
             type={step.type}
             isCompleted={!afterLastCompleted || (this.props.data.get('section_done') && isLastStep)}
-            isActive={!afterLastCompleted || this.props.data.get('last_step').id === step.id}
+            isActive={!afterLastCompleted || window.last_step.id === step.id}
             onSelectStep={this.props.onSelectStep}
             id={step.id}
           >

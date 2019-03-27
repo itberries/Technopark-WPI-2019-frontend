@@ -60,8 +60,14 @@ class LearningMapSubsection extends React.Component {
               this.state.isCompleted ? 'learningMap__button-completed' : ''
             }`}
             onClick={(e) => {
-              console.log('on click subsection button');
-              console.log(this.props.onSelectSubsection('subsection', this.state.id, e));
+              if (this.state.isActive) {
+                console.log('on click subsection button');
+                console.log(this.props.onSelectSubsection('subsection', this.state.id, e));
+                e.preventDefault();
+                e.stopPropagation();
+              }
+              e.preventDefault();
+              e.stopPropagation();
             }}
           >
             {this.state.name}
