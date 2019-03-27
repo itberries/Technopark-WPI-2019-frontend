@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import axios from 'axios';
+
+import PropTypes from 'prop-types';
 
 import { Div } from '@vkontakte/vkui';
 
@@ -49,7 +49,9 @@ class Subsection extends React.Component {
         });
 
         this.props.data.set('steps', steps);
-        this.props.data.set('last_step', currentStep);
+        if (window.last_step === undefined) {
+          window.last_step = currentStep;
+        }
         if (this.props.data.get('section_done') === undefined) {
           this.props.data.set('section_done', false);
         }
@@ -80,7 +82,9 @@ class Subsection extends React.Component {
         if (step.childId === 0) {
           isLastStep = true;
         }
-        if (step.id === this.props.data.get('last_step').id) {
+        if (step.id === window.last_step.id) {
+          console.log('step.id: ', step.id);
+          console.log('last.id: ', window.last_step.id);
           afterLastCompleted = true;
         }
         subsectionBlocks.push(
@@ -89,7 +93,7 @@ class Subsection extends React.Component {
             withSeparator={!isLastStep} // {index !== this.state.steps.length - 1}
             type={step.type}
             isCompleted={!afterLastCompleted || (this.props.data.get('section_done') && isLastStep)}
-            isActive={!afterLastCompleted || this.props.data.get('last_step').id === step.id}
+            isActive={!afterLastCompleted || window.last_step.id === step.id}
             onSelectStep={this.props.onSelectStep}
             id={step.id}
           >

@@ -43,9 +43,7 @@ class Step extends React.Component {
           <Div>
             <Button
               level="commerce"
-              className={`step__button ${
-                this.props.previous === 'undefined' ? 'step__button-unactive' : ''
-              }`}
+              className={`step__button ${this.props.previous === 0 ? 'step__button-unactive' : ''}`}
               onClick={() => {
                 this.state.goBack();
                 this.setContent();
@@ -57,9 +55,7 @@ class Step extends React.Component {
           <Div>
             <Button
               level="commerce"
-              className={`step__button ${
-                this.props.next === 'undefined' ? 'step__button-unactive' : ''
-              }`}
+              className={`step__button ${this.props.next === 0 ? 'step__button-unactive' : ''}`}
               onClick={() => {
                 this.state.goForward();
                 this.setContent();

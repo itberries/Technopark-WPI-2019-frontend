@@ -38,7 +38,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       activeView: props.viewName,
-      user: null,
+      user: {
+        id: 64559520,
+        score: 0,
+      },
     };
     this.onViewChange = this.onViewChange.bind(this);
   }
@@ -68,6 +71,7 @@ class App extends React.Component {
     });
     connect.send('VKWebAppGetUserInfo', {});
     console.log('App isload');
+    this.getProfile();
   }
 
   /**
