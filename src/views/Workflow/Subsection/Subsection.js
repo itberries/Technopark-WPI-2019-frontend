@@ -1,8 +1,8 @@
 import React from 'react';
-
 import axios from 'axios';
 
 import PropTypes from 'prop-types';
+
 import { Div } from '@vkontakte/vkui';
 
 import SubsectionBlock from './__Block/Subsection__Block';
@@ -22,7 +22,6 @@ class Subsection extends React.Component {
       id: this.props.id,
       steps: new Map(),
       startStepId: undefined,
-      lastCompletedStepId: undefined,
     };
   }
 
