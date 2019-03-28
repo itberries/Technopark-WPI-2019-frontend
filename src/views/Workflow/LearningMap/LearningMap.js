@@ -8,7 +8,7 @@ import LearningMapSeparator from './__Separator/LearningMap__Separator';
 import LearningMapPoints from './__Points/LearningMap__Points';
 import LearningMapSubsection from './__Subsection/LearningMap__Subsection';
 
-import Utils from '../../../utils/utils';
+import * as Utils from '../../../utils/utils';
 
 import './LearningMap.scss';
 
