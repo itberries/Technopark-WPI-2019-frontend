@@ -24,6 +24,7 @@ import { init, fetchCurrentUserInfo } from './actions/vkApp/vkAppUser';
 import { getUserProfile, addUserProfile } from './actions/user';
 
 import './defaultApiSettings';
+import './vkMockSettings';
 
 const history = createBrowserHistory();
 
