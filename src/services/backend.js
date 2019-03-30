@@ -5,6 +5,21 @@ import axios from 'axios';
 // normally, our interface to any sort of server API will be as a service
 
 class BackendAPIService {
+  async getProfile(id) {
+    const res = await axios.get(`/user/${id}`);
+    console.log(`BackendAPIService: getProfile(${id}) res: `, res);
+    const { user, userState } = res.data;
+    return [user, userState];
+  }
+
+  async addProfile(id) {
+    console.log(`BackendAPIService: start addProfile(${id})`);
+    const res = await axios.post('/user', { id });
+    console.log(`BackendAPIService: addProfile(${id}) res: `, res);
+    const { user, userState } = res.data;
+    return [user, userState];
+  }
+
   async getSubsectionSteps(subsectionId) {
     const res = await axios.get(`/subsections/${subsectionId}/steps/`);
     console.log('BackendAPIService: getSubsectionSteps res: ', res);

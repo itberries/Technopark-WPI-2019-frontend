@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createBrowserHistory } from 'history';
 
-import connect from '@vkontakte/vkui-connect';
-import '@vkontakte/vkui/dist/vkui.css';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import axios from 'axios';
-import './defaultApiSettings';
+import '@vkontakte/vkui/dist/vkui.css';
 
 import Workflow from './views/Workflow/Workflow';
 import Games from './views/Games/Games';
@@ -21,7 +20,31 @@ import leaderboardIcon from './images/icons/leaderboard.svg';
 import eventsIcon from './images/icons/events.svg';
 import profileIcon from './images/icons/profile.svg';
 
+import { init, fetchCurrentUserInfo } from './actions/vkApp/vkAppUser';
+import { getUserProfile, addUserProfile } from './actions/user';
+
+import './defaultApiSettings';
+
 const history = createBrowserHistory();
+
+const mapStateToProps = (state) => {
+  const { vkUserInfo } = state.vk.vkAppUser;
+  const { user } = state;
+  return {
+    vkUserInfo,
+    user,
+  };
+};
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    init,
+    fetchCurrentUserInfo,
+    getUserProfile,
+    addUserProfile,
+  },
+  dispatch,
+);
 
 /**
  * Application entry point
@@ -38,10 +61,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       activeView: props.viewName,
-      user: {
-        id: 64559520,
-        score: 0,
-      },
+      initializing: undefined,
     };
     this.onViewChange = this.onViewChange.bind(this);
   }
@@ -51,26 +71,32 @@ class App extends React.Component {
    * @memberof App
    */
   componentDidMount() {
-    connect.subscribe((e) => {
-      switch (e.detail.type) {
-        case 'VKWebAppGetUserInfoResult':
-          if (typeof e.detail.data.id !== 'undefined') {
-            const user = {
-              id: e.detail.data.id,
-              photo: e.detail.data.photo_200,
-              firstName: e.detail.data.first_name,
-              lastName: e.detail.data.last_name,
-            };
-            this.setState({ user });
-            this.getProfile();
-          }
-          break;
-        default:
-          console.info(e.detail.type);
+    console.log('App componentDidMount props: ', this.props);
+    this.props.init();
+    this.props.fetchCurrentUserInfo();
+  }
+
+  async componentDidUpdate(prevProps) {
+    console.log('App componentDidUpdate prev, current', prevProps, this.props);
+    if (this.props.vkUserInfo !== prevProps.vkUserInfo) {
+      this.setState({
+        initializing: true,
+      });
+      const { id } = this.props.vkUserInfo;
+      try {
+        await this.props.getUserProfile(id);
+      } catch (error) {
+        if (typeof error.response !== 'undefined' && error.response.status === 404) {
+          console.log('getProfile 404!!!!!!', error.response);
+          await this.props.addUserProfile(id);
+        } else {
+          console.error('getProfile error!!!', error.response);
+        }
       }
-    });
-    connect.send('VKWebAppGetUserInfo', {});
-    this.getProfile();
+      this.setState({
+        initializing: false,
+      });
+    }
   }
 
   /**
@@ -84,42 +110,6 @@ class App extends React.Component {
     };
     history.push(location);
     this.setState({ activeView: e.currentTarget.dataset.story });
-  }
-
-  getProfile() {
-    const { user } = this.state;
-    axios
-      .get(`/user/${user.id}`)
-      .then((response) => {
-        if (typeof response.data.score !== 'undefined') {
-          user.score = response.data.score;
-          this.setState({ user });
-        }
-      })
-      .catch((error) => {
-        if (typeof error.response !== 'undefined' && error.response.status === 404) {
-          this.addProfile();
-        } else {
-          console.error('getProfile error!!!', error.response);
-        }
-      });
-  }
-
-  addProfile() {
-    const { user } = this.state;
-    axios
-      .post('/user', { id: user.id })
-      .then((response) => {
-        user.score = response.data.score;
-        this.setState({ user });
-      })
-      .catch((error) => {
-        if (typeof error.response !== 'undefined' && error.response.status === 409) {
-          console.error('addProfile conflict!!!', error.response);
-        } else {
-          console.error('addProfile error!!!', error.response);
-        }
-      });
   }
 
   render() {
@@ -175,4 +165,7 @@ App.defaultProps = {
   viewName: 'workflow',
 };
 
-export default App;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

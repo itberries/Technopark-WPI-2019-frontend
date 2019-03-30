@@ -2,12 +2,12 @@ import Immutable from 'seamless-immutable';
 import * as types from '../constants/actionTypes';
 
 const initialState = Immutable({
-  id: 64559520,
+  user: undefined,
   state: {
     sectionId: 1,
     stepId: 1,
     subsectionId: 1,
-  },
+  }, // TODO: check default state or change learningMap render
 });
 
 export default function reduce(state = initialState, action = {}) {

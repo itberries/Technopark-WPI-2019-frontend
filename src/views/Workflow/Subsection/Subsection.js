@@ -9,6 +9,28 @@ import './Subsection.scss';
 
 import { fetchSubsectionSteps } from '../../../actions/subsection';
 
+const mapStateToProps = (state) => {
+  const {
+    selectedSubsectionId,
+    subsectionStepsById,
+    firstStepInStepListId,
+    lastCompletedStepId,
+  } = state.subsection;
+  return {
+    selectedSubsectionId,
+    subsectionStepsById,
+    firstStepInStepListId,
+    lastCompletedStepId,
+  };
+};
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    fetchSubsectionSteps,
+  },
+  dispatch,
+);
+
 /**
  * Subsection component for learning workflow
  */
@@ -62,29 +84,6 @@ class Subsection extends React.Component {
     );
   }
 }
-
-// which props do we want to inject, given the global store state?
-const mapStateToProps = (state) => {
-  const {
-    selectedSubsectionId,
-    subsectionStepsById,
-    firstStepInStepListId,
-    lastCompletedStepId,
-  } = state.subsection;
-  return {
-    selectedSubsectionId,
-    subsectionStepsById,
-    firstStepInStepListId,
-    lastCompletedStepId,
-  };
-};
-
-const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    fetchSubsectionSteps,
-  },
-  dispatch,
-);
 
 export default connect(
   mapStateToProps,
