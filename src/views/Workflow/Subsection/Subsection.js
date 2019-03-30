@@ -14,12 +14,7 @@ import { fetchSubsectionSteps } from '../../../actions/subsection';
  */
 class Subsection extends React.Component {
   async componentWillMount() {
-    console.log('Subsection new componentWillMount');
     await this.props.fetchSubsectionSteps();
-    console.log(
-      'after fetchSubsectionSteps in componentWillMount, steps: ',
-      this.props.subsectionStepsById,
-    );
   }
 
   /**
@@ -28,10 +23,11 @@ class Subsection extends React.Component {
    */
   render() {
     const { subsectionStepsById, firstStepInStepListId, lastCompletedStepId } = this.props;
+
     let step;
     let afterLastCompleted = false;
-    // const { steps } = this.state;
     const subsectionBlocks = [];
+
     if (typeof firstStepInStepListId !== 'undefined') {
       step = subsectionStepsById.get(firstStepInStepListId);
       let isLastStep = false;
@@ -45,11 +41,11 @@ class Subsection extends React.Component {
         subsectionBlocks.push(
           <SubsectionBlock
             key={step.name}
-            withSeparator={!isLastStep} // {index !== this.state.steps.length - 1}
+            withSeparator={!isLastStep} // {index !== this.state.steps.length - 1} // TODO: check if it works
             type={step.type}
             isCompleted={!afterLastCompleted} // || (this.props.data.get('section_done') && isLastStep)}
             isActive={!afterLastCompleted || lastCompletedStepId === step.id}
-            onSelectStep={() => console.log('TODO: onSelectStep()')}
+            onSelectStep={() => console.error('TODO: onSelectStep()')}
             id={step.id}
           >
             {step.name}

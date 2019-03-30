@@ -66,11 +66,10 @@ class App extends React.Component {
           }
           break;
         default:
-          console.log(e.detail.type);
+          console.info(e.detail.type);
       }
     });
     connect.send('VKWebAppGetUserInfo', {});
-    console.log('App isload');
     this.getProfile();
   }
 

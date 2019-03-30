@@ -20,7 +20,6 @@ class Steps extends React.Component {
   }
 
   goBack() {
-    console.log('goBack');
     if (this.state.activeStep.parentId !== 0) {
       this.setState((prevState) => {
         const activeStep = prevState.arrayOfSteps.get(prevState.activeStep.parentId);
@@ -28,7 +27,6 @@ class Steps extends React.Component {
         return { activeStep };
       });
     } else {
-      console.log('goBack');
       this.askNewSteps();
     }
   }
@@ -39,14 +37,11 @@ class Steps extends React.Component {
         const activeStep = prevState.arrayOfSteps.get(prevState.activeStep.childId);
         if (activeStep.parentId === window.last_step.id) {
           window.last_step = activeStep;
-          console.log('open new step');
-          console.log('activeStep: ', activeStep);
         }
         return { activeStep };
       });
     } else {
       this.props.data.set('section_done', true);
-      console.log('section_done: ', this.props.data.get('section_done'));
       this.askNewSteps();
     }
   }

@@ -7,7 +7,7 @@ export function makeMapFromArray(array) {
       rootId = elem.id;
     }
   });
-  return { map, rootId };
+  return [map, rootId];
 }
 
 export function goThroughTheList(map, rootId, func) {

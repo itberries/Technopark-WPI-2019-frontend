@@ -6,9 +6,8 @@ import axios from 'axios';
 
 class BackendAPIService {
   async getSubsectionSteps(subsectionId) {
-    console.log('getSubsectionSteps');
     const res = await axios.get(`/subsections/${subsectionId}/steps/`);
-    console.log('getSubsectionSteps res: ', res);
+    console.log('BackendAPIService: getSubsectionSteps res: ', res);
 
     const { currentStep } = res.data;
     const stepsArray = res.data.stepResponses;
@@ -16,15 +15,7 @@ class BackendAPIService {
 
     return [stepsArray, lastCompletedStepId];
 
-    /*
-    this.props.data.set('steps', steps);
-    this.props.data.set('last_step', currentStep);
-    if (this.props.data.get('section_done') === undefined) {
-      this.props.data.set('section_done', false);
-    }
-    this.setState({ steps, startStepId });
-    */
-
+    // TODO: add error handling
     /*
     if (typeof error.response !== 'undefined' && error.response.status === 404) {
       console.error('getSteps not found!!!', error.response);
@@ -32,6 +23,22 @@ class BackendAPIService {
       console.error('getSteps error!!!', error.response);
     }
     */
+  }
+
+  async getSections() {
+    const res = await axios.get('/sections/');
+    console.log('BackendAPIService: getSections res: ', res);
+
+    // TODO: add error handling
+    /*
+    if (typeof error.response !== 'undefined' && error.response.status === 404) {
+      console.error('getSections not found!!!', error.response);
+    } else {
+      console.error('getSections error!!!', error.response);
+    }
+    */
+
+    return res.data;
   }
 }
 
