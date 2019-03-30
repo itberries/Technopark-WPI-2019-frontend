@@ -1,7 +1,7 @@
-import * as types from './actionTypes';
-import backendAPIService from '../../services/backend';
+import * as types from '../constants/actionTypes';
+import backendAPIService from '../services/backend';
 // import makeMapFromArray from '../../utils/utils';
-import * as subsectionSelectors from './reducer';
+import * as subsectionSelectors from '../reducers/subsection';
 
 export function selectSubsection(subsectionId) {
   console.log('selectSubsection');

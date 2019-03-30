@@ -7,7 +7,7 @@ import { Button } from '@vkontakte/vkui';
 import './LearningMap__Subsection.scss';
 import MarkAsCompleted from '../../../../common.blocks/MarkAsCompleted/MarkAsCompleted';
 
-import * as subsectionActions from '../../../../reducers/subsection/actions';
+import * as subsectionActions from '../../../../actions/subsection';
 
 /**
  * LearningMap's block component with button

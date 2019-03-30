@@ -7,7 +7,7 @@ import { Div } from '@vkontakte/vkui';
 import SubsectionBlock from './__Block/Subsection__Block';
 import './Subsection.scss';
 
-import { fetchSubsectionSteps } from '../../../reducers/subsection/actions';
+import { fetchSubsectionSteps } from '../../../actions/subsection';
 
 /**
  * Subsection component for learning workflow
@@ -89,15 +89,6 @@ const mapDispatchToProps = dispatch => bindActionCreators(
   },
   dispatch,
 );
-
-/*
-  return {
-    onWillMount: () => {
-      dispatch(subsectionActions.fetchSubsectionSteps());
-    },
-  };
-};
-  */
 
 export default connect(
   mapStateToProps,

@@ -6,7 +6,7 @@
 // for easier consumption by views
 
 import Immutable from 'seamless-immutable';
-import * as types from './actionTypes';
+import * as types from '../constants/actionTypes';
 
 const initialState = Immutable({
   selectedSubsectionId: undefined,
