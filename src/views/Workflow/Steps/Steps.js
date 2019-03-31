@@ -9,7 +9,7 @@ class Steps extends React.Component {
     const steps = props.data.get('steps');
     this.state = {
       arrayOfSteps: steps,
-      activeStep: 4,
+      activeStep: 3,
     };
     this.goBack = this.goBack.bind(this);
     this.goForward = this.goForward.bind(this);
@@ -58,9 +58,9 @@ class Steps extends React.Component {
   render() {
     const step = {
       childId: 0,
-      id: 4,
-      name: 'step4',
-      parentId: 3,
+      id: 3,
+      name: 'step3',
+      parentId: 2,
       type: 'interactive',
     };
     return (

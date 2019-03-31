@@ -9,17 +9,7 @@ class Theory extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: [
-        {
-          note: 'first text',
-          image: 'https://qph.fs.quoracdn.net/main-qimg-dfe0ecd5d2d70c2dc7275f345126e4d1',
-        },
-        {
-          note: 'second text',
-          image:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5yCkGFKFqt28SUjph1T7ewQ63deV8bH8CRldayxr2-qJH8een',
-        },
-      ],
+      cards: [],
     };
   }
 

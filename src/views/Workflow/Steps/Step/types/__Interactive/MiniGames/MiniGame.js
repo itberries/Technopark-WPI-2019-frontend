@@ -3,17 +3,20 @@ import PropTypes from 'prop-types';
 import { Div } from '@vkontakte/vkui';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import websocketOpen from '../../../../../../actions/ws';
+import { websocketOpen, websocketOnMessage } from '../../../../../../../actions/ws';
+import MatchGame from './types/Match/Match';
+
+import './MiniGame.scss';
 
 class MiniGames extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      game: null,
       messages: [],
       socketNotSet: true,
       socketReadyToSend: false,
     };
+    this.sendMsg = this.sendMsg.bind(this);
   }
 
   componentWillMount() {
@@ -22,7 +25,7 @@ class MiniGames extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.socket !== null) {
+    if (nextProps.socket !== null && nextProps.gameType !== null) {
       if (this.state.socketNotSet) {
         nextProps.socket.onclose = (event) => {
           if (event.wasClean) {
@@ -64,54 +67,19 @@ class MiniGames extends React.Component {
       this.sendMsg(
         JSON.stringify({
           type: 'joinGame',
-          gameType: 'match',
-          stepId: 3,
+          gameType: this.props.gameType,
+          stepId: this.props.id,
         }),
       );
     }
   }
 
-  getGame() {
-    console.log('letst get game for step: ', this.props.id, ' and type: ', this.props.gameType);
-  }
-
   processAnswr(data) {
     const answer = JSON.parse(data);
-    console.log('Get data by ws: ', answer);
     switch (answer.type) {
       case 'DeliveryStatus':
         if (answer.payload.result === 'OK') {
           console.log('Success start sessiong');
-          this.sendMsg(
-            JSON.stringify({
-              type: 'turn',
-              payload: {
-                data: {
-                  '1 байт': '8 бит',
-                },
-              },
-            }),
-          );
-          this.sendMsg(
-            JSON.stringify({
-              type: 'turn',
-              payload: {
-                data: {
-                  '1 Мбайт': '1024 байта',
-                },
-              },
-            }),
-          );
-          this.sendMsg(
-            JSON.stringify({
-              type: 'turn',
-              payload: {
-                data: {
-                  '1 Гбайт': '1024 Мбайта',
-                },
-              },
-            }),
-          );
         } else {
           console.log('cant start session!');
         }
@@ -122,6 +90,7 @@ class MiniGames extends React.Component {
         } else {
           console.log('wrong turn');
         }
+        this.props.websocketOnMessage(answer.payload.data);
         return;
       case 'GameCompleted':
         console.log(`we won and our score grew by ${answer.payload.result} points`);
@@ -132,7 +101,6 @@ class MiniGames extends React.Component {
   }
 
   sendMsg(msg) {
-    console.log('send ws msg: ', msg);
     this.setState((prevState) => {
       const msgs = prevState.messages;
       msgs.push(msg);
@@ -146,24 +114,32 @@ class MiniGames extends React.Component {
   }
 
   generateGame() {
-    return this.state.game;
+    console.log('this.props.gameType: ', this.props.gameType);
+    switch (this.props.gameType) {
+      case 'match':
+        return <MatchGame gameData={this.props.gameData} sendMsg={this.sendMsg} />;
+      default:
+        return 'unknown game!';
+    }
   }
 
   render() {
-    return <Div>{this.generateGame()}</Div>;
+    return <Div className="MiniGame">{this.generateGame()}</Div>;
   }
 }
 
 MiniGames.propTypes = {
   id: PropTypes.number.isRequired,
-  socket: PropTypes.shape({}),
+  socket: PropTypes.instanceOf(WebSocket),
   websocketOpen: PropTypes.func,
   gameType: PropTypes.string.isRequired,
+  gameData: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 MiniGames.defaultProps = {
   socket: null,
   websocketOpen: null,
+  gameData: [],
 };
 
 const mapStateToProps = (state) => {
@@ -174,6 +150,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     websocketOpen,
+    websocketOnMessage,
   },
   dispatch,
 );

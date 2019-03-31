@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes';
 
-export default function websocketOpen(path) {
+export function websocketOpen(path) {
   return async (dispatch) => {
     const socket = new WebSocket(`wss://it-berries.ru/${path}`);
     socket.onopen = () => {
@@ -11,5 +11,23 @@ export default function websocketOpen(path) {
         socket,
       });
     };
+  };
+}
+
+export function websocketOnMessage(msg) {
+  console.log('get answer: ', msg);
+  return async (dispatch) => {
+    dispatch({
+      type: types.WEBSOCKET_MESSAGE,
+      msg,
+    });
+  };
+}
+
+export function answerReceived() {
+  return async (dispatch) => {
+    dispatch({
+      type: types.RESPONSE_RECEIVED,
+    });
   };
 }

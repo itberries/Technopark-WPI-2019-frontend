@@ -1,0 +1,8 @@
+.MiniGame__frame {
+  background-color: #D75C5C;
+  color: aliceblue;
+  margin: 2vmin;
+  &.MiniGame__frame-right {
+    background-color: #3BB379;
+  }
+}
