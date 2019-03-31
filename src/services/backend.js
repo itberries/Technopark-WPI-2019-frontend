@@ -7,7 +7,7 @@ import axios from 'axios';
 class BackendAPIService {
   async getSubsectionSteps(subsectionId) {
     console.log('getSubsectionSteps');
-    const res = await axios.get(`/subsections/${subsectionId}/steps/`);
+    const res = await axios.get(`/subsections/${subsectionId}/steps`);
     console.log('getSubsectionSteps res: ', res);
 
     const { currentStep } = res.data;

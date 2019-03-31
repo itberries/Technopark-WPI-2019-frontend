@@ -26,7 +26,7 @@ class Workflow extends React.Component {
     const dates = new Map();
     map.set('learningmap', 1);
     this.state = {
-      activePanel: 'learningmap',
+      activePanel: 'steps',
       history: map,
       panelsData: dates,
     };

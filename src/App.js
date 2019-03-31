@@ -39,8 +39,7 @@ class App extends React.Component {
     this.state = {
       activeView: props.viewName,
       user: {
-        id: 64559520,
-        score: 0,
+        id: 37924905,
       },
     };
     this.onViewChange = this.onViewChange.bind(this);
@@ -93,7 +92,13 @@ class App extends React.Component {
       .get(`/user/${user.id}`)
       .then((response) => {
         if (typeof response.data.score !== 'undefined') {
-          user.score = response.data.score;
+          // TODO: remove duplicate code from there and addProfile
+          user.score = response.data.user.score;
+          user.state = {
+            sectionId: response.data.userState.sectionId,
+            subsectionId: response.data.userState.subsectionId,
+            stepId: response.data.userState.stepId,
+          };
           this.setState({ user });
         }
       })
@@ -111,7 +116,12 @@ class App extends React.Component {
     axios
       .post('/user', { id: user.id })
       .then((response) => {
-        user.score = response.data.score;
+        user.score = response.data.user.score;
+        user.state = {
+          sectionId: response.data.userState.sectionId,
+          subsectionId: response.data.userState.subsectionId,
+          stepId: response.data.userState.stepId,
+        };
         this.setState({ user });
       })
       .catch((error) => {
