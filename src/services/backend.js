@@ -13,7 +13,6 @@ class BackendAPIService {
   }
 
   async addProfile(id) {
-    console.log(`BackendAPIService: start addProfile(${id})`);
     const res = await axios.post('/user', { id });
     console.log(`BackendAPIService: addProfile(${id}) res: `, res);
     const { user, userState } = res.data;

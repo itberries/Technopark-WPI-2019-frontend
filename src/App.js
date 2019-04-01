@@ -72,13 +72,11 @@ class App extends React.Component {
    * @memberof App
    */
   componentDidMount() {
-    console.log('App componentDidMount props: ', this.props);
     this.props.init();
     this.props.fetchCurrentUserInfo();
   }
 
   async componentDidUpdate(prevProps) {
-    console.log('App componentDidUpdate prev, current', prevProps, this.props);
     if (this.props.vkUserInfo !== prevProps.vkUserInfo) {
       this.setState({
         initializing: true,
@@ -88,7 +86,6 @@ class App extends React.Component {
         await this.props.getUserProfile(id);
       } catch (error) {
         if (typeof error.response !== 'undefined' && error.response.status === 404) {
-          console.log('getProfile 404!!!!!!', error.response);
           await this.props.addUserProfile(id);
         } else {
           console.error('getProfile error!!!', error.response);
@@ -151,7 +148,6 @@ class App extends React.Component {
         activeView={this.state.activeView}
         viewsData={viewsData}
         onViewChange={this.onViewChange}
-        user={this.state.user}
       />
     );
     return result;

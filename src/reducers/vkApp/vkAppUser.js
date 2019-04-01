@@ -9,21 +9,23 @@ const initialState = Immutable({
 });
 
 export default function reduce(state = initialState, action = {}) {
-  console.log('vkappuser action:', action);
   switch (action.type) {
     case types.VK_GET_USER_INFO_REQUEST:
-      return state.merge({
+      return Immutable.merge({
+        ...state,
         fetching: true,
       });
 
     case types.VK_GET_USER_INFO_FAILED:
-      return state.merge({
+      return Immutable.merge({
+        ...state,
         errors: action.payload,
         fetching: false,
       });
 
     case types.VK_GET_USER_INFO_FETCHED:
-      return state.merge({
+      return Immutable.merge({
+        ...state,
         errors: null,
         vkUserInfo: action.payload,
         fetching: false,
