@@ -12,6 +12,9 @@ export function makeMapFromArray(array) {
 
 export function goThroughTheList(map, rootId, func) {
   let node = map.get(rootId);
+  if (typeof node === 'undefined') {
+    return;
+  }
   while (node.childId !== 0) {
     func(node);
     node = map.get(node.childId);
