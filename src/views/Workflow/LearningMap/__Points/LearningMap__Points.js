@@ -18,7 +18,7 @@ class LearningMapPoints extends React.Component {
      * @property {bool} isActive is active or not
      */
     this.state = {
-      position: `learningMap__col_pos_${props.position}`,
+      position: props.position,
       isActive: props.isActive,
     };
   }
@@ -38,7 +38,13 @@ class LearningMapPoints extends React.Component {
       );
     }
     return (
-      <div className={`learningMap__col ${this.state.position} learningMap__points`}>{points}</div>
+      <div
+        className={`learningMap__col learningMap__col_pos_${
+          this.state.position
+        } learningMap__points`}
+      >
+        {points}
+      </div>
     );
   }
 }

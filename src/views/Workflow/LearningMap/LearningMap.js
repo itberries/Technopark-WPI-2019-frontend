@@ -15,6 +15,23 @@ import './LearningMap.scss';
 
 import { fetchSections } from '../../../actions/learningmap';
 
+const mapStateToProps = (state) => {
+  const { sectionsById, rootSectionId } = state.learningMap;
+  const userState = state.user.state;
+  return {
+    sectionsById,
+    rootSectionId,
+    userState,
+  };
+};
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    fetchSections,
+  },
+  dispatch,
+);
+
 /**
  * LearningMap with sections and their subsections of learning workflow
  */
@@ -93,6 +110,9 @@ class LearningMap extends React.Component {
    */
   generateSection(section, isLast, generateProps) {
     const { userState } = this.props;
+    if (typeof userState === 'undefined') {
+      return <div>Loading...</div>;
+    }
 
     const minCol = 1;
     const maxCol = 5;
@@ -181,24 +201,6 @@ LearningMap.propTypes = {
 LearningMap.defaultProps = {
   onSelectSubsection: () => null,
 };
-
-// which props do we want to inject, given the global store state?
-const mapStateToProps = (state) => {
-  const { sectionsById, rootSectionId } = state.learningMap;
-  const userState = state.user.state;
-  return {
-    sectionsById,
-    rootSectionId,
-    userState,
-  };
-};
-
-const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    fetchSections,
-  },
-  dispatch,
-);
 
 export default connect(
   mapStateToProps,

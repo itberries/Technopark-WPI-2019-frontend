@@ -28,7 +28,6 @@ class Workflow extends React.Component {
     this.state = {
       activePanel: 'learningmap',
       history: map,
-      panelsData: dates,
     };
     this.goBack = this.goBack.bind(this);
     this.goForward = this.goForward.bind(this);
@@ -57,6 +56,7 @@ class Workflow extends React.Component {
   }
 
   goForward(activePanel, id, e) {
+    console.log(`goForward ${activePanel}, ${id}, ${e}`);
     e.preventDefault();
     this.setState((prevState) => {
       let history = [...prevState.history];
@@ -80,23 +80,15 @@ class Workflow extends React.Component {
         >
           <Panel id="learningmap">
             <PanelHeader>Learning Map</PanelHeader>
-            <LearningMap onSelectSubsection={this.goForward} data={this.state.panelsData} />
+            <LearningMap onSelectSubsection={this.goForward} />
           </Panel>
           <Panel id="subsection">
             <Header text="Subsection" onBackClick={this.goBack} previousPanel="learningmap" />
-            <Subsection
-              id={this.state.history.get('subsection')}
-              onSelectStep={this.goForward}
-              data={this.state.panelsData}
-            />
+            <Subsection id={this.state.history.get('subsection')} onSelectStep={this.goForward} />
           </Panel>
           <Panel id="steps">
             <Header text="Steps" onBackClick={this.goBack} previousPanel="learningmap" />
-            <Steps
-              id={this.state.history.get('steps')}
-              data={this.state.panelsData}
-              goBack={this.goBack}
-            />
+            <Steps id={this.state.history.get('steps')} goBack={this.goBack} />
           </Panel>
         </View>
       </ConfigProvider>

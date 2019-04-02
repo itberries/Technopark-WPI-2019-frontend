@@ -9,43 +9,39 @@ import Traning from './types/__Training/Training';
 import './Step.scss';
 
 class Step extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      goBack: this.props.goBack,
-      goForward: this.props.goForward,
-    };
-  }
-
   setContent() {
     let content = '';
     switch (this.props.type) {
       case 'theory':
-        content = React.createElement(Theory, { id: this.props.id });
+        content = React.createElement(Theory, { id: this.props.id, key: this.props.id });
         return content;
       case 'interactive':
-        content = React.createElement(Interact, { id: this.props.id });
+        content = React.createElement(Interact, { id: this.props.id, key: this.props.id });
         return content;
       case 'training':
-        content = React.createElement(Traning, { id: this.props.id });
+        content = React.createElement(Traning, { id: this.props.id, key: this.props.id });
         return content;
       default:
         console.error('unregistered step type');
+        return '';
     }
   }
 
   render() {
+    console.log('Step name', this.props.name);
+    const cont = this.setContent();
+    console.log('Step content', cont);
     return (
       <React.Fragment>
         <Header className="step__header">{this.props.name}</Header>
-        <Div className="step__content">{this.setContent()}</Div>
+        <Div className="step__content">{cont}</Div>
         <Div className="step__buttons">
           <Div>
             <Button
               level="commerce"
               className={`step__button ${this.props.previous === 0 ? 'step__button-unactive' : ''}`}
               onClick={() => {
-                this.state.goBack();
+                this.props.goBack();
                 this.setContent();
               }}
             >
@@ -57,7 +53,7 @@ class Step extends React.Component {
               level="commerce"
               className={`step__button ${this.props.next === 0 ? 'step__button-unactive' : ''}`}
               onClick={() => {
-                this.state.goForward();
+                this.props.goForward();
                 this.setContent();
               }}
             >

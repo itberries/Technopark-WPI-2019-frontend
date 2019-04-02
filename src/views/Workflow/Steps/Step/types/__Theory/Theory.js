@@ -9,17 +9,7 @@ class Theory extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: [
-        {
-          note: 'first text',
-          image: 'https://qph.fs.quoracdn.net/main-qimg-dfe0ecd5d2d70c2dc7275f345126e4d1',
-        },
-        {
-          note: 'second text',
-          image:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5yCkGFKFqt28SUjph1T7ewQ63deV8bH8CRldayxr2-qJH8een',
-        },
-      ],
+      cards: [],
     };
   }
 
@@ -28,10 +18,12 @@ class Theory extends React.Component {
   }
 
   getCards() {
+    console.log('Cards getCards id:', this.props.id);
     axios
       .get(`/steps/${this.props.id}/cards`)
       .then((response) => {
         const cards = response.data;
+        console.log('getCards response:', response);
         this.setState({ cards });
       })
       .catch((error) => {
@@ -48,6 +40,8 @@ class Theory extends React.Component {
     this.state.cards.forEach((card) => {
       cards.push(<Card note={card.note} image={card.image} />);
     });
+    console.log('Cards generated: ', cards);
+    console.log('Cards from state: ', this.state.cards);
     return cards;
   }
 

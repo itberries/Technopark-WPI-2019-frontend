@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -67,7 +68,7 @@ class Subsection extends React.Component {
             type={step.type}
             isCompleted={!afterLastCompleted} // || (this.props.data.get('section_done') && isLastStep)}
             isActive={!afterLastCompleted || lastCompletedStepId === step.id}
-            onSelectStep={() => console.error('TODO: onSelectStep()')}
+            onSelectStep={this.props.onSelectStep}
             id={step.id}
           >
             {step.name}
