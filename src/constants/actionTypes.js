@@ -1,4 +1,4 @@
-export const DEBUG = true; //= process.env.NODE_ENV === 'development';
+export const DEBUG = process.env.NODE_ENV === 'development';
 
 export const LEARNINGMAP_SECTIONS_FETCHED = 'learningmap.LEARNINGMAP_SECTIONS_FETCHED';
 
