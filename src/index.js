@@ -3,9 +3,14 @@ import 'core-js/es6/set';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import connect from '@vkontakte/vkui-connect';
 import App from './App';
 // import registerServiceWorker from './sw';
+
+import configureStore from './store/store';
+
+const store = configureStore();
 
 // Init VK App
 connect.send('VKWebAppInit', {});
@@ -17,8 +22,13 @@ connect.send('VKWebAppInit', {});
 // registerServiceWorker();
 
 ReactDOM.render(
-  <Router>
-    <Route path="/:viewName?" component={props => <App viewName={props.match.params.viewName} />} />
-  </Router>,
+  <Provider store={store}>
+    <Router>
+      <Route
+        path="/:viewName?"
+        component={props => <App viewName={props.match.params.viewName} />}
+      />
+    </Router>
+  </Provider>,
   document.getElementById('root'),
 );

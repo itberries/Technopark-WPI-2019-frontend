@@ -1,58 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 import Step from './Step/Step';
+
+import { completeStep } from '../../../actions/steps';
+
+const mapStateToProps = (state) => {
+  const steps = state.subsection.subsectionStepsById;
+  const activeStepId = state.user.state.stepId;
+  return {
+    steps,
+    activeStepId,
+  };
+};
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    completeStep,
+  },
+  dispatch,
+);
 
 class Steps extends React.Component {
   constructor(props) {
     super(props);
-    const steps = props.data.get('steps');
     this.state = {
-      arrayOfSteps: steps,
-      activeStep: steps.get(this.props.id),
+      activeStep: props.steps.get(props.activeStepId),
     };
     this.goBack = this.goBack.bind(this);
     this.goForward = this.goForward.bind(this);
   }
 
   findStep(id) {
-    return this.state.arrayOfSteps.find(step => step.id === id);
+    return this.props.steps.find(step => step.id === id);
   }
 
   goBack() {
-    console.log('goBack');
     if (this.state.activeStep.parentId !== 0) {
       this.setState((prevState) => {
-        const activeStep = prevState.arrayOfSteps.get(prevState.activeStep.parentId);
-        console('activeStep: ', activeStep);
+        const activeStep = this.props.steps.get(prevState.activeStep.parentId);
         return { activeStep };
       });
     } else {
-      console.log('goBack');
-      this.askNewSteps();
+      this.props.goBack();
     }
   }
 
-  goForward() {
+  async goForward() {
     if (this.state.activeStep.childId !== 0) {
-      this.setState((prevState) => {
-        const activeStep = prevState.arrayOfSteps.get(prevState.activeStep.childId);
-        if (activeStep.parentId === window.last_step.id) {
-          window.last_step = activeStep;
-          console.log('open new step');
-          console.log('activeStep: ', activeStep);
-        }
-        return { activeStep };
-      });
+      const activeStep = this.props.steps.get(this.state.activeStep.childId);
+      await this.props.completeStep(this.props.activeStepId);
+      this.setState({ activeStep });
     } else {
-      this.props.data.set('section_done', true);
-      console.log('section_done: ', this.props.data.get('section_done'));
-      this.askNewSteps();
+      await this.props.completeStep(this.props.activeStepId);
+      this.props.goBack();
     }
-  }
-
-  askNewSteps() {
-    this.props.goBack();
   }
 
   render() {
@@ -80,8 +85,10 @@ Steps.propTypes = {
     next: PropTypes.number,
     previous: PropTypes.number,
   }).isRequired,
-  data: PropTypes.instanceOf(Map).isRequired,
   goBack: PropTypes.func.isRequired,
 };
 
-export default Steps;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Steps);

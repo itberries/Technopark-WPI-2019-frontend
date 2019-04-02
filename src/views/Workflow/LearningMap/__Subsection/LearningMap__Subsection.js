@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 import { Button } from '@vkontakte/vkui';
 
 import './LearningMap__Subsection.scss';
 import MarkAsCompleted from '../../../../common.blocks/MarkAsCompleted/MarkAsCompleted';
+
+import { selectSubsection } from '../../../../actions/subsection';
 
 /**
  * LearningMap's block component with button
@@ -61,8 +66,8 @@ class LearningMapSubsection extends React.Component {
             }`}
             onClick={(e) => {
               if (this.state.isActive) {
-                console.log('on click subsection button');
-                console.log(this.props.onSelectSubsection('subsection', this.state.id, e));
+                this.props.selectSubsection(this.state.id);
+                this.props.onSelectSubsection('subsection', this.state.id, e);
                 e.preventDefault();
                 e.stopPropagation();
               }
@@ -95,6 +100,8 @@ LearningMapSubsection.propTypes = {
   isCompleted: PropTypes.bool,
   /* Description of prop "onSelectSubsection". */
   onSelectSubsection: PropTypes.func,
+  /* Description of prop "selectSubsection". */
+  selectSubsection: PropTypes.func.isRequired,
 };
 
 LearningMapSubsection.defaultProps = {
@@ -107,4 +114,21 @@ LearningMapSubsection.defaultProps = {
   onSelectSubsection: () => null,
 };
 
-export default LearningMapSubsection;
+// export default LearningMapSubsection;
+
+// which props do we want to inject, given the global store state?
+function mapStateToProps(state) {
+  return {};
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    selectSubsection,
+  },
+  dispatch,
+);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LearningMapSubsection);
