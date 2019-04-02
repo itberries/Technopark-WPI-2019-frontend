@@ -26,9 +26,9 @@ class Theory extends React.Component {
       })
       .catch((error) => {
         if (typeof error.response !== 'undefined' && error.response.status === 404) {
-          console.error('getSteps not found!!!', error.response);
+          console.error('getCards not found!!!', error.response);
         } else {
-          console.error('getSteps error!!!', error.response);
+          console.error('getCards error!!!', error.response);
         }
       });
   }
