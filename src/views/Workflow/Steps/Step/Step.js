@@ -28,9 +28,7 @@ class Step extends React.Component {
   }
 
   render() {
-    console.log('Step name', this.props.name);
     const cont = this.setContent();
-    console.log('Step content', cont);
     return (
       <React.Fragment>
         <Header className="step__header">{this.props.name}</Header>

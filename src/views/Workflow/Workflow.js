@@ -56,7 +56,6 @@ class Workflow extends React.Component {
   }
 
   goForward(activePanel, id, e) {
-    console.log(`goForward ${activePanel}, ${id}, ${e}`);
     e.preventDefault();
     this.setState((prevState) => {
       let history = [...prevState.history];
