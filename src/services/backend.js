@@ -19,6 +19,14 @@ class BackendAPIService {
     return [user, userState];
   }
 
+  async setCurrentUserStepCompleted(userId, sectionId, subsectionId, stepId) {
+    const res = await axios.patch(
+      `/user/${userId}/sections/${sectionId}/subsections/${subsectionId}/steps/${stepId}`,
+    );
+    console.log(`BackendAPIService: setCurrentUserStepCompleted(stepId: ${stepId}) res: `, res);
+    return res.data;
+  }
+
   async getSubsectionSteps(subsectionId) {
     const res = await axios.get(`/subsections/${subsectionId}/steps/`);
     console.log('BackendAPIService: getSubsectionSteps res: ', res);

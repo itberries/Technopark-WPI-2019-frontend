@@ -3,7 +3,7 @@ import * as types from '../constants/actionTypes';
 
 const initialState = Immutable({
   user: undefined,
-  state: undefined, // TODO: check default state or change learningMap render
+  state: undefined,
 });
 
 export default function reduce(state = initialState, action = {}) {
@@ -14,7 +14,22 @@ export default function reduce(state = initialState, action = {}) {
         user: action.user,
         state: action.userState,
       });
+    case types.USER_NEW_STATE_FETCHED:
+      return Immutable.merge({
+        ...state,
+        state: action.nextState,
+      });
     default:
       return state;
   }
+}
+
+// Selectors
+
+export function getUserState(state) {
+  return state.user.state;
+}
+
+export function getUser(state) {
+  return state.user.user;
 }

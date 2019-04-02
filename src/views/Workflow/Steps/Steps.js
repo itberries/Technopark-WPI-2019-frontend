@@ -6,8 +6,9 @@ import { connect } from 'react-redux';
 
 import Step from './Step/Step';
 
+import { completeStep } from '../../../actions/steps';
+
 const mapStateToProps = (state) => {
-  console.log('Steps mapStateToProps state:', state);
   const steps = state.subsection.subsectionStepsById;
   const activeStepId = state.user.state.stepId;
   return {
@@ -16,12 +17,16 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    completeStep,
+  },
+  dispatch,
+);
 
 class Steps extends React.Component {
   constructor(props) {
     super(props);
-    console.log('Steps constructor props:', props);
     this.state = {
       activeStep: props.steps.get(props.activeStepId),
     };
@@ -37,7 +42,6 @@ class Steps extends React.Component {
     if (this.state.activeStep.parentId !== 0) {
       this.setState((prevState) => {
         const activeStep = this.props.steps.get(prevState.activeStep.parentId);
-        console.log('goBack activeStep: ', activeStep);
         return { activeStep };
       });
     } else {
@@ -45,27 +49,19 @@ class Steps extends React.Component {
     }
   }
 
-  goForward() {
+  async goForward() {
     if (this.state.activeStep.childId !== 0) {
-      this.setState((prevState) => {
-        const activeStep = this.props.steps.get(prevState.activeStep.childId);
-        console.log('goForward activeStep: ', activeStep);
-        // TODO: update user state
-        // if (activeStep.parentId === window.last_step.id) {
-        //   window.last_step = activeStep;
-        // }
-        return { activeStep };
-      });
+      const activeStep = this.props.steps.get(this.state.activeStep.childId);
+      await this.props.completeStep(this.props.activeStepId);
+      this.setState({ activeStep });
     } else {
-      // TODO: update user state
-      // this.props.data.set('section_done', true);
+      await this.props.completeStep(this.props.activeStepId);
       this.props.goBack();
     }
   }
 
   render() {
     const step = this.state.activeStep;
-    console.log('Steps render activeStep: ', step);
     return (
       <Step
         id={step.id}
