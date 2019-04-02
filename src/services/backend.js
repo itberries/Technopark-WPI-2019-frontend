@@ -6,6 +6,7 @@ import axios from 'axios';
 
 class BackendAPIService {
   async getProfile(id) {
+    const lolkek = await axios.patch(`/user/${id}/reset_current_state`);
     const res = await axios.get(`/user/${id}`);
     console.log(`BackendAPIService: getProfile(${id}) res: `, res);
     const { user, userState } = res.data;

@@ -16,7 +16,14 @@ class Step extends React.Component {
         content = React.createElement(Theory, { id: this.props.id, key: this.props.id });
         return content;
       case 'interactive':
-        content = React.createElement(Interact, { id: this.props.id, key: this.props.id });
+        content = React.createElement(Interact, {
+          id: this.props.id,
+          key: this.props.id,
+          onCompleted: () => {
+            this.props.goForward();
+            this.setContent();
+          },
+        });
         return content;
       case 'training':
         content = React.createElement(Traning, { id: this.props.id, key: this.props.id });
@@ -38,7 +45,9 @@ class Step extends React.Component {
             <Button
               level="commerce"
               className={`step__button ${this.props.previous === 0 ? 'step__button-unactive' : ''}`}
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 this.props.goBack();
                 this.setContent();
               }}
@@ -49,10 +58,18 @@ class Step extends React.Component {
           <Div>
             <Button
               level="commerce"
-              className={`step__button ${this.props.next === 0 ? 'step__button-unactive' : ''}`}
-              onClick={() => {
-                this.props.goForward();
-                this.setContent();
+              className={`step__button ${
+                this.props.next === 0 || this.props.type === 'interactive'
+                  ? 'step__button-unactive'
+                  : ''
+              }`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (this.props.type !== 'interactive') {
+                  this.props.goForward();
+                  this.setContent();
+                }
               }}
             >
               Next

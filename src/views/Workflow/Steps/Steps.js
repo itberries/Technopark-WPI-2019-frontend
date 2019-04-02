@@ -61,13 +61,7 @@ class Steps extends React.Component {
   }
 
   render() {
-    const step = {
-      childId: 0,
-      id: 3,
-      name: 'step3',
-      parentId: 2,
-      type: 'interactive',
-    };
+    const step = this.state.activeStep;
     return (
       <Step
         id={step.id}

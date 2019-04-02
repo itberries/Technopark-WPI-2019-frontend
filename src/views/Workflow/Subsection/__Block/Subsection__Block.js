@@ -31,8 +31,14 @@ const SubsectionBlock = ({
           isActive ? 'subsection__button-active' : ''
         } subsection__button-${type}`}
         onClick={(e) => {
-          const stepId = id;
-          onSelectStep('steps', stepId, e);
+          if (isActive) {
+            const stepId = id;
+            onSelectStep('steps', stepId, e);
+            e.preventDefault();
+            e.stopPropagation();
+          }
+          e.preventDefault();
+          e.stopPropagation();
         }}
       >
         {children}

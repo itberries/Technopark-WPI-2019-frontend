@@ -45,6 +45,7 @@ class Interactive extends React.Component {
           id={this.props.id}
           gameType={this.state.type}
           gameData={this.state.interactiveCards}
+          onCompleted={this.props.onCompleted}
         />
       </React.Fragment>
     );
@@ -53,6 +54,7 @@ class Interactive extends React.Component {
 
 Interactive.propTypes = {
   id: PropTypes.number.isRequired,
+  onCompleted: PropTypes.func.isRequired,
 };
 
 export default Interactive;

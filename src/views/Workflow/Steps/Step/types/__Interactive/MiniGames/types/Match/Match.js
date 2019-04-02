@@ -9,6 +9,7 @@ class Match extends React.Component {
   constructor(props) {
     super(props);
     const cardForMach = JSON.parse(props.gameData[0].note).data;
+    console.log('cardForMach: ', cardForMach);
     let frames = [];
     this.onFrameClick = this.onFrameClick.bind(this);
     cardForMach.forEach((element) => {
@@ -17,8 +18,8 @@ class Match extends React.Component {
     });
     frames = frames.sort(() => Math.random() - 0.5);
     const stateFrames = new Map();
-    frames.forEach((frame) => {
-      stateFrames.set(frame, frame);
+    frames.forEach((element, index) => {
+      stateFrames.set(index, element);
     });
     this.state = {
       activeFrames: [],
@@ -41,22 +42,32 @@ class Match extends React.Component {
         console.log('wrong pair');
         this.wrongAnswer();
       }
-      this.props.answerReceived();
     }
+    this.props.answerReceived();
     return true;
   }
 
-  onFrameClick(innerHTML) {
+  onFrameClick(id) {
+    console.log(
+      'JSON.parse(props.gameData[0].note).data :',
+      JSON.parse(this.props.gameData[0].note).data,
+    );
     this.setState((prevState) => {
       const activeFrames = prevState.activeFrames;
-      activeFrames.push(innerHTML);
+      activeFrames.push(id);
       const selectedFrames = prevState.selectedFrames;
-      selectedFrames.add(innerHTML);
+      selectedFrames.set(id, prevState.frames.get(id));
+      console.log('activeFrames: ', activeFrames);
       if (activeFrames.length === 2) {
+        console.log('prepeare for sending');
         const framesOnCheck = prevState.framesOnCheck;
-        framesOnCheck.push(activeFrames);
-        this.sendFrames(activeFrames);
-        return { activeFrames: [], framesOnCheck, selectedFrames };
+        const sendingFrames = [activeFrames.shift(), activeFrames.shift()];
+        framesOnCheck.push(sendingFrames);
+        this.sendFrames([
+          prevState.frames.get(sendingFrames[0]),
+          prevState.frames.get(sendingFrames[1]),
+        ]);
+        return { activeFrames, framesOnCheck, selectedFrames };
       }
       return { activeFrames, selectedFrames };
     });
@@ -69,11 +80,13 @@ class Match extends React.Component {
       const newRightFrames = framesOnCheck.shift();
       const frames = prevState.frames;
       const selectedFrames = prevState.selectedFrames;
-      newRightFrames.forEach((frame) => {
-        rightFrames.push(frame);
-        frames.delete(frame);
-        selectedFrames.delete(frame);
-      });
+      if (newRightFrames !== undefined) {
+        newRightFrames.forEach((id) => {
+          rightFrames.push(prevState.frames.get(id));
+          frames.delete(id);
+          selectedFrames.delete(id);
+        });
+      }
       return {
         framesOnCheck,
         rightFrames,
@@ -88,9 +101,11 @@ class Match extends React.Component {
       const framesOnCheck = prevState.framesOnCheck;
       const newRightFrames = framesOnCheck.shift();
       const selectedFrames = prevState.selectedFrames;
-      newRightFrames.forEach((frame) => {
-        selectedFrames.delete(frame);
-      });
+      if (newRightFrames !== undefined) {
+        newRightFrames.forEach((id) => {
+          selectedFrames.delete(id);
+        });
+      }
       return { framesOnCheck, selectedFrames };
     });
   }
@@ -111,8 +126,15 @@ class Match extends React.Component {
     this.state.rightFrames.forEach((frame) => {
       newFrames.push(<Frame onFrameClick={this.onFrameClick} value={frame} right />);
     });
-    this.state.frames.forEach((frame) => {
-      newFrames.push(<Frame onFrameClick={this.onFrameClick} value={frame} />);
+    this.state.frames.forEach((frame, id) => {
+      newFrames.push(
+        <Frame
+          id={id}
+          onFrameClick={this.onFrameClick}
+          value={frame}
+          active={this.state.selectedFrames.has(id) ? true : ''}
+        />,
+      );
     });
     // <Frame onFrameClick={this.onFrameClick} value={} />
     return newFrames;

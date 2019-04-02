@@ -94,6 +94,8 @@ class MiniGames extends React.Component {
         return;
       case 'GameCompleted':
         console.log(`we won and our score grew by ${answer.payload.result} points`);
+        this.props.socket.close();
+        this.props.onCompleted();
         return;
       default:
         console.log('unknown message!');
@@ -115,6 +117,7 @@ class MiniGames extends React.Component {
 
   generateGame() {
     console.log('this.props.gameType: ', this.props.gameType);
+    console.log('this.props.gameData: ', this.props.gameData);
     switch (this.props.gameType) {
       case 'match':
         return <MatchGame gameData={this.props.gameData} sendMsg={this.sendMsg} />;
@@ -134,6 +137,7 @@ MiniGames.propTypes = {
   websocketOpen: PropTypes.func,
   gameType: PropTypes.string.isRequired,
   gameData: PropTypes.arrayOf(PropTypes.shape({})),
+  onCompleted: PropTypes.func.isRequired,
 };
 
 MiniGames.defaultProps = {
