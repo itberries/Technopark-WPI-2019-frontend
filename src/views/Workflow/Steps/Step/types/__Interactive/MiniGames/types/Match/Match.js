@@ -22,6 +22,7 @@ class Match extends React.Component {
     });
     this.state = {
       activeFrames: [],
+      selectedFrames: new Map(),
       frames: stateFrames,
       answer: null,
       framesOnCheck: [],
@@ -32,6 +33,7 @@ class Match extends React.Component {
   shouldComponentUpdate(nextProps) {
     console.log('nextProps.answer: ', nextProps.answer);
     if (nextProps.answer !== null) {
+      console.log('nextProps.answer: ', nextProps.answer);
       if (nextProps.answer === true) {
         console.log('right pair');
         this.rightAnswer();
@@ -48,14 +50,15 @@ class Match extends React.Component {
     this.setState((prevState) => {
       const activeFrames = prevState.activeFrames;
       activeFrames.push(innerHTML);
-      const frames = prevState.frames;
+      const selectedFrames = prevState.selectedFrames;
+      selectedFrames.add(innerHTML);
       if (activeFrames.length === 2) {
         const framesOnCheck = prevState.framesOnCheck;
         framesOnCheck.push(activeFrames);
         this.sendFrames(activeFrames);
-        return { activeFrames: [], framesOnCheck };
+        return { activeFrames: [], framesOnCheck, selectedFrames };
       }
-      return { activeFrames };
+      return { activeFrames, selectedFrames };
     });
   }
 
@@ -65,19 +68,30 @@ class Match extends React.Component {
       const rightFrames = prevState.rightFrames;
       const newRightFrames = framesOnCheck.shift();
       const frames = prevState.frames;
+      const selectedFrames = prevState.selectedFrames;
       newRightFrames.forEach((frame) => {
         rightFrames.push(frame);
         frames.delete(frame);
+        selectedFrames.delete(frame);
       });
-      return { framesOnCheck, rightFrames, frames };
+      return {
+        framesOnCheck,
+        rightFrames,
+        frames,
+        selectedFrames,
+      };
     });
   }
 
   wrongAnswer() {
     this.setState((prevState) => {
       const framesOnCheck = prevState.framesOnCheck;
-      framesOnCheck.shift();
-      return { framesOnCheck };
+      const newRightFrames = framesOnCheck.shift();
+      const selectedFrames = prevState.selectedFrames;
+      newRightFrames.forEach((frame) => {
+        selectedFrames.delete(frame);
+      });
+      return { framesOnCheck, selectedFrames };
     });
   }
 

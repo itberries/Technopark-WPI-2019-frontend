@@ -17,9 +17,10 @@ export default function reduce(state = initialState, action) {
         socket: action.socket,
       };
     case WEBSOCKET_MESSAGE:
+      console.log('action.msg: ', action.msg);
       return {
         ...state,
-        answer: action.msg,
+        answer: action.msg === 'true',
       };
     case RESPONSE_RECEIVED:
       return {
