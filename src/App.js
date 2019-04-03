@@ -62,9 +62,6 @@ class App extends React.Component {
     super(props);
     this.state = {
       activeView: props.viewName,
-      user: {
-        id: 37924905,
-      },
       initializing: undefined,
     };
     this.onViewChange = this.onViewChange.bind(this);
