@@ -1,11 +1,8 @@
 import axios from 'axios';
 
-// services are state-less
-// they act as utility facades that abstract the details for complex operations
-// normally, our interface to any sort of server API will be as a service
-
 class BackendAPIService {
   async getProfile(id) {
+    // const lolkek = await axios.patch(`/user/${id}/reset_current_state`);
     const res = await axios.get(`/user/${id}`);
     console.log(`BackendAPIService: getProfile(${id}) res: `, res);
     const { user, userState } = res.data;
