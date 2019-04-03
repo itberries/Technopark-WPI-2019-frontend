@@ -12,21 +12,21 @@ export default function reduce(state = initialState, action) {
   switch (action.type) {
     case WEBSOCKET_OPENED:
       console.log(action);
-      return {
+      return Immutable.merge({
         ...state,
         socket: action.socket,
-      };
+      });
     case WEBSOCKET_MESSAGE:
       console.log('action.msg: ', action.msg);
-      return {
+      return Immutable.merge({
         ...state,
         answer: action.msg === 'true',
-      };
+      });
     case RESPONSE_RECEIVED:
-      return {
+      return Immutable.merge({
         ...state,
         answer: null,
-      };
+      });
     default:
       return state;
   }

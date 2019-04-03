@@ -52,8 +52,7 @@ class MiniGames extends React.Component {
             return { messages: msgs };
           });
         };
-        this.state.socketNotSet = false;
-        this.state.socketReadyToSend = true;
+        this.setState({ socketNotSet: false, socketReadyToSend: true });
       } else {
         nextState.socketReadyToSend = false;
       }
@@ -122,7 +121,7 @@ class MiniGames extends React.Component {
       case 'match':
         return <MatchGame gameData={this.props.gameData} sendMsg={this.sendMsg} />;
       default:
-        return 'unknown game!';
+        return 'Loading...';
     }
   }
 
