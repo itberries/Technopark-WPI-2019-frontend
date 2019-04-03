@@ -94,10 +94,4 @@ class Workflow extends React.Component {
   }
 }
 
-/*
-Workflow.propTypes = {
-  id: PropTypes.string.isRequired,
-};
-*/
-
 export default Workflow;
