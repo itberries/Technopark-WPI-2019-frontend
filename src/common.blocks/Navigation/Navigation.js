@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { Epic, Tabbar, TabbarItem } from '@vkontakte/vkui';
 import './Navigation.scss';
 
-const Navigation = ({
-  activeView, viewsData, onViewChange, user,
-}) => {
+const Navigation = ({ activeView, viewsData, onViewChange }) => {
   const tabbarItems = [];
   const views = [];
 
@@ -21,7 +19,7 @@ const Navigation = ({
         {<img src={viewData.icon} alt={`${viewData.name} icon`} />}
       </TabbarItem>,
     );
-    views.push(React.createElement(viewData.view, { id: viewData.name, user }));
+    views.push(React.createElement(viewData.view, { id: viewData.name }));
   });
   return (
     <Epic activeStory={activeView} tabbar={<Tabbar>{tabbarItems}</Tabbar>}>
@@ -34,23 +32,11 @@ Navigation.propTypes = {
   activeView: PropTypes.string,
   viewsData: PropTypes.arrayOf(PropTypes.object).isRequired,
   onViewChange: PropTypes.func,
-  user: PropTypes.shape({
-    photo: PropTypes.string,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    score: PropTypes.number,
-  }),
 };
 
 Navigation.defaultProps = {
   activeView: 'workflow',
   onViewChange: () => null,
-  user: PropTypes.shape({
-    photo: PropTypes.string,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    score: PropTypes.number,
-  }),
 };
 
 export default Navigation;

@@ -62,7 +62,6 @@ class App extends React.Component {
     super(props);
     this.state = {
       activeView: props.viewName,
-      initializing: undefined,
     };
     this.onViewChange = this.onViewChange.bind(this);
   }
@@ -78,9 +77,6 @@ class App extends React.Component {
 
   async componentDidUpdate(prevProps) {
     if (this.props.vkUserInfo !== prevProps.vkUserInfo) {
-      this.setState({
-        initializing: true,
-      });
       const { id } = this.props.vkUserInfo;
       try {
         await this.props.getUserProfile(id);
@@ -91,9 +87,6 @@ class App extends React.Component {
           console.error('getProfile error!!!', error.response);
         }
       }
-      this.setState({
-        initializing: false,
-      });
     }
   }
 

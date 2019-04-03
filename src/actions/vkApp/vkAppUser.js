@@ -42,8 +42,6 @@ export function init() {
         default:
           break;
       }
-
-      VKConnect.send('VKWebAppInit', {});
     });
   };
 }
