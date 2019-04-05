@@ -10,10 +10,8 @@ import { completeStep } from '../../../actions/steps';
 
 const mapStateToProps = (state) => {
   const steps = state.subsection.subsectionStepsById;
-  const activeStepId = state.user.state.stepId;
   return {
     steps,
-    activeStepId,
   };
 };
 
@@ -28,7 +26,7 @@ class Steps extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeStep: props.steps.get(props.activeStepId),
+      activeStep: props.steps.get(props.id),
     };
     this.goBack = this.goBack.bind(this);
     this.goForward = this.goForward.bind(this);
@@ -52,10 +50,10 @@ class Steps extends React.Component {
   async goForward() {
     if (this.state.activeStep.childId !== 0) {
       const activeStep = this.props.steps.get(this.state.activeStep.childId);
-      await this.props.completeStep(this.props.activeStepId);
+      await this.props.completeStep(this.props.id);
       this.setState({ activeStep });
     } else {
-      await this.props.completeStep(this.props.activeStepId);
+      await this.props.completeStep(this.props.id);
       this.props.goBack();
     }
   }
