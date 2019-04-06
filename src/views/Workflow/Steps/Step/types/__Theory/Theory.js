@@ -19,7 +19,7 @@ class Theory extends React.Component {
 
   getCards() {
     axios
-      .get(`/steps/${this.props.id}/cards`)
+      .get(`/steps/${this.props.id}/cards/`)
       .then((response) => {
         const cards = response.data;
         this.setState({ cards });
