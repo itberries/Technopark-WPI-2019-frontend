@@ -3,14 +3,14 @@ import axios from 'axios';
 class BackendAPIService {
   async getProfile(id) {
     // const lolkek = await axios.patch(`/user/${id}/reset_current_state`);
-    const res = await axios.get(`/user/${id}`);
+    const res = await axios.get(`/user/${id}/`);
     console.log(`BackendAPIService: getProfile(${id}) res: `, res);
     const { user, userState } = res.data;
     return [user, userState];
   }
 
   async addProfile(id) {
-    const res = await axios.post('/user', { id });
+    const res = await axios.post('/user/', { id });
     console.log(`BackendAPIService: addProfile(${id}) res: `, res);
     const { user, userState } = res.data;
     return [user, userState];
@@ -18,7 +18,7 @@ class BackendAPIService {
 
   async setCurrentUserStepCompleted(userId, sectionId, subsectionId, stepId) {
     const res = await axios.patch(
-      `/user/${userId}/sections/${sectionId}/subsections/${subsectionId}/steps/${stepId}`,
+      `/user/${userId}/sections/${sectionId}/subsections/${subsectionId}/steps/${stepId}/`,
     );
     console.log(`BackendAPIService: setCurrentUserStepCompleted(stepId: ${stepId}) res: `, res);
     return res.data;

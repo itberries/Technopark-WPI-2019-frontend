@@ -43,6 +43,7 @@ class Interactive extends React.Component {
         <Theory id={this.props.id} />
         <MiniGames
           id={this.props.id}
+          key={this.props.id}
           gameType={this.state.type}
           gameData={this.state.interactiveCards}
           onCompleted={this.props.onCompleted}

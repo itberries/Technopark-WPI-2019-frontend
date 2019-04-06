@@ -29,20 +29,30 @@ $section-separotor-unactive-color: #727272;
   box-shadow: $shadow;
   background-color: $subsection-unactive-color;
 
+
+  &.subsection__button-theory {
+    border-radius: 3px;
+  }
+
+  &.subsection__button-interactive {
+    border-radius: 25px;
+  }
+
+  &.subsection__button-training {
+    border-radius: 15px;
+  }
+
   &.subsection__button-active {
     &.subsection__button-theory {
       background-color: $theory-color;
-      border-radius: 3px;
     }
-  
+
     &.subsection__button-interactive {
       background-color: $interactive-color;
-      border-radius: 25px;
     }
-  
+
     &.subsection__button-training {
       background-color: $training-color;
-      border-radius: 15px;
     }
   }
 }

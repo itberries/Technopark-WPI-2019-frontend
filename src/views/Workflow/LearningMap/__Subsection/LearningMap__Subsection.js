@@ -85,13 +85,13 @@ class LearningMapSubsection extends React.Component {
 
 LearningMapSubsection.propTypes = {
   /* Description of prop "id". */
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   /* Description of prop "name". */
   name: PropTypes.string,
   /* Description of prop "start". */
-  start: PropTypes.string,
+  start: PropTypes.number,
   /* Description of prop "end". */
-  end: PropTypes.string,
+  end: PropTypes.number,
   /* Description of prop "isActive". */
   isActive: PropTypes.bool,
   /* Description of prop "isCurrent". */
