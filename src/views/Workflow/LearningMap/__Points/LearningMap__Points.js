@@ -51,7 +51,7 @@ class LearningMapPoints extends React.Component {
 
 LearningMapPoints.propTypes = {
   /* Description of prop "position". */
-  position: PropTypes.string,
+  position: PropTypes.number,
   /* Description of prop "isActive". */
   isActive: PropTypes.bool,
 };
