@@ -1,4 +1,6 @@
 import axios from 'axios';
+import * as types from '../constants/actionTypes';
+import BackendAPIServiceMock from './backendMock';
 
 class BackendAPIService {
   async getProfile(id) {
@@ -47,6 +49,7 @@ class BackendAPIService {
   async getSections() {
     const res = await axios.get('/sections/');
     console.log('BackendAPIService: getSections res: ', res);
+    return res.data;
 
     // TODO: add error handling
     /*
@@ -56,9 +59,24 @@ class BackendAPIService {
       console.error('getSections error!!!', error.response);
     }
     */
+  }
 
+  async getCards(stepId) {
+    const res = await axios.get(`/steps/${stepId}/cards/`);
+    console.log('BackendAPIService: getCards res: ', res);
     return res.data;
+    // TODO: add error handling
+    /*
+      if (typeof error.response !== 'undefined' && error.response.status === 404) {
+        console.error('getCards not found!!!', error.response);
+      } else {
+        console.error('getCards error!!!', error.response);
+      }
+    */
   }
 }
 
-export default new BackendAPIService();
+const BackendAPI = types.DEBUG_API ? BackendAPIServiceMock : BackendAPIService;
+console.log(`DEBUG_API=${types.DEBUG_API}, BackendAPIService: ${BackendAPIService}`);
+
+export default new BackendAPI();

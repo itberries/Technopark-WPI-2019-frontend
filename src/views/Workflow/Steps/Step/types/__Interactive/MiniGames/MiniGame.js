@@ -30,8 +30,8 @@ class MiniGames extends React.Component {
       if (this.state.socketNotSet) {
         nextProps.socket.onclose = (event) => {
           this.props.websocketClose();
-          this.state.socketNotSet = true;
-          this.state.messages = [];
+          this.state.socketNotSet = true; // TODO: VANYA, WE NEED TO FIX THIS! (setState)
+          this.state.messages = []; // TODO: VANYA, WE NEED TO FIX THIS! (setState)
           if (event.wasClean) {
             console.log('Соединение закрыто чисто');
           } else {

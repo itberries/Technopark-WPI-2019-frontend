@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+
 import { Group } from '@vkontakte/vkui';
+
+import backendAPIService from '../../../../../../services/backend';
 
 import Card from '../../__Card/Card';
 
@@ -13,24 +15,9 @@ class Theory extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.getCards();
-  }
-
-  getCards() {
-    axios
-      .get(`/steps/${this.props.id}/cards/`)
-      .then((response) => {
-        const cards = response.data;
-        this.setState({ cards });
-      })
-      .catch((error) => {
-        if (typeof error.response !== 'undefined' && error.response.status === 404) {
-          console.error('getCards not found!!!', error.response);
-        } else {
-          console.error('getCards error!!!', error.response);
-        }
-      });
+  async componentDidMount() {
+    const cards = await backendAPIService.getCards(this.props.id);
+    this.setState({ cards });
   }
 
   generateCards() {
