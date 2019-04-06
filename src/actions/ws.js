@@ -31,3 +31,12 @@ export function answerReceived() {
     });
   };
 }
+
+export function websocketClose() {
+  console.log('action on close socket!');
+  return async (dispatch) => {
+    dispatch({
+      type: types.WEBSOCKET_CLOSED,
+    });
+  };
+}
