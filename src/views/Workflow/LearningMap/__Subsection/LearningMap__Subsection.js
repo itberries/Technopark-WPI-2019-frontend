@@ -42,6 +42,22 @@ class LearningMapSubsection extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { container } = this;
+    let { start, end } = this.state;
+    const wrapper = container.firstChild;
+    if (wrapper.offsetWidth > container.offsetWidth) {
+      const learningMapRightLimit = 5; // TODO: remove magic number
+      end += Math.ceil(wrapper.offsetWidth / (container.offsetWidth / 2)) - 2;
+      if (end > learningMapRightLimit) {
+        const dif = end - start;
+        start = learningMapRightLimit - dif;
+        end = learningMapRightLimit;
+      }
+    }
+    this.setState({ start, end });
+  }
+
   /**
    * render
    * @return {ReactElement} LearningMap's subsection block with button
@@ -49,6 +65,7 @@ class LearningMapSubsection extends React.Component {
   render() {
     return (
       <div
+        ref={el => (this.container = el)}
         className={`learningMap__col learningMap__col_start_${
           this.state.start
         } learningMap__col_end_${this.state.end}`}
@@ -106,8 +123,8 @@ LearningMapSubsection.propTypes = {
 
 LearningMapSubsection.defaultProps = {
   name: 'subsection',
-  start: '1',
-  end: '2',
+  start: 1,
+  end: 2,
   isActive: false,
   isCurrent: false,
   isCompleted: false,

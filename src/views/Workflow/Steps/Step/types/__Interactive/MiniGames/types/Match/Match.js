@@ -46,8 +46,8 @@ class Match extends React.Component {
         console.log('wrong pair');
         this.wrongAnswer();
       }
+      this.props.answerReceived();
     }
-    this.props.answerReceived();
     return true;
   }
 
