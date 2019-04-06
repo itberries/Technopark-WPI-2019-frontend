@@ -104,6 +104,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log('Location href:', window.location.href);
     const viewsData = [
       {
         view: Workflow,
