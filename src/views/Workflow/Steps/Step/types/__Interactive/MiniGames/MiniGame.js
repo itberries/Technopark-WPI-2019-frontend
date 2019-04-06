@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Div } from '@vkontakte/vkui';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { websocketOpen, websocketOnMessage } from '../../../../../../../actions/ws';
+import { websocketOpen, websocketOnMessage, websocketClose } from '../../../../../../../actions/ws';
 import MatchGame from './types/Match/Match';
 
 import './MiniGame.scss';
@@ -25,21 +25,27 @@ class MiniGames extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    console.log('this.state.socketNotSet: ', this.state.socketNotSet);
     if (nextProps.socket !== null && nextProps.gameType !== null) {
       if (this.state.socketNotSet) {
         nextProps.socket.onclose = (event) => {
+          this.props.websocketClose();
+          this.state.socketNotSet = true;
+          this.state.messages = [];
           if (event.wasClean) {
             console.log('Соединение закрыто чисто');
           } else {
             console.log('Обрыв соединения'); // например, "убит" процесс сервера
+            this.props.websocketOpen('match');
           }
+          console.log('we are close this socket!');
           console.log('Код: ', event.code, ' причина: ', event.reason);
         };
         nextProps.socket.onerror = (error) => {
           console.log('Ошибка ', error.message);
         };
-        console.log('start listning msg');
         nextProps.socket.onmessage = (event) => {
+          console.log('answer: ', event.data);
           this.processAnswr(event.data);
           this.setState((prevState) => {
             const msgs = prevState.messages;
@@ -73,8 +79,15 @@ class MiniGames extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.props.socket !== null) {
+      this.props.socket.close();
+    }
+  }
+
   processAnswr(data) {
     const answer = JSON.parse(data);
+    console.log('answer: ', answer);
     switch (answer.type) {
       case 'DeliveryStatus':
         if (answer.payload.result === 'OK') {
@@ -134,6 +147,7 @@ MiniGames.propTypes = {
   id: PropTypes.number.isRequired,
   socket: PropTypes.instanceOf(WebSocket),
   websocketOpen: PropTypes.func,
+  websocketClose: PropTypes.func,
   gameType: PropTypes.string.isRequired,
   gameData: PropTypes.arrayOf(PropTypes.shape({})),
   onCompleted: PropTypes.func.isRequired,
@@ -142,6 +156,7 @@ MiniGames.propTypes = {
 MiniGames.defaultProps = {
   socket: null,
   websocketOpen: null,
+  websocketClose: null,
   gameData: [],
 };
 
@@ -153,6 +168,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     websocketOpen,
+    websocketClose,
     websocketOnMessage,
   },
   dispatch,

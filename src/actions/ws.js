@@ -2,7 +2,7 @@ import * as types from '../constants/actionTypes';
 
 export function websocketOpen(path) {
   return async (dispatch) => {
-    const socket = new WebSocket(`wss://it-berries.ru/${path}`);
+    const socket = new WebSocket(`wss://it-berries.ru/game/${path}/`);
     socket.onopen = () => {
       console.log('Connection opened');
       console.log('socket in action', socket);
@@ -28,6 +28,15 @@ export function answerReceived() {
   return async (dispatch) => {
     dispatch({
       type: types.RESPONSE_RECEIVED,
+    });
+  };
+}
+
+export function websocketClose() {
+  console.log('action on close socket!');
+  return async (dispatch) => {
+    dispatch({
+      type: types.WEBSOCKET_CLOSED,
     });
   };
 }

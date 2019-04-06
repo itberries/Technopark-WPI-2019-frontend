@@ -1,5 +1,10 @@
 import Immutable from 'seamless-immutable';
-import { WEBSOCKET_OPENED, WEBSOCKET_MESSAGE, RESPONSE_RECEIVED } from '../constants/actionTypes';
+import {
+  WEBSOCKET_OPENED,
+  WEBSOCKET_MESSAGE,
+  RESPONSE_RECEIVED,
+  WEBSOCKET_CLOSED,
+} from '../constants/actionTypes';
 
 const initialState = Immutable({
   socket: null,
@@ -26,6 +31,12 @@ export default function reduce(state = initialState, action) {
       return Immutable.merge({
         ...state,
         answer: null,
+      });
+    case WEBSOCKET_CLOSED:
+      console.log('action: socket closed!');
+      return Immutable.merge({
+        ...state,
+        socket: null,
       });
     default:
       return state;
