@@ -2,7 +2,7 @@ import * as types from '../constants/actionTypes';
 
 export function websocketOpen(path) {
   return async (dispatch) => {
-    const socket = new WebSocket(`wss://it-berries.ru/${path}`);
+    const socket = new WebSocket(`wss://it-berries.ru/game/${path}/`);
     socket.onopen = () => {
       console.log('Connection opened');
       console.log('socket in action', socket);
