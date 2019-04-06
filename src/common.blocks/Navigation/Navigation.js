@@ -19,7 +19,7 @@ const Navigation = ({ activeView, viewsData, onViewChange }) => {
         {<img src={viewData.icon} alt={`${viewData.name} icon`} />}
       </TabbarItem>,
     );
-    views.push(React.createElement(viewData.view, { id: viewData.name }));
+    views.push(React.createElement(viewData.view, { id: viewData.name, key: viewData.name }));
   });
   return (
     <Epic activeStory={activeView} tabbar={<Tabbar>{tabbarItems}</Tabbar>}>
