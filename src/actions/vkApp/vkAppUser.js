@@ -20,6 +20,7 @@ export function init() {
       type: types.VK_INIT,
     });
     VKConnect.subscribe((event) => {
+      console.log('event: ', event);
       const vkEvent = event.detail;
       if (!vkEvent) {
         return;

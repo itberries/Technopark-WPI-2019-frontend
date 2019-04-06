@@ -19,7 +19,7 @@ class Interactive extends React.Component {
 
   getGameData() {
     axios
-      .get(`/${this.props.id}/minigames`)
+      .get(`/${this.props.id}/minigames/`)
       .then((response) => {
         this.setState(() => {
           const type = response.data.type;
