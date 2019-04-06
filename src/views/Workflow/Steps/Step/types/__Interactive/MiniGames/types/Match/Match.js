@@ -11,9 +11,11 @@ class Match extends React.Component {
     const cardForMatch = JSON.parse(props.gameData[0].note).data;
     console.log('cardForMatch: ', cardForMatch);
     let frames = [];
+    const secondFrames = new Map();
     cardForMatch.forEach((element) => {
       frames.push(Object.keys(element)[0]);
       frames.push(element[Object.keys(element)[0]]);
+      secondFrames.set(element[Object.keys(element)[0]]);
     });
     frames = frames.sort(() => Math.random() - 0.5);
     const stateFrames = new Map();
@@ -27,6 +29,7 @@ class Match extends React.Component {
       answer: null,
       framesOnCheck: [],
       rightFrames: [],
+      secondFrames,
     };
 
     this.onFrameClick = this.onFrameClick.bind(this);
@@ -43,8 +46,8 @@ class Match extends React.Component {
         console.log('wrong pair');
         this.wrongAnswer();
       }
+      this.props.answerReceived();
     }
-    this.props.answerReceived();
     return true;
   }
 
@@ -131,6 +134,7 @@ class Match extends React.Component {
           onFrameClick={this.onFrameClick}
           value={frame}
           isActive={!!this.state.selectedFrames.has(id)}
+          isSecond={this.state.secondFrames.has(frame)}
         />,
       );
     });

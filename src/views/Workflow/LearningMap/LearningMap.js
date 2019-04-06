@@ -84,11 +84,15 @@ class LearningMap extends React.Component {
     };
     Utils.goThroughTheList(sectionsById, rootSectionId, (section) => {
       learningMap.unshift(
-        <LearningMapSeparator name={section.name} isActive={!generateProps.afterLast} />,
+        <LearningMapSeparator
+          key={`LearningMapSeparator_${section.id}_${new Date().getTime()}`}
+          name={section.name}
+          isActive={!generateProps.afterLast}
+        />,
       );
       if (section.parentId !== 0) {
         learningMap.unshift(
-          <LearningMapRow>
+          <LearningMapRow key={`LearningMapRow_${section.id}_${new Date().getTime()}`}>
             <LearningMapPoints
               position={generateProps.position}
               isActive={!generateProps.afterLast}
@@ -111,7 +115,7 @@ class LearningMap extends React.Component {
   generateSection(section, isLast, generateProps) {
     const { userState } = this.props;
     if (typeof userState === 'undefined') {
-      return <div>Loading...</div>;
+      return <div key={`Loading_${section.id}_${new Date().getTime()}`}>Loading...</div>;
     }
 
     const minCol = 1;
@@ -141,7 +145,7 @@ class LearningMap extends React.Component {
         generateProps.isCompleted = false;
       }
       sectionChain.unshift(
-        <LearningMapRow>
+        <LearningMapRow key={`LearningMapRow_subsection_${subsection.id}_${new Date().getTime()}`}>
           <LearningMapSubsection
             id={subsection.id}
             name={subsection.name}
@@ -163,7 +167,9 @@ class LearningMap extends React.Component {
       generateProps.position += generateProps.vector;
       if (!isLast) {
         sectionChain.unshift(
-          <LearningMapRow>
+          <LearningMapRow
+            key={`LearningMapRow_subsection_points_${subsection.id}_${new Date().getTime()}`}
+          >
             <LearningMapPoints
               position={generateProps.position}
               isActive={!generateProps.afterLast}

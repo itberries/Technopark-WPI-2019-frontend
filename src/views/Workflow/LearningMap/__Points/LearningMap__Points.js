@@ -57,7 +57,7 @@ LearningMapPoints.propTypes = {
 };
 
 LearningMapPoints.defaultProps = {
-  position: '',
+  position: 1,
   isActive: false,
 };
 
