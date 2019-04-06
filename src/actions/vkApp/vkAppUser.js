@@ -4,6 +4,7 @@ import realVKConnect from '@vkontakte/vkui-connect';
 import * as types from '../../constants/actionTypes';
 
 const VKConnect = types.DEBUG ? mockVKConnect : realVKConnect;
+console.log('after vkConnect, DEBUG: ', types.DEBUG);
 
 export function fetchCurrentUserInfo() {
   return (dispatch) => {
@@ -16,6 +17,7 @@ export function fetchCurrentUserInfo() {
 
 export function init() {
   return (dispatch) => {
+    console.log('init before dispatch.');
     dispatch({
       type: types.VK_INIT,
     });
