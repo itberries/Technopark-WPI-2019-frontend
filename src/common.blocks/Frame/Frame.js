@@ -6,7 +6,7 @@ import { Button } from '@vkontakte/vkui';
 import './Frame.scss';
 
 const Frame = ({
-  id, value, onFrameClick, isRight, isActive,
+  id, value, onFrameClick, isRight, isActive, isSecond,
 }) => (
   <Button
     onClick={(e) => {
@@ -14,7 +14,9 @@ const Frame = ({
       e.stopPropagation();
       onFrameClick(id);
     }}
-    className={`frame ${isRight ? 'frame-right' : ''} ${isActive ? 'frame-active' : ''}`}
+    className={`frame ${isRight ? 'frame-right' : ''} ${isActive ? 'frame-active' : ''} ${
+      isSecond ? 'frame-second-type' : ''
+    }`}
   >
     {value}
   </Button>
@@ -26,11 +28,13 @@ Frame.propTypes = {
   onFrameClick: PropTypes.func.isRequired,
   isRight: PropTypes.bool,
   isActive: PropTypes.bool,
+  isSecond: PropTypes.bool,
 };
 
 Frame.defaultProps = {
   isRight: false,
   isActive: false,
+  isSecond: false,
 };
 
 export default Frame;
