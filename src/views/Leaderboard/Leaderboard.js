@@ -5,7 +5,7 @@ import { View, Panel, PanelHeader } from '@vkontakte/vkui';
 const LeaderBoard = ({ id }) => (
   <View key={id} id={id} activePanel={id}>
     <Panel id={id}>
-      <PanelHeader>LeaderBoard</PanelHeader>
+      <PanelHeader>Таблица лидеров</PanelHeader>
     </Panel>
   </View>
 );

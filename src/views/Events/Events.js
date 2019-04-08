@@ -5,7 +5,7 @@ import { View, Panel, PanelHeader } from '@vkontakte/vkui';
 const Events = ({ id }) => (
   <View key={id} id={id} activePanel={id}>
     <Panel id={id}>
-      <PanelHeader>Events</PanelHeader>
+      <PanelHeader>События</PanelHeader>
     </Panel>
   </View>
 );
