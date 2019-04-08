@@ -52,7 +52,7 @@ class Step extends React.Component {
                 this.setContent();
               }}
             >
-              Previous
+              Предыдущий шаг
             </Button>
           </Div>
           <Div>
@@ -72,7 +72,7 @@ class Step extends React.Component {
                 }
               }}
             >
-              Next
+              Следующий шаг
             </Button>
           </Div>
         </Div>

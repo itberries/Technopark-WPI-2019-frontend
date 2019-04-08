@@ -26,6 +26,8 @@ import { getUserProfile, addUserProfile } from './actions/user';
 import './defaultApiSettings';
 import './vkMockSettings';
 
+import './App.scss';
+
 const history = createBrowserHistory();
 
 const mapStateToProps = (state) => {

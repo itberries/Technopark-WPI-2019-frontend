@@ -4,10 +4,14 @@
   grid-template-rows: 30% 30% 30%;
 }
 
-.profile {
+.user {
   background-color: RGB(235, 237, 240);
   border-style: none;
   box-shadow: none;
+}
+
+.user__item {
+  margin: 0.3em;
 }
 
 .user_avatar {

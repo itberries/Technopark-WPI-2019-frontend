@@ -1,14 +1,14 @@
 .frame {
-  background-color: #D75C5C; /* temporary all frames with one color */
+  background-color: #028E9B; /* temporary all frames with one color */
   color: aliceblue;
   margin: 2vmin;
 
   &.frame-first-type {
-    background-color: #D75C5C;
+    /* background-color: #FFAA00;*/
   }
 
   &.frame-second-type {
-    background-color: #E39B30;
+    background-color: #FF8B00;
   }
 
   &.frame-right {
@@ -16,7 +16,7 @@
   }
 
   &.frame-active {
-    border: 3px solid rgb(103, 10, 180);
+    border: 3px solid #660BAB;
   }
 
 }

@@ -23,7 +23,7 @@ const Header = ({ text, onBackClick }) => (
           onBackClick(e);
         }}
       >
-        Back
+        Назад
       </HeaderButton>
 )}
   >
