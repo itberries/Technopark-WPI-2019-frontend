@@ -2,13 +2,14 @@
   background-color: #028E9B; /* temporary all frames with one color */
   color: aliceblue;
   margin: 2vmin;
+  min-height: 3.5em;
 
   &.frame-first-type {
     /* background-color: #FFAA00;*/
   }
 
   &.frame-second-type {
-    background-color: #FF8B00;
+    background-color: #F99826;
   }
 
   &.frame-right {
@@ -19,4 +20,8 @@
     border: 3px solid #660BAB;
   }
 
+}
+
+.frame.Button {
+  border-radius: 10px;
 }
