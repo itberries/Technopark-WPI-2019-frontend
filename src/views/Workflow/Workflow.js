@@ -77,7 +77,7 @@ class Workflow extends React.Component {
           history={this.state.history}
         >
           <Panel id="learningmap" key="learningmap">
-            <PanelHeader>Обучение</PanelHeader>
+            <PanelHeader>Путешествие к IT звездам</PanelHeader>
             <LearningMap onSelectSubsection={this.goForward} />
           </Panel>
           <Panel id="subsection" key="subsection">

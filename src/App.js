@@ -111,13 +111,13 @@ class App extends React.Component {
       {
         view: Workflow,
         name: 'workflow',
-        text: 'Обучение',
+        text: 'Путешествие',
         icon: workflowIcon,
       },
       {
         view: Games,
         name: 'games',
-        text: 'Игры',
+        text: 'Игры с друзьями',
         icon: gamesIcon,
       },
       {
