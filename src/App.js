@@ -109,31 +109,31 @@ class App extends React.Component {
       {
         view: Workflow,
         name: 'workflow',
-        text: 'Workflow',
+        text: 'Обучение',
         icon: workflowIcon,
       },
       {
         view: Games,
         name: 'games',
-        text: 'Games',
+        text: 'Игры',
         icon: gamesIcon,
       },
       {
         view: LeaderBoard,
         name: 'leaderboard',
-        text: 'Leaderboard',
+        text: 'Таблица лидеров',
         icon: leaderboardIcon,
       },
       {
         view: Events,
         name: 'events',
-        text: 'Events',
+        text: 'События',
         icon: eventsIcon,
       },
       {
         view: Profile,
         name: 'profile',
-        text: 'Profile',
+        text: 'Профиль',
         icon: profileIcon,
       },
     ];

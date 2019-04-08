@@ -77,15 +77,19 @@ class Workflow extends React.Component {
           history={this.state.history}
         >
           <Panel id="learningmap" key="learningmap">
-            <PanelHeader>Learning Map</PanelHeader>
+            <PanelHeader>Обучение</PanelHeader>
             <LearningMap onSelectSubsection={this.goForward} />
           </Panel>
           <Panel id="subsection" key="subsection">
-            <Header text="Subsection" onBackClick={this.goBack} previousPanel="learningmap" />
+            <Header
+              text="Подсекция обучения"
+              onBackClick={this.goBack}
+              previousPanel="learningmap"
+            />
             <Subsection id={this.state.history.get('subsection')} onSelectStep={this.goForward} />
           </Panel>
           <Panel id="steps" key="steps">
-            <Header text="Steps" onBackClick={this.goBack} previousPanel="learningmap" />
+            <Header text="Шаг обучения" onBackClick={this.goBack} previousPanel="learningmap" />
             <Steps id={this.state.history.get('steps')} goBack={this.goBack} />
           </Panel>
         </View>
