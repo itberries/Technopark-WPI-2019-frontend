@@ -117,13 +117,13 @@ class App extends React.Component {
       {
         view: Games,
         name: 'games',
-        text: 'Игры с друзьями',
+        text: 'Игры',
         icon: gamesIcon,
       },
       {
         view: LeaderBoard,
         name: 'leaderboard',
-        text: 'Таблица лидеров',
+        text: 'Лидеры',
         icon: leaderboardIcon,
       },
       {
