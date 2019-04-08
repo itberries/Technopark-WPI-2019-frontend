@@ -48,12 +48,11 @@ class Steps extends React.Component {
   }
 
   async goForward() {
+    await this.props.completeStep(this.state.activeStep.id);
     if (this.state.activeStep.childId !== 0) {
       const activeStep = this.props.steps.get(this.state.activeStep.childId);
-      await this.props.completeStep(this.props.id);
       this.setState({ activeStep });
     } else {
-      await this.props.completeStep(this.props.id);
       this.props.goBack();
     }
   }
