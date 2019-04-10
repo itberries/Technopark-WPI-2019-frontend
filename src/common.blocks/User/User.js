@@ -11,9 +11,9 @@ const User = ({ user }) => (
           {user.photo ? <Avatar src={user.photo} /> : null}
         </div>
         <div className="user__item user_name">{`${user.firstName} ${user.lastName}`}</div>
-        <div className="user__item user_score_title">Набранные очки:</div>
+        <div className="user__item user_score_title">Очки:</div>
         <div className="user__item user_score_value">{user.score}</div>
-        <div className="user__item user_level_title">Текущий уровень:</div>
+        <div className="user__item user_level_title">Уровень:</div>
         <div className="user__item user_level_value">Basic</div>
       </div>
     ) : (
