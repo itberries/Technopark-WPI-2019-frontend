@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { Div } from '@vkontakte/vkui';
 
+import SpinnerCentered from '../../../common.blocks/SpinnerCentered/SpinnerCentered';
 import SubsectionBlock from './__Block/Subsection__Block';
 import './Subsection.scss';
 
@@ -36,8 +37,21 @@ const mapDispatchToProps = dispatch => bindActionCreators(
  * Subsection component for learning workflow
  */
 class Subsection extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+    };
+  }
+
   async componentWillMount() {
+    this.setState({
+      isLoading: true,
+    });
     await this.props.fetchSubsectionSteps();
+    this.setState({
+      isLoading: false,
+    });
   }
 
   /**
@@ -45,6 +59,8 @@ class Subsection extends React.Component {
    * @return {ReactElement} markup with list of blocks in subsection container
    */
   render() {
+    const { isLoading } = this.state;
+
     const { subsectionStepsById, firstStepInStepListId, lastCompletedStepId } = this.props;
 
     let step;
@@ -80,7 +96,9 @@ class Subsection extends React.Component {
 
     return (
       <Div className="subsection">
-        <Div className="subsection__container">{subsectionBlocks}</Div>
+        <Div className="subsection__container">
+          {isLoading ? <SpinnerCentered /> : subsectionBlocks}
+        </Div>
       </Div>
     );
   }

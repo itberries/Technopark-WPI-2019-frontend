@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 
 import * as Utils from '../../../utils/utils';
 
+import SpinnerCentered from '../../../common.blocks/SpinnerCentered/SpinnerCentered';
 import LearningMapRow from './__Row/LearningMap__Row';
 import LearningMapSeparator from './__Separator/LearningMap__Separator';
 import LearningMapPoints from './__Points/LearningMap__Points';
 import LearningMapSubsection from './__Subsection/LearningMap__Subsection';
-import SpinnerCentered from '../../../common.blocks/SpinnerCentered/SpinnerCentered';
 
 import './LearningMap.scss';
 
@@ -40,19 +40,18 @@ class LearningMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fetching: false,
+      isLoading: false,
     };
     this.myRef = React.createRef();
   }
 
   async componentWillMount() {
-    console.log('маунтим мап');
     this.setState({
-      fetching: true,
+      isLoading: true,
     });
     await this.props.fetchSections();
     this.setState({
-      fetching: false,
+      isLoading: false,
     });
   }
 
@@ -187,16 +186,15 @@ class LearningMap extends React.Component {
    * @return {ReactElement} Sections rows with their subsection buttons and separators
    */
   render() {
-    const { fetching } = this.state;
+    const { isLoading } = this.state;
     const { sectionsById } = this.props;
     return (
       <div className="learningMap">
-        {fetching ? (
+        {isLoading ? (
           <SpinnerCentered />
         ) : (
           sectionsById && <div className="learningMap__container">{this.generateLearningMap()}</div>
         )}
-        }
       </div>
     );
   }
