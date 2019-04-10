@@ -46,6 +46,7 @@ class LearningMap extends React.Component {
   }
 
   async componentWillMount() {
+    console.log('маунтим мап');
     this.setState({
       fetching: true,
     });
@@ -140,7 +141,6 @@ class LearningMap extends React.Component {
           end = minCol + 1;
         }
       }
-      // if (subsection.id === this.state.lastSubsectionId) {
       if (subsection.id === userState.subsectionId) {
         generateProps.isCompleted = false;
       }
@@ -191,8 +191,12 @@ class LearningMap extends React.Component {
     const { sectionsById } = this.props;
     return (
       <div className="learningMap">
-        {fetching && <SpinnerCentered />}
-        {sectionsById && <div className="learningMap__container">{this.generateLearningMap()}</div>}
+        {fetching ? (
+          <SpinnerCentered />
+        ) : (
+          sectionsById && <div className="learningMap__container">{this.generateLearningMap()}</div>
+        )}
+        }
       </div>
     );
   }
