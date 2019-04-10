@@ -6,11 +6,6 @@ $subsection-height: calc( 100vh - 92px );
   height: auto;
 }
 
-#learningMap {
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
 .learningMap {
   width: 100vw;
   min-height: $subsection-height;

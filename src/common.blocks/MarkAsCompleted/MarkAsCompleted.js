@@ -5,7 +5,7 @@ import check from '../../images/common.blocks/MarkAsCompleted/Check.svg';
 
 const MarkAsCompleted = ({ margin, isCompleted, className }) => {
   const divStyle = {
-    marginLeft: `${margin}px`,
+    right: `${margin}vmin`,
   };
   return (
     <div
