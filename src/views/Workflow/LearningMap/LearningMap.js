@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { Spinner } from '@vkontakte/vkui';
-
 import * as Utils from '../../../utils/utils';
 
 import LearningMapRow from './__Row/LearningMap__Row';
 import LearningMapSeparator from './__Separator/LearningMap__Separator';
 import LearningMapPoints from './__Points/LearningMap__Points';
 import LearningMapSubsection from './__Subsection/LearningMap__Subsection';
+import SpinnerCentered from '../../../common.blocks/SpinnerCentered/SpinnerCentered';
 
 import './LearningMap.scss';
 
@@ -192,7 +191,7 @@ class LearningMap extends React.Component {
     const { sectionsById } = this.props;
     return (
       <div className="learningMap">
-        {fetching && <Spinner size="large" style={{ display: 'flex' }} />}
+        {fetching && <SpinnerCentered />}
         {sectionsById && <div className="learningMap__container">{this.generateLearningMap()}</div>}
       </div>
     );
