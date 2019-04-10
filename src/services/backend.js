@@ -4,7 +4,7 @@ import BackendAPIServiceMock from './backendMock';
 
 class BackendAPIService {
   async getProfile(id) {
-    await axios.patch(`/user/${id}/reset_current_state/`);
+    // await axios.patch(`/user/${id}/reset_current_state/`);
     const res = await axios.get(`/user/${id}/`);
     console.log(`BackendAPIService: getProfile(${id}) res: `, res);
     const { user, userState } = res.data;
