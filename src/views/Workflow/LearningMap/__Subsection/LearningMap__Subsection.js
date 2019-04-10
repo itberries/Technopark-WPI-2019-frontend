@@ -55,7 +55,8 @@ class LearningMapSubsection extends React.Component {
         end = learningMapRightLimit;
       }
     }
-    this.setState({ start, end });
+    const mark = (container.offsetWidth / 2) * 0.8 * (end - start + 1);
+    this.setState({ start, end, mark });
   }
 
   /**
@@ -74,6 +75,7 @@ class LearningMapSubsection extends React.Component {
           <MarkAsCompleted
             isCompleted={this.state.isCompleted}
             className="LearningMap__Subsection_mark"
+            margin={this.state.mark}
           />
           <Button
             className={`learningMap__button${

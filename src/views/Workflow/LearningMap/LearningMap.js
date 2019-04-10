@@ -41,6 +41,7 @@ class LearningMap extends React.Component {
     this.state = {
       fetching: false,
     };
+    this.myRef = React.createRef();
   }
 
   async componentWillMount() {
@@ -54,14 +55,12 @@ class LearningMap extends React.Component {
   }
 
   componentDidMount() {
-    if (window.worfkflowScrollY === undefined) {
-      window.worfkflowScrollY = document.getElementsByClassName('learningMap')[0].scrollHeight;
-    }
-    window.scrollTo(0, window.worfkflowScrollY);
+    this.scrollToMyRef();
   }
 
-  componentWillUnmount() {
-    window.worfkflowScrollY = window.scrollY;
+  componentDidUpdate() {
+    console.log('componentDidUpdate learningmap!');
+    this.scrollToMyRef();
   }
 
   /**
@@ -160,6 +159,7 @@ class LearningMap extends React.Component {
       );
       if (!(generateProps.afterLast || generateProps.isCompleted)) {
         generateProps.afterLast = true;
+        sectionChain.unshift(<div ref={this.myRef} />);
       }
       if (generateProps.position === 1 || generateProps.position === 5) {
         generateProps.vector *= -1;
@@ -194,6 +194,12 @@ class LearningMap extends React.Component {
         {sectionsById && <div className="learningMap__container">{this.generateLearningMap()}</div>}
       </div>
     );
+  }
+
+  scrollToMyRef() {
+    if (this.myRef.current !== null) {
+      window.scrollTo(0, this.myRef.current.offsetTop - document.documentElement.clientHeight / 2);
+    }
   }
 }
 

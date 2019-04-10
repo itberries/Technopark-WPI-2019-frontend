@@ -59,9 +59,7 @@ class Step extends React.Component {
             <Button
               level="commerce"
               className={`step__button ${
-                this.props.next === 0 || this.props.type === 'interactive'
-                  ? 'step__button-unactive'
-                  : ''
+                this.props.type === 'interactive' ? 'step__button-unactive' : ''
               }`}
               onClick={(e) => {
                 e.preventDefault();
