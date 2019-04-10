@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import { Spinner } from '@vkontakte/vkui';
+
 import * as Utils from '../../../utils/utils';
 
 import LearningMapRow from './__Row/LearningMap__Row';
@@ -114,7 +116,7 @@ class LearningMap extends React.Component {
   generateSection(section, isLast, generateProps) {
     const { userState } = this.props;
     if (typeof userState === 'undefined') {
-      return <div key={`Loading_${section.id}_${new Date().getTime()}`}>Loading...</div>;
+      return '';
     }
 
     const minCol = 1;
@@ -190,7 +192,7 @@ class LearningMap extends React.Component {
     const { sectionsById } = this.props;
     return (
       <div className="learningMap">
-        {fetching && <div>Loading...</div>}
+        {fetching && <Spinner size="large" style={{ display: 'flex' }} />}
         {sectionsById && <div className="learningMap__container">{this.generateLearningMap()}</div>}
       </div>
     );
