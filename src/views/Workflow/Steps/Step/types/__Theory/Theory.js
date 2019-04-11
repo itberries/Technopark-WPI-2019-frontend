@@ -5,6 +5,7 @@ import { Group } from '@vkontakte/vkui';
 
 import backendAPIService from '../../../../../../services/backend';
 
+import SpinnerCentered from '../../../../../../common.blocks/SpinnerCentered/SpinnerCentered';
 import Card from '../../__Card/Card';
 
 class Theory extends React.Component {
@@ -12,12 +13,16 @@ class Theory extends React.Component {
     super(props);
     this.state = {
       cards: [],
+      isLoading: false,
     };
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
+    this.setState({
+      isLoading: true,
+    });
     const cards = await backendAPIService.getCards(this.props.id);
-    this.setState({ cards });
+    this.setState({ cards, isLoading: false });
   }
 
   generateCards() {
@@ -29,7 +34,8 @@ class Theory extends React.Component {
   }
 
   render() {
-    return <Group>{this.generateCards()}</Group>;
+    const { isLoading } = this.state;
+    return <Group>{isLoading ? <SpinnerCentered /> : this.generateCards()}</Group>;
   }
 }
 

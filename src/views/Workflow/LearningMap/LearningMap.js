@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import * as Utils from '../../../utils/utils';
 
+import SpinnerCentered from '../../../common.blocks/SpinnerCentered/SpinnerCentered';
 import LearningMapRow from './__Row/LearningMap__Row';
 import LearningMapSeparator from './__Separator/LearningMap__Separator';
 import LearningMapPoints from './__Points/LearningMap__Points';
@@ -39,18 +40,18 @@ class LearningMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fetching: false,
+      isLoading: false,
     };
     this.myRef = React.createRef();
   }
 
   async componentWillMount() {
     this.setState({
-      fetching: true,
+      isLoading: true,
     });
     await this.props.fetchSections();
     this.setState({
-      fetching: false,
+      isLoading: false,
     });
   }
 
@@ -114,7 +115,7 @@ class LearningMap extends React.Component {
   generateSection(section, isLast, generateProps) {
     const { userState } = this.props;
     if (typeof userState === 'undefined') {
-      return <div key={`Loading_${section.id}_${new Date().getTime()}`}>Loading...</div>;
+      return '';
     }
 
     const minCol = 1;
@@ -139,7 +140,6 @@ class LearningMap extends React.Component {
           end = minCol + 1;
         }
       }
-      // if (subsection.id === this.state.lastSubsectionId) {
       if (subsection.id === userState.subsectionId) {
         generateProps.isCompleted = false;
       }
@@ -186,12 +186,15 @@ class LearningMap extends React.Component {
    * @return {ReactElement} Sections rows with their subsection buttons and separators
    */
   render() {
-    const { fetching } = this.state;
+    const { isLoading } = this.state;
     const { sectionsById } = this.props;
     return (
       <div className="learningMap">
-        {fetching && <div>Loading...</div>}
-        {sectionsById && <div className="learningMap__container">{this.generateLearningMap()}</div>}
+        {isLoading ? (
+          <SpinnerCentered />
+        ) : (
+          sectionsById && <div className="learningMap__container">{this.generateLearningMap()}</div>
+        )}
       </div>
     );
   }
