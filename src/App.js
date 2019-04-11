@@ -7,11 +7,13 @@ import { connect } from 'react-redux';
 
 import '@vkontakte/vkui/dist/vkui.css';
 
+import Intro from './views/Intro/Intro';
 import Workflow from './views/Workflow/Workflow';
 import Games from './views/Games/Games';
 import Profile from './views/Profile/Profile';
 import LeaderBoard from './views/Leaderboard/Leaderboard';
 import Events from './views/Events/Events';
+
 import Navigation from './common.blocks/Navigation/Navigation';
 
 import workflowIcon from './images/icons/workflow.svg';
@@ -63,7 +65,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeView: props.viewName,
+      activeView: 'intro', // props.viewName,
     };
     this.onViewChange = this.onViewChange.bind(this);
   }
@@ -106,7 +108,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('Location href:', window.location.href);
     const viewsData = [
       {
         view: Workflow,
@@ -139,7 +140,10 @@ class App extends React.Component {
         icon: profileIcon,
       },
     ];
-    const result = (
+    const showIntro = this.state.activeView === 'intro';
+    const result = showIntro ? (
+      <Intro />
+    ) : (
       <Navigation
         activeView={this.state.activeView}
         viewsData={viewsData}

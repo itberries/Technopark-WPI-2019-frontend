@@ -1,0 +1,23 @@
+.intro {
+  position: relative;
+  height: 100%;
+}
+
+.intro__container {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.intro__image {
+  width: 70%;
+}
+
+.intro__text {
+  font: "Comic Sans MS", cursive, sans-serif;
+  font-weight: bold;
+  font-size: 1.2em;
+  text-align: center;
+  width: 70%;
+  margin: auto;
+}
