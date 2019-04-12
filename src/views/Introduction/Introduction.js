@@ -24,10 +24,11 @@ class Introduction extends React.Component {
   }
 
   onChangeSlide(newIntro) {
-    console.log('Introduction onChange new:', newIntro);
-    this.setState({
-      currentIntro: newIntro,
-    });
+    if (newIntro !== this.state.currentIntro) {
+      this.setState({
+        currentIntro: newIntro,
+      });
+    }
   }
 
   onNextSlide() {
