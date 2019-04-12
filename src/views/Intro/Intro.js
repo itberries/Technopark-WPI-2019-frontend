@@ -59,7 +59,7 @@ class Introduction extends React.Component {
             imageName="todo"
             bgColor="#982669"
             isInvertedTheme
-            info="Во время нашего путешествия ты преодолешь эти преграды во время увлекательных игр и соревнований с другими пользователями."
+            info="Во время нашего путешествия ты преодолешь эти преграды с помощью увлекательных игр и соревнований с другими пользователями."
           />
           <Intro
             onNext={this.nextSlide}
@@ -67,7 +67,7 @@ class Introduction extends React.Component {
             imageName="todo"
             bgColor="#56317B"
             isInvertedTheme
-            info="В числе первых получи информацию о самых интересных событиях в области IT от ведущих компаний."
+            info="В числе первых получай информацию о самых интересных событиях в области IT от ведущих компаний."
           />
           <Intro
             onNext={this.nextSlide}
