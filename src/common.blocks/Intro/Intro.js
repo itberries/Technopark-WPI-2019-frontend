@@ -6,10 +6,11 @@ import { Link } from '@vkontakte/vkui';
 import './Intro.scss';
 
 const Intro = ({
-  info, image, imageName, bgColor, isInvertedTheme, onNext,
+  onNext, image, imageName, info, bgColor, isInvertedTheme, isLast,
 }) => {
   const textClass = isInvertedTheme ? 'intro__text intro__text-inverted' : 'intro__text';
   const nextClass = isInvertedTheme ? 'intro__next intro__next-inverted' : 'intro__next';
+  const nextText = isLast ? 'Начать' : 'Дальше';
   return (
     <div className="intro" style={{ backgroundColor: bgColor }}>
       <div className="intro__container">
@@ -19,7 +20,7 @@ const Intro = ({
         </div>
       </div>
       <Link className={nextClass} onClick={onNext}>
-        Дальше
+        {nextText}
       </Link>
     </div>
   );
