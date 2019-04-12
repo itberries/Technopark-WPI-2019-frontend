@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Link } from '@vkontakte/vkui';
+
 import './Intro.scss';
 
 const Intro = ({
-  info, image, imageName, bgColor, isInvertedTheme,
+  info, image, imageName, bgColor, isInvertedTheme, onNext,
 }) => {
   const textClass = isInvertedTheme ? 'intro__text intro__text-inverted' : 'intro__text';
+  const nextClass = isInvertedTheme ? 'intro__next intro__next-inverted' : 'intro__next';
   return (
     <div className="intro" style={{ backgroundColor: bgColor }}>
       <div className="intro__container">
@@ -15,6 +18,9 @@ const Intro = ({
           <p>{info}</p>
         </div>
       </div>
+      <Link className={nextClass} onClick={onNext}>
+        Дальше
+      </Link>
     </div>
   );
 };
