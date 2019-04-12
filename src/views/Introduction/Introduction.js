@@ -32,13 +32,12 @@ class Introduction extends React.Component {
   }
 
   onNextSlide() {
-    if (this.state.currentIntro === 4) {
+    const numOfIntroScreens = 4;
+    if (this.state.currentIntro === numOfIntroScreens) {
       this.state.onStartClick();
       return;
     }
-    this.setState({
-      currentIntro: this.state.currentIntro + 1,
-    });
+    this.setState(prevState => ({ currentIntro: prevState.currentIntro + 1 }));
   }
 
   render() {
