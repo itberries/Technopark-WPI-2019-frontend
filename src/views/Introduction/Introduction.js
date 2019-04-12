@@ -17,15 +17,27 @@ class Introduction extends React.Component {
     this.state = {
       id: props.id,
       currentIntro: 0,
+      onStartClick: this.props.onStartClick,
     };
-    this.nextSlide = this.nextSlide.bind(this);
+    this.onNextSlide = this.onNextSlide.bind(this);
+    this.onChangeSlide = this.onChangeSlide.bind(this);
   }
 
-  nextSlide() {
+  onChangeSlide(newIntro) {
+    console.log('Introduction onChange new:', newIntro);
     this.setState({
-      currentIntro: this.state.currentIntro === 4 ? 0 : this.state.currentIntro + 1,
+      currentIntro: newIntro,
     });
-    // TODO: change if 4 then start app
+  }
+
+  onNextSlide() {
+    if (this.state.currentIntro === 4) {
+      this.state.onStartClick();
+      return;
+    }
+    this.setState({
+      currentIntro: this.state.currentIntro + 1,
+    });
   }
 
   render() {
@@ -37,9 +49,10 @@ class Introduction extends React.Component {
           style={{ height: '100%' }}
           bullets="dark"
           slideIndex={currentIntro}
+          onChange={this.onChangeSlide}
         >
           <Intro
-            onNext={this.nextSlide}
+            onNext={this.onNextSlide}
             image={planetsIcon}
             imageName="todo"
             bgColor="#70227E"
@@ -47,14 +60,14 @@ class Introduction extends React.Component {
             info="Дорогой друг, приветствуем тебя на борту космического корабля знаний! Ты отправляешься в увлекательное путешествие в новый мир IT."
           />
           <Intro
-            onNext={this.nextSlide}
+            onNext={this.onNextSlide}
             image={lampIcon}
             imageName="todo"
             bgColor="#DED1E7"
             info="На пути тебе могут встретиться коварные системы счисления, пугающее программирование, кодирование информации и алгоритмы.."
           />
           <Intro
-            onNext={this.nextSlide}
+            onNext={this.onNextSlide}
             image={videogameIcon}
             imageName="todo"
             bgColor="#982669"
@@ -62,7 +75,7 @@ class Introduction extends React.Component {
             info="Во время нашего путешествия ты преодолешь эти преграды с помощью увлекательных игр и соревнований с другими пользователями."
           />
           <Intro
-            onNext={this.nextSlide}
+            onNext={this.onNextSlide}
             image={deadlineIcon}
             imageName="todo"
             bgColor="#56317B"
@@ -70,7 +83,7 @@ class Introduction extends React.Component {
             info="В числе первых получай информацию о самых интересных событиях в области IT от ведущих компаний."
           />
           <Intro
-            onNext={this.nextSlide}
+            onNext={this.onNextSlide}
             image={startupIcon}
             imageName="todo"
             bgColor="#FFFFFF"

@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import '@vkontakte/vkui/dist/vkui.css';
 
-import Intro from './views/Intro/Intro';
+import Introduction from './views/Introduction/Introduction';
 import Workflow from './views/Workflow/Workflow';
 import Games from './views/Games/Games';
 import Profile from './views/Profile/Profile';
@@ -65,9 +65,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeView: 'intro', // props.viewName,
+      activeView: props.viewName,
+      showIntro: true,
     };
     this.onViewChange = this.onViewChange.bind(this);
+    this.showMainNavigation = this.showMainNavigation.bind(this);
   }
 
   /**
@@ -107,6 +109,16 @@ class App extends React.Component {
     this.setState({ activeView: e.currentTarget.dataset.story });
   }
 
+  /**
+   * Change the showIntro to false
+   * @memberof App
+   */
+  showMainNavigation() {
+    this.setState({
+      showIntro: false,
+    });
+  }
+
   render() {
     const viewsData = [
       {
@@ -140,9 +152,9 @@ class App extends React.Component {
         icon: profileIcon,
       },
     ];
-    const showIntro = this.state.activeView === 'intro';
+    const { showIntro } = this.state;
     const result = showIntro ? (
-      <Intro />
+      <Introduction onStartClick={this.showMainNavigation} />
     ) : (
       <Navigation
         activeView={this.state.activeView}
