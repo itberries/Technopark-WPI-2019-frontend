@@ -18,36 +18,35 @@ const Introduction = ({ id }) => (
         image={planetsIcon}
         imageName="todo"
         bgColor="#70227E"
-        textColor="#FFF"
+        isInvertedTheme
         info="Дорогой друг, приветствуем тебя на борту космического корабля знаний! Ты отправляешься в увлекательное путешествие в новый мир IT."
       />
       <Intro
         image={lampIcon}
         imageName="todo"
         bgColor="#DED1E7"
-        textColor="#41046F"
         info="На пути тебе могут встретиться коварные системы счисления, пугающее программирование, кодирование информации и алгоритмы.."
       />
       <Intro
         image={videogameIcon}
         imageName="todo"
         bgColor="#982669"
-        textColor="#FFF"
-        info="Во время нашего путешествия ты преодалешь эти преграды во время увлекательных игр и соревнований с другими пользователями."
+        isInvertedTheme
+        info="Во время нашего путешествия ты преодолешь эти преграды во время увлекательных игр и соревнований с другими пользователями."
       />
       <Intro
         image={deadlineIcon}
         imageName="todo"
         bgColor="#56317B"
-        textColor="#FFF"
+        isInvertedTheme
         info="В числе первых получи информацию о самых интересных событиях в области IT от ведущих компаний."
       />
       <Intro
         image={startupIcon}
         imageName="todo"
         bgColor="#FFFFFF"
-        textColor="#41046F"
         info="Путешествие в мир информатики и программирования начинается!"
+        isLast
       />
     </Gallery>
   </View>

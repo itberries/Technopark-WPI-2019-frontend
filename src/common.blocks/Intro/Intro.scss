@@ -14,10 +14,15 @@
 }
 
 .intro__text {
+  color: #41046F;
   font: "Comic Sans MS", cursive, sans-serif;
   font-weight: bold;
   font-size: 1.2em;
   text-align: center;
   width: 70%;
   margin: auto;
+}
+
+.intro__text-inverted {
+  color: #FFF;
 }
