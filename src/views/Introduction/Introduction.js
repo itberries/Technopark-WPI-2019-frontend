@@ -17,7 +17,6 @@ class Introduction extends React.Component {
     this.state = {
       id: props.id,
       currentIntro: 0,
-      onStartClick: this.props.onStartClick,
     };
     this.onNextSlide = this.onNextSlide.bind(this);
     this.onChangeSlide = this.onChangeSlide.bind(this);
@@ -34,7 +33,7 @@ class Introduction extends React.Component {
   onNextSlide() {
     const numOfIntroScreens = 4;
     if (this.state.currentIntro === numOfIntroScreens) {
-      this.state.onStartClick();
+      this.props.onStartClick();
       return;
     }
     this.setState(prevState => ({ currentIntro: prevState.currentIntro + 1 }));
@@ -98,6 +97,7 @@ class Introduction extends React.Component {
 
 Introduction.propTypes = {
   id: PropTypes.string.isRequired,
+  onStartClick: PropTypes.func.isRequired,
 };
 
 export default Introduction;
