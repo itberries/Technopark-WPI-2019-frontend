@@ -1,0 +1,35 @@
+.intro {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.intro__image {
+  width: 70%;
+}
+
+.intro__text {
+  color: #41046F;
+  font: "Comic Sans MS", cursive, sans-serif;
+  font-weight: bold;
+  font-size: 1.2em;
+  text-align: center;
+  width: 70%;
+  margin: auto;
+}
+
+.intro__text-inverted {
+  color: #FFF;
+}
+
+.intro__next {
+  color: #41046F;
+  position: absolute;
+  right:    15px;
+  bottom:   10px;
+}
+
+.intro__next-inverted {
+  color: #FFF;
+}
