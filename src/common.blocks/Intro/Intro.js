@@ -9,7 +9,9 @@ const Intro = ({
   onNext, image, imageName, info, bgColor, isInvertedTheme, isLast,
 }) => {
   const textClass = isInvertedTheme ? 'intro__text intro__text-inverted' : 'intro__text';
-  const nextClass = isInvertedTheme ? 'intro__next intro__next-inverted' : 'intro__next';
+  const nextClass = isInvertedTheme
+    ? 'tertiary intro__next intro__next-inverted'
+    : 'tertiary intro__next';
   const nextText = isLast ? 'Начать' : 'Дальше';
   return (
     <div className="intro" style={{ backgroundColor: bgColor }}>
@@ -27,9 +29,13 @@ const Intro = ({
 };
 
 Intro.propTypes = {
-  info: PropTypes.string.isRequired,
+  onNext: PropTypes.func,
   image: PropTypes.string.isRequired,
   imageName: PropTypes.string.isRequired,
+  info: PropTypes.string.isRequired,
+  bgColor: PropTypes.string,
+  isInvertedTheme: PropTypes.bool,
+  isLast: PropTypes.bool,
 };
 
 export default Intro;
