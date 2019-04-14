@@ -69,7 +69,7 @@ class LearningMapSubsection extends React.Component {
         ref={el => (this.container = el)}
         className={`learningMap__col learningMap__col_start_${
           this.state.start
-        } learningMap__col_end_${this.state.end}`}
+        } learningMap__col_end_${this.state.end} `}
       >
         <div className="LearningMap__Subsection_wrapper">
           <MarkAsCompleted
