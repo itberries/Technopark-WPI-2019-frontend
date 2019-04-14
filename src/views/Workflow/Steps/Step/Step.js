@@ -9,6 +9,10 @@ import Traning from './types/__Training/Training';
 import './Step.scss';
 
 class Step extends React.Component {
+  componentWillUpdate() {
+    window.scrollTo(0, 0);
+  }
+
   setContent() {
     let content = '';
     switch (this.props.type) {
