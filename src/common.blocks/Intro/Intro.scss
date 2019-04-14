@@ -3,10 +3,24 @@
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+.intro__container {
+  display: block;
+  position: relative;
+  width: 100%;
 }
 
 .intro__image {
-  width: 70%;
+  position: relative;
+  width: 50%;
+}
+
+@media screen and (max-width: 600px) {
+  .intro__image {
+    width: 70%;
+  }
 }
 
 .intro__text {

@@ -27,9 +27,13 @@ const Intro = ({
 };
 
 Intro.propTypes = {
-  info: PropTypes.string.isRequired,
+  onNext: PropTypes.func,
   image: PropTypes.string.isRequired,
   imageName: PropTypes.string.isRequired,
+  info: PropTypes.string.isRequired,
+  bgColor: PropTypes.string,
+  isInvertedTheme: PropTypes.bool,
+  isLast: PropTypes.bool,
 };
 
 export default Intro;
