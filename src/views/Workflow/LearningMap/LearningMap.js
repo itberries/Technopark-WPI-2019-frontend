@@ -40,28 +40,38 @@ class LearningMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: true,
     };
     this.myRef = React.createRef();
   }
 
-  async componentWillMount() {
-    this.setState({
-      isLoading: true,
-    });
-    await this.props.fetchSections();
-    this.setState({
-      isLoading: false,
-    });
-  }
-
-  componentDidMount() {
-    this.scrollToMyRef();
+  async componentDidMount() {
+    if (typeof this.props.sectionsById === 'undefined') {
+      this.setState({
+        isLoading: true,
+      });
+      await this.props.fetchSections();
+    } else {
+      this.scrollToMyRef();
+    }
   }
 
   componentDidUpdate() {
-    console.log('componentDidUpdate learningmap!');
     this.scrollToMyRef();
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (
+      prevState.isLoading === true
+      && typeof nextProps.sectionsById !== 'undefined'
+      && prevState.sectionsById !== nextProps.sectionsById
+    ) {
+      return {
+        ...prevState,
+        isLoading: false,
+      };
+    }
+    return null;
   }
 
   /**
@@ -189,7 +199,7 @@ class LearningMap extends React.Component {
     const { isLoading } = this.state;
     const { sectionsById } = this.props;
     return (
-      <div className="learningMap">
+      <div className="learningMap" key="learningmap_div">
         {isLoading ? (
           <SpinnerCentered />
         ) : (
