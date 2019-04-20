@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Theory from '../__Theory/Theory';
-import MiniGames from './MiniGames/MiniGame';
+import InteractiveGame from './MiniGames/InteractiveGame';
+import TrainingGame from './MiniGames/TrainingGame';
 
 class Interactive extends React.Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class Interactive extends React.Component {
       .get(`/${this.props.id}/minigames/`)
       .then((response) => {
         this.setState(() => {
+          console.log('getGameDate response.data: ', response.data);
           const type = response.data.type;
           const interactiveCards = response.data.interactiveCards;
           return { type, interactiveCards };
@@ -38,16 +40,33 @@ class Interactive extends React.Component {
   }
 
   render() {
-    return (
-      <React.Fragment>
-        <Theory id={this.props.id} />
-        <MiniGames
+    let game;
+    if (this.props.type !== 'interactive') {
+      game = (
+        <InteractiveGame
           id={this.props.id}
           key={this.props.id}
           gameType={this.state.type}
           gameData={this.state.interactiveCards}
           onCompleted={this.props.onCompleted}
         />
+      );
+    } else {
+      game = (
+        <TrainingGame
+          id={this.props.id}
+          key={this.props.id}
+          gameType={this.state.type}
+          gameData={this.state.interactiveCards}
+          onCompleted={this.props.onCompleted}
+        />
+      );
+    }
+    console.log('this.state.type :', this.state.type);
+    return (
+      <React.Fragment>
+        <Theory id={this.props.id} />
+        {this.state.type !== null ? game : ''}
       </React.Fragment>
     );
   }
@@ -56,6 +75,7 @@ class Interactive extends React.Component {
 Interactive.propTypes = {
   id: PropTypes.number.isRequired,
   onCompleted: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default Interactive;

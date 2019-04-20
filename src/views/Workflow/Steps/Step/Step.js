@@ -14,6 +14,7 @@ class Step extends React.Component {
   }
 
   setContent() {
+    console.log('steps setContent');
     let content = '';
     switch (this.props.type) {
       case 'theory':
@@ -27,6 +28,7 @@ class Step extends React.Component {
             this.props.goForward();
             this.setContent();
           },
+          type: this.props.type,
         });
         return content;
       case 'training':
