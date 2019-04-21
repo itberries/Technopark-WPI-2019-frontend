@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Frame from '../../../../../../../../../../common.blocks/Frame/Frame';
 import Match from '../../../Base/types/Match/Match';
 
@@ -19,7 +20,10 @@ class TraningMatch extends Match {
     this.state.frames = stateFrames;
     this.state.secondFrames = secondFrames;
     this.state.currentFrame = 1;
+    this.state.showTip = true;
+
     this.createFrame = this.createFrame.bind(this);
+    this.onTipClick = this.onTipClick.bind(this);
   }
 
   createFrame(frame, id) {
@@ -30,32 +34,47 @@ class TraningMatch extends Match {
         value={frame}
         isActive={!!this.state.selectedFrames.has(id)}
         isSecond={this.state.secondFrames.has(frame)}
-        tip={id === this.state.currentFrame}
-        tipText="Ткни сюда"
+        tip={id === this.state.currentFrame && this.state.showTip}
+        tipText="Нажми меня!"
+        onTipClick={this.onTipClick}
       />
     );
     return newFrame;
   }
 
   onFrameClick(id) {
-    console.log('onFrameClick id: ', id);
     if (id === this.state.currentFrame) {
       this.setState((prevState) => {
         let { currentFrame } = prevState;
-        console.log('onFrameClick this.state.currentFrame: ', currentFrame);
         currentFrame += 1;
-        console.log('onFrameClick this.state.currentFrame: ', currentFrame);
         return { currentFrame };
       });
       super.onFrameClick(id);
     }
+    this.setState((prevState) => {
+      let { showTip } = prevState;
+      showTip = !showTip;
+      return { showTip };
+    });
+  }
+
+  onTipClick() {
+    this.setState((prevState) => {
+      let { showTip } = prevState;
+      showTip = !showTip;
+      return { showTip };
+    });
   }
 
   sendFrames(frames) {
-    console.log('sendFrames');
     // if (frames[0])
     this.rightAnswer();
+    if (this.state.rightFrames.length === this.state.frames.size) {
+      this.props.onComplete();
+    }
   }
 }
+
+TraningMatch.propTypes.onComplete = PropTypes.func.isRequired;
 
 export default TraningMatch;

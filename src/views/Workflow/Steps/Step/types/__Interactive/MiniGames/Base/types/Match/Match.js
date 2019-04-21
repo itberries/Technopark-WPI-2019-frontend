@@ -115,7 +115,6 @@ class Match extends React.Component {
     this.state.frames.forEach((frame, id) => {
       newFrames.push(this.createFrame(frame, id));
     });
-    // <Frame onFrameClick={this.onFrameClick} value={} />
     return newFrames;
   }
 }

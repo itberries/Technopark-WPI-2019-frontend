@@ -41,7 +41,7 @@ class Interactive extends React.Component {
 
   render() {
     let game;
-    if (this.props.type !== 'interactive') {
+    if (this.props.type === 'interactive') {
       game = (
         <InteractiveGame
           id={this.props.id}

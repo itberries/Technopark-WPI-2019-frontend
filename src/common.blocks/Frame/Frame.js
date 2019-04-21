@@ -5,13 +5,6 @@ import { Button, Tooltip } from '@vkontakte/vkui';
 import './Frame.scss';
 
 class Frame extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tooltip: true,
-    };
-  }
-
   render() {
     const button = (
       <Button
@@ -31,8 +24,9 @@ class Frame extends React.Component {
       return (
         <Tooltip
           text={this.props.tipText}
-          isShown={this.state.tooltip}
-          onClose={() => this.setState({ tooltip: false })}
+          isShown={this.props.tip}
+          onClose={() => this.props.onTipClick()}
+          offsetY={0}
         >
           {button}
         </Tooltip>
@@ -51,6 +45,7 @@ Frame.propTypes = {
   isSecond: PropTypes.bool,
   tip: PropTypes.bool,
   tipText: PropTypes.string,
+  onTipClick: PropTypes.func,
 };
 
 Frame.defaultProps = {
@@ -59,6 +54,7 @@ Frame.defaultProps = {
   isSecond: false,
   tip: false,
   tipText: '',
+  onTipClick: null,
 };
 
 export default Frame;
