@@ -1,0 +1,21 @@
+.achievement {
+  border: 1px solid rgb(124, 118, 123);
+  border-radius: 15px;
+  text-align: center;
+}
+
+.achievement__note {
+  padding: 5px;
+  width: 100%;
+}
+
+.achievement__image {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+
+.achievement__image-active {
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}

@@ -22,3 +22,14 @@ export function addUserProfile(id) {
     });
   };
 }
+
+export function getAchievements() {
+  return async (dispatch) => {
+    const achievements = await backendAPIService.getAchievements();
+    console.log('getAchievements action achievements:', achievements);
+    dispatch({
+      type: types.USER_ACHIEVEMENTS_FETCHED,
+      achievements,
+    });
+  };
+}

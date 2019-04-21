@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Group, Avatar } from '@vkontakte/vkui';
+import { Group, Avatar, Div } from '@vkontakte/vkui';
 import './User.scss';
 
 const User = ({ user }) => (
-  <Group title="Информация о пользователе" className="user">
+  <Group className="user">
     {typeof user.firstName !== 'undefined' ? (
-      <div before={user.photo ? <Avatar src={user.photo} /> : null} size=" l" className="container">
+      <Div before={user.photo ? <Avatar src={user.photo} /> : null} size=" l" className="container">
         <div className="user__item user_avatar" size=" l" align="center">
           {user.photo ? <Avatar src={user.photo} /> : null}
         </div>
@@ -15,7 +15,7 @@ const User = ({ user }) => (
         <div className="user__item user_score_value">{user.score}</div>
         <div className="user__item user_level_title">Уровень:</div>
         <div className="user__item user_level_value">Basic</div>
-      </div>
+      </Div>
     ) : (
       ''
     )}

@@ -74,6 +74,12 @@ class BackendAPIService {
       }
     */
   }
+
+  async getAchievements() {
+    const res = await axios.get('/rewards/');
+    console.log('BackendAPIService: getAchievements() res: ', res);
+    return res.data;
+  }
 }
 
 const BackendAPI = types.DEBUG_API ? BackendAPIServiceMock : BackendAPIService;

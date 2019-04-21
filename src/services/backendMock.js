@@ -71,6 +71,15 @@ class BackendAPIServiceMock {
     console.log('BackendAPIServiceMOCK: getCards res: ', res);
     return res.data;
   }
+
+  async getAchievements() {
+    const res = await delay(API_MOCK_DELAY).then(() => {
+      const rewards = fakeDatabase.rewards.map(reward => Object.assign({}, reward));
+      return { data: rewards };
+    });
+    console.log('BackendAPIServiceMOCK: getAchievements res: ', res);
+    return res.data;
+  }
 }
 
 export default BackendAPIServiceMock;

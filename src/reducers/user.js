@@ -4,6 +4,7 @@ import * as types from '../constants/actionTypes';
 const initialState = Immutable({
   user: undefined,
   state: undefined,
+  achievements: undefined,
 });
 
 export default function reduce(state = initialState, action = {}) {
@@ -18,6 +19,12 @@ export default function reduce(state = initialState, action = {}) {
       return Immutable.merge({
         ...state,
         state: action.nextState,
+      });
+    case types.USER_ACHIEVEMENTS_FETCHED:
+      console.log('USER_ACHIEVEMENTS_FETCHED action:', action);
+      return Immutable.merge({
+        ...state,
+        achievements: action.achievements,
       });
     default:
       return state;

@@ -206,6 +206,53 @@ const fakeDatabase = {
       childId: 0,
     },
   ],
+  rewards: [
+    {
+      id: 1,
+      note: 'Вы молодец!',
+      imageUrl: 'https://it-berries.ru/rewards/reward1.png',
+    },
+    {
+      id: 2,
+      note: 'Вы молодец!',
+      imageUrl: 'https://it-berries.ru/rewards/reward2.png',
+    },
+    {
+      id: 3,
+      note: 'Вы молодец!',
+      imageUrl: 'https://it-berries.ru/rewards/reward3.png',
+    },
+    {
+      id: 4,
+      note: 'Вы молодец!',
+      imageUrl: 'https://it-berries.ru/rewards/reward4.png',
+    },
+    {
+      id: 5,
+      note: 'Вы молодец!',
+      imageUrl: 'https://it-berries.ru/rewards/reward5.png',
+    },
+    {
+      id: 6,
+      note: 'Вы молодец!',
+      imageUrl: 'https://it-berries.ru/rewards/reward6.png',
+    },
+    {
+      id: 7,
+      note: 'Вы молодец!',
+      imageUrl: 'https://it-berries.ru/rewards/reward7.png',
+    },
+    {
+      id: 8,
+      note: 'Вы молодец!',
+      imageUrl: 'https://it-berries.ru/rewards/reward8.png',
+    },
+    {
+      id: 9,
+      note: 'Вы молодец!',
+      imageUrl: 'https://it-berries.ru/rewards/reward9.png',
+    },
+  ],
 };
 
 export default fakeDatabase;
