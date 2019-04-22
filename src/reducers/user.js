@@ -14,11 +14,13 @@ export default function reduce(state = initialState, action = {}) {
         ...state,
         user: action.user,
         state: action.userState,
+        activeAchievements: action.userAchievements,
       });
     case types.USER_NEW_STATE_FETCHED:
       return Immutable.merge({
         ...state,
         state: action.nextState,
+        activeAchievements: action.userAchievements,
       });
     case types.USER_ACHIEVEMENTS_FETCHED:
       console.log('USER_ACHIEVEMENTS_FETCHED action:', action);

@@ -27,9 +27,7 @@ class Achievements extends React.Component {
   }
 
   render() {
-    console.log('RENDER ACHIEVEMENTS PROPS:', this.props);
-    const activeAchievements = [1, 5, 6];
-    const items = this.generateItems(this.props.allAchievements, activeAchievements);
+    const items = this.generateItems(this.props.allAchievements, this.props.activeAchievements);
     return (
       <Group className="achievements">
         {typeof items !== 'undefined' ? (

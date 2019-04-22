@@ -13,7 +13,7 @@ import Achievements from '../../common.blocks/Achievements/Achievements';
 import { getUserProfile, getAchievements } from '../../actions/user';
 
 const mapStateToProps = (state) => {
-  const { user, achievements } = state.user;
+  const { user, activeAchievements, achievements } = state.user;
   if (
     typeof user !== 'undefined'
     && typeof state.vk.vkAppUser.vkUserInfo !== 'undefined'
@@ -25,6 +25,7 @@ const mapStateToProps = (state) => {
   }
   return {
     user,
+    activeAchievements,
     achievements,
   };
 };
@@ -90,7 +91,9 @@ class Profile extends React.Component {
 
   render() {
     const { isLoading } = this.state;
-    const { id, user, achievements } = this.props;
+    const {
+      id, user, achievements, activeAchievements,
+    } = this.props;
     console.log('RENDER PROPS', this.props);
     return (
       <View key={id} id={id} activePanel={id}>
@@ -101,7 +104,10 @@ class Profile extends React.Component {
           ) : (
             <React.Fragment>
               <User user={user} />
-              <Achievements allAchievements={achievements} />
+              <Achievements
+                allAchievements={achievements}
+                activeAchievements={activeAchievements}
+              />
             </React.Fragment>
           )}
         </Panel>

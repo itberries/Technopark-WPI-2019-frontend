@@ -6,7 +6,6 @@ import { Div } from '@vkontakte/vkui';
 import './Achievements__Item.scss';
 
 const AchievementsItem = ({ imageUrl, note, isActive }) => {
-  console.log('achievement isActive', isActive);
   const achievementImageClass = isActive
     ? 'achievement__image achievement__image-active'
     : 'achievement__image';
