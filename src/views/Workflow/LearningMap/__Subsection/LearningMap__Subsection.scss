@@ -43,18 +43,18 @@ $mark-left: calc((100vw * 2/ 5) * 0.8 - 1.1em);
       }
 
       &-current {
-        @keyframes changeShadow {
+        @keyframes changeShadowSubsection {
           from {
-            box-shadow: 0px 3px 45px rgba(247, 209, 241, 0.5);
+            box-shadow: 0px 0px 50px rgba(255, 255, 255, 1);
           }
           to {
-            box-shadow: 0px 3px 15px rgba(243, 182, 234, 0.5);
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.5);
           }
         }
 
         border: 2px solid $subsection-current-color;
         animation-duration: 1s;
-        animation-name: changeShadow;
+        animation-name: changeShadowSubsection;
         animation-iteration-count: infinite;
         animation-direction: alternate-reverse;
       }
