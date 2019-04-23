@@ -10,6 +10,7 @@ $subsection-height: calc( 100vh - 92px );
   width: 100vw;
   min-height: $subsection-height;
   max-height: auto;
+  padding-top: 50px;
 
   background-image: url('../../../images/workflow/sky.png');
   background-repeat: repeat;
