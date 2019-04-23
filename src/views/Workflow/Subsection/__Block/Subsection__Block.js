@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Button } from '@vkontakte/vkui';
 
 import MarkAsCompleted from '../../../../common.blocks/MarkAsCompleted/MarkAsCompleted';
+import MarkAsLocked from '../../../../common.blocks/MarkAsLocked/MarkAsLocked';
 import './Subsection__Block.scss';
 
 /**
@@ -19,6 +20,7 @@ const SubsectionBlock = ({
   type,
   children,
   isCompleted,
+  isLocked,
   isActive,
   onSelectStep,
   id,
@@ -26,6 +28,7 @@ const SubsectionBlock = ({
   <div className="subsection__block">
     <div className="subsection__block_wrapper">
       <MarkAsCompleted className="subsection__block_mark" isCompleted={isCompleted} />
+      <MarkAsLocked className="subsection__block_mark" isLocked={isLocked} />
       <Button
         className={`subsection__button ${
           isActive ? 'subsection__button-active' : ''
@@ -61,6 +64,8 @@ SubsectionBlock.propTypes = {
   children: PropTypes.string.isRequired,
   /** Description of prop "isCompleted". */
   isCompleted: PropTypes.bool,
+  /** Description of prop "isLocked". */
+  isLocked: PropTypes.bool,
   /** Description of prop "isActive". */
   isActive: PropTypes.bool,
   /** Description of prop "isActive". */
