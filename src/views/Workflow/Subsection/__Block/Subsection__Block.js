@@ -30,8 +30,8 @@ const SubsectionBlock = ({
       <MarkAsCompleted className="subsection__block_mark" isCompleted={isCompleted} />
       <MarkAsLocked className="subsection__block_mark" isLocked={isLocked} />
       <Button
-        className={`subsection__button ${
-          isActive ? 'subsection__button-active' : ''
+        className={`subsection__button ${isActive ? 'subsection__button-active' : ''} ${
+          !isCompleted && !isLocked ? 'subsection__button-current' : ''
         } subsection__button-${type}`}
         onClick={(e) => {
           if (isActive) {
