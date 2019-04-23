@@ -16,28 +16,20 @@ class Step extends React.Component {
   setContent() {
     console.log('steps setContent');
     let content = '';
-    switch (this.props.type) {
-      case 'theory':
-        content = React.createElement(Theory, { id: this.props.id, key: this.props.id });
-        return content;
-      case 'interactive':
-        content = React.createElement(Interact, {
-          id: this.props.id,
-          key: this.props.id,
-          onCompleted: () => {
-            this.props.goForward();
-            this.setContent();
-          },
-          type: this.props.type,
-        });
-        return content;
-      case 'training':
-        content = React.createElement(Traning, { id: this.props.id, key: this.props.id });
-        return content;
-      default:
-        console.error('unregistered step type');
-        return '';
+    if (this.props.type === 'theory') {
+      content = React.createElement(Theory, { id: this.props.id, key: this.props.id });
+      return content;
     }
+    content = React.createElement(Interact, {
+      id: this.props.id,
+      key: this.props.id,
+      onCompleted: () => {
+        this.props.goForward();
+        this.setContent();
+      },
+      type: this.props.type,
+    });
+    return content;
   }
 
   render() {
