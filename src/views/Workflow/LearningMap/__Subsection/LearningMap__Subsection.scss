@@ -36,6 +36,13 @@ $mark-left: calc((100vw * 2/ 5) * 0.8 - 1.1em);
         background-color: $subsection-active-color;
         transition: all .3s ease-in-out;
 
+        &:hover{
+          cursor:pointer;
+          transform: scale(1.05);
+        }
+      }
+
+      &-current {
         @keyframes changeShadow {
           from {
             box-shadow: 0px 3px 45px rgba(247, 209, 241, 0.5);
@@ -45,13 +52,6 @@ $mark-left: calc((100vw * 2/ 5) * 0.8 - 1.1em);
           }
         }
 
-        &:hover{
-          cursor:pointer;
-          transform: scale(1.05);
-        }
-      }
-
-      &-current {
         border: 2px solid $subsection-current-color;
         animation-duration: 1s;
         animation-name: changeShadow;
