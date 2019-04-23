@@ -34,7 +34,16 @@ $mark-left: calc((100vw * 2/ 5) * 0.8 - 1.1em);
 
       &-active {
         background-color: $subsection-active-color;
-        transition: all .2s ease-in-out;
+        transition: all .3s ease-in-out;
+
+        @keyframes changeShadow {
+          from {
+            box-shadow: 0px 3px 45px rgba(247, 209, 241, 0.5);
+          }
+          to {
+            box-shadow: 0px 3px 15px rgba(243, 182, 234, 0.5);
+          }
+        }
 
         &:hover{
           cursor:pointer;
@@ -54,16 +63,5 @@ $mark-left: calc((100vw * 2/ 5) * 0.8 - 1.1em);
         /* TODO: need to add div with green mark */
       }
     }
-  }
-
-
-}
-
-@keyframes changeShadow {
-  from {
-    box-shadow: 0px 3px 45px rgba(247, 209, 241, 0.5);
-  }
-  to {
-    box-shadow: 0px 3px 15px rgba(243, 182, 234, 0.5);
   }
 }
