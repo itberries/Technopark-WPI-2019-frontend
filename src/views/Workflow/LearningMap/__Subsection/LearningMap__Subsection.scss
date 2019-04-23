@@ -2,7 +2,6 @@ $subsection-active-color: #9E248B;
 $subsection-unactive-color: #896283;
 $subsection-current-color: #B95208;
 $mark-left: calc((100vw * 2/ 5) * 0.8 - 1.1em);
-$shadow: 0px 7px 7px rgba(0, 0, 0, 0.25);
 
 .learningMap__col {
   .LearningMap__Subsection_wrapper {
@@ -25,7 +24,7 @@ $shadow: 0px 7px 7px rgba(0, 0, 0, 0.25);
       position: relative;
 
       border-radius: 25px;
-      box-shadow: $shadow;
+      box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.25);;
 
       background-color: $subsection-unactive-color;
 
@@ -39,6 +38,7 @@ $shadow: 0px 7px 7px rgba(0, 0, 0, 0.25);
 
       &-current {
         border: 2px solid $subsection-current-color;
+        box-shadow: 0px 3px 25px rgba(250, 222, 246, 0.5);;
       }
 
       &-completed {
@@ -46,4 +46,6 @@ $shadow: 0px 7px 7px rgba(0, 0, 0, 0.25);
       }
     }
   }
+
+
 }

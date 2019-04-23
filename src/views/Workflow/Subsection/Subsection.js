@@ -83,6 +83,7 @@ class Subsection extends React.Component {
             withSeparator={!isLastStep} // {index !== this.state.steps.length - 1} // TODO: check if it works
             type={step.type}
             isCompleted={!afterLastCompleted} // || (this.props.data.get('section_done') && isLastStep)}
+            isLocked={afterLastCompleted && lastCompletedStepId !== step.id}
             isActive={!afterLastCompleted || lastCompletedStepId === step.id}
             onSelectStep={this.props.onSelectStep}
             id={step.id}

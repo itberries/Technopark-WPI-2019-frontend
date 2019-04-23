@@ -6,8 +6,10 @@ import { connect } from 'react-redux';
 
 import { Button } from '@vkontakte/vkui';
 
-import './LearningMap__Subsection.scss';
 import MarkAsCompleted from '../../../../common.blocks/MarkAsCompleted/MarkAsCompleted';
+import MarkAsLocked from '../../../../common.blocks/MarkAsLocked/MarkAsLocked';
+
+import './LearningMap__Subsection.scss';
 
 import { selectSubsection } from '../../../../actions/subsection';
 
@@ -39,6 +41,7 @@ class LearningMapSubsection extends React.Component {
       isActive: props.isActive,
       isCurrent: props.isCurrent,
       isCompleted: props.isCompleted,
+      isLocked: props.isLocked,
     };
   }
 
@@ -74,6 +77,11 @@ class LearningMapSubsection extends React.Component {
         <div className="LearningMap__Subsection_wrapper">
           <MarkAsCompleted
             isCompleted={this.state.isCompleted}
+            className="LearningMap__Subsection_mark"
+            margin={this.state.mark}
+          />
+          <MarkAsLocked
+            isLocked={this.state.isLocked}
             className="LearningMap__Subsection_mark"
             margin={this.state.mark}
           />

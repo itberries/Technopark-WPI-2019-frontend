@@ -161,6 +161,7 @@ class LearningMap extends React.Component {
             start={start}
             end={end}
             isCompleted={generateProps.isCompleted}
+            isLocked={generateProps.afterLast}
             isCurrent={!(generateProps.afterLast || generateProps.isCompleted)}
             isActive={!generateProps.afterLast}
             onSelectSubsection={this.props.onSelectSubsection}
