@@ -28,11 +28,14 @@ $mark-left: calc((100vw * 2/ 5) * 0.8 - 1.1em);
 
       background-color: $subsection-unactive-color;
 
+      pointer-events: none; /* make vk button not clickable */
+
       .Button__in {
         height: auto;
       }
 
       &-active {
+        pointer-events: auto;
         background-color: $subsection-active-color;
         transition: all .3s ease-in-out;
 

@@ -17,7 +17,7 @@ $step__button-unactive-color: #A6BAA6;
   display: flex;
   justify-content: space-around;
   align-items: flex-end;
- 
+
   padding: 0;
   bottom: 0;
 
@@ -25,8 +25,13 @@ $step__button-unactive-color: #A6BAA6;
     width: 30vw;
     height: 3em;
 
+    &:hover {
+      cursor: pointer;
+    }
+
     &.step__button-unactive {
       background-color: $step__button-unactive-color;
+      pointer-events: none; /* make vk button not clickable */
     }
 
     .button-in {
@@ -34,5 +39,5 @@ $step__button-unactive-color: #A6BAA6;
         font-size: 2em;
       }
     }
-  }  
+  }
 }
