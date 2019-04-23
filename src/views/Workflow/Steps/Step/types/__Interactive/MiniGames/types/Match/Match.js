@@ -113,7 +113,7 @@ class Match extends React.Component {
 
   sendFrames(frames) {
     const msg = {
-      type: 'turn',
+      type: 'turnMatch',
       payload: {
         data: {},
       },
