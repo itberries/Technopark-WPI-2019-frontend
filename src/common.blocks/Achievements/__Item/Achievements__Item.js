@@ -6,13 +6,11 @@ import { Div } from '@vkontakte/vkui';
 import './Achievements__Item.scss';
 
 const AchievementsItem = ({ imageUrl, note, isActive }) => {
-  const achievementImageClass = isActive
-    ? 'achievement__image'
-    : 'achievement__image achievement__image-unactive';
+  const achievementClass = isActive ? 'achievement' : 'achievement achievement-unactive';
   return (
-    <div className="achievements__item achievement">
+    <div className={`achievements__item ${achievementClass}`}>
       <span className="achievement__note">{note}</span>
-      <img className={achievementImageClass} src={imageUrl} alt={note} />
+      <img className="achievement__image" src={imageUrl} alt={note} />
     </div>
   );
 };
