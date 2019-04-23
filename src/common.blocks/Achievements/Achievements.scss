@@ -1,0 +1,25 @@
+.achievements__title {
+  text-align: center;
+  line-height: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text_secondary);
+}
+
+.achievements__items {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 30%);
+  grid-column-gap: 5%;
+  grid-row-gap: 10px;
+  justify-content: center;
+  align-content: center;
+}
+
+@media screen and (min-width: 600px) {
+  .achievements__items {
+    grid-template-columns: repeat(5, 18%);
+    grid-column-gap: 2%;
+    grid-row-gap: 10px;
+  }
+}

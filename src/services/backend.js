@@ -7,15 +7,15 @@ class BackendAPIService {
     // await axios.patch(`/user/${id}/reset_current_state/`);
     const res = await axios.get(`/user/${id}/`);
     console.log(`BackendAPIService: getProfile(${id}) res: `, res);
-    const { user, userState } = res.data;
-    return [user, userState];
+    const { user, userState, rewards } = res.data;
+    return [user, userState, rewards];
   }
 
   async addProfile(id) {
     const res = await axios.post('/user/', { id });
     console.log(`BackendAPIService: addProfile(${id}) res: `, res);
-    const { user, userState } = res.data;
-    return [user, userState];
+    const { user, userState, rewards } = res.data;
+    return [user, userState, rewards];
   }
 
   async setCurrentUserStepCompleted(userId, sectionId, subsectionId, stepId) {
@@ -73,6 +73,12 @@ class BackendAPIService {
         console.error('getCards error!!!', error.response);
       }
     */
+  }
+
+  async getAchievements() {
+    const res = await axios.get('/rewards/');
+    console.log('BackendAPIService: getAchievements() res: ', res);
+    return res.data;
   }
 }
 
