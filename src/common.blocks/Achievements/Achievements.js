@@ -18,7 +18,7 @@ class Achievements extends React.Component {
             key={achievement.id}
             imageUrl={achievement.imageUrl}
             note={achievement.note}
-            isActive={!activeAchievements.includes(achievement.id)}
+            isActive={activeAchievements.includes(achievement.id)}
           />,
         );
       });

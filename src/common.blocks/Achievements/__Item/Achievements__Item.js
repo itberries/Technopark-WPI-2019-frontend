@@ -7,8 +7,8 @@ import './Achievements__Item.scss';
 
 const AchievementsItem = ({ imageUrl, note, isActive }) => {
   const achievementImageClass = isActive
-    ? 'achievement__image achievement__image-active'
-    : 'achievement__image';
+    ? 'achievement__image'
+    : 'achievement__image achievement__image-unactive';
   return (
     <div className="achievements__item achievement">
       <span className="achievement__note">{note}</span>
