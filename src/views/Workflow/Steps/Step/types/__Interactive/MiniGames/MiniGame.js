@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Div } from '@vkontakte/vkui';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
+import { Div } from '@vkontakte/vkui';
+
 import { websocketOpen, websocketOnMessage, websocketClose } from '../../../../../../../actions/ws';
+
 import MatchGame from './types/Match/Match';
+import SpinnerCentered from '../../../../../../../common.blocks/SpinnerCentered/SpinnerCentered';
 
 import './MiniGame.scss';
 
@@ -134,7 +139,7 @@ class MiniGames extends React.Component {
       case 'match':
         return <MatchGame gameData={this.props.gameData} sendMsg={this.sendMsg} />;
       default:
-        return 'Loading...';
+        return <SpinnerCentered />;
     }
   }
 
