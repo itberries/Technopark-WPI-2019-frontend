@@ -6,10 +6,13 @@ import {
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 
+import './Header.scss';
+
 const Header = ({ text, onBackClick }) => (
   <PanelHeader
     left={(
       <HeaderButton
+        className="header_button"
         onClick={(e) => {
           onBackClick(e);
         }}
@@ -19,6 +22,7 @@ const Header = ({ text, onBackClick }) => (
 )}
     addon={(
       <HeaderButton
+        className="header_button"
         onClick={(e) => {
           onBackClick(e);
         }}

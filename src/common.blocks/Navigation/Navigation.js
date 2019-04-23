@@ -10,6 +10,7 @@ const Navigation = ({ activeView, viewsData, onViewChange }) => {
   viewsData.forEach((viewData) => {
     tabbarItems.push(
       <TabbarItem
+        className="tabbar_button"
         key={viewData.name}
         onClick={onViewChange}
         selected={activeView === viewData.name}

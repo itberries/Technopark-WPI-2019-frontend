@@ -1,5 +1,9 @@
+.tabbar_button {
+  cursor: pointer;
+}
+
 .TabbarItem__icon img {
-    width: 25px; 
+    width: 25px;
     height: 25px;
     filter: invert(.5); /* changing svg color to gray */
 }
