@@ -7,7 +7,7 @@ import './Card.scss';
 const Card = ({ note, image }) => (
   <Div className="card__container">
     <Div className="card__note">{note}</Div>
-    {image !== '' && (
+    {image !== null && (
       <Div className="card__image">
         <img src={image} alt="Card icon" />
       </Div>
