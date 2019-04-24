@@ -50,7 +50,8 @@ class InteractiveMatch extends Match {
   }
 }
 
-InteractiveMatch.propTypes.sendMsg = PropTypes.func.isRequired;
+// TODO: Write from parent
+// InteractiveMatch.propTypes.sendMsg = PropTypes.func.isRequired;
 
 const mapStateToProps = (state) => {
   const { answer } = state.ws;
