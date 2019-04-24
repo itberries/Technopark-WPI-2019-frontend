@@ -40,7 +40,7 @@ class InteractiveMatch extends Match {
 
   sendFrames(frames) {
     const msg = {
-      type: 'turn',
+      type: 'turnMatch',
       payload: {
         data: {},
       },
