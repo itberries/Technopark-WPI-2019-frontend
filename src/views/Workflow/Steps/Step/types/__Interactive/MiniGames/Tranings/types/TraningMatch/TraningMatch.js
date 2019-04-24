@@ -75,6 +75,7 @@ class TraningMatch extends Match {
   }
 }
 
-TraningMatch.propTypes.onComplete = PropTypes.func.isRequired;
+// TODO: Write from parent
+// TraningMatch.propTypes.onComplete = PropTypes.func.isRequired;
 
 export default TraningMatch;
