@@ -14,12 +14,14 @@ class Step extends React.Component {
   }
 
   setContent() {
+    console.log('steps setContent');
     let content = '';
     switch (this.props.type) {
       case 'theory':
         content = React.createElement(Theory, { id: this.props.id, key: this.props.id });
         return content;
       case 'interactive':
+      case 'training':
         content = React.createElement(Interact, {
           id: this.props.id,
           key: this.props.id,
@@ -27,10 +29,8 @@ class Step extends React.Component {
             this.props.goForward();
             this.setContent();
           },
+          type: this.props.type,
         });
-        return content;
-      case 'training':
-        content = React.createElement(Traning, { id: this.props.id, key: this.props.id });
         return content;
       default:
         console.error('unregistered step type');

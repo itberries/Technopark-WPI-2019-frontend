@@ -1,37 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { answerReceived } from '../../../../../../../../../actions/ws';
-import Frame from '../../../../../../../../../common.blocks/Frame/Frame';
+import Frame from '../../../../../../../../../../common.blocks/Frame/Frame';
 
 class Match extends React.Component {
   constructor(props) {
     super(props);
-    const cardForMatch = JSON.parse(props.gameData[0].note).data;
-    console.log('cardForMatch: ', cardForMatch);
-    let frames = [];
-    const secondFrames = new Map();
-    cardForMatch.forEach((element) => {
-      frames.push(Object.keys(element)[0]);
-      frames.push(element[Object.keys(element)[0]]);
-      secondFrames.set(element[Object.keys(element)[0]]);
-    });
-    frames = frames.sort(() => Math.random() - 0.5);
-    const stateFrames = new Map();
-    frames.forEach((element, index) => {
-      stateFrames.set(index, element);
-    });
+    console.log('Match state: ', this.state);
     this.state = {
+      secondFrames: new Map(),
+      frames: new Map(),
       activeFrames: [],
       selectedFrames: new Map(),
-      frames: stateFrames,
       answer: null,
       framesOnCheck: [],
       rightFrames: [],
-      secondFrames,
     };
-
+    console.log('Match state: ', this.state);
     this.onFrameClick = this.onFrameClick.bind(this);
   }
 
@@ -46,16 +30,11 @@ class Match extends React.Component {
         console.log('wrong pair');
         this.wrongAnswer();
       }
-      this.props.answerReceived();
     }
     return true;
   }
 
   onFrameClick(id) {
-    console.log(
-      'JSON.parse(props.gameData[0].note).data :',
-      JSON.parse(this.props.gameData[0].note).data,
-    );
     this.setState((prevState) => {
       const { activeFrames, selectedFrames } = prevState;
       activeFrames.push(id);
@@ -111,15 +90,21 @@ class Match extends React.Component {
     });
   }
 
-  sendFrames(frames) {
-    const msg = {
-      type: 'turnMatch',
-      payload: {
-        data: {},
-      },
-    };
-    msg.payload.data[frames[0]] = frames[1];
-    this.props.sendMsg(JSON.stringify(msg));
+  // TODO: think up what this function will do
+  sendFrames(frames) {}
+
+  // TODO: remove this hack!
+  createFrame(frame, id) {
+    const newFrame = (
+      <Frame
+        id={id}
+        onFrameClick={this.onFrameClick}
+        value={frame}
+        isActive={!!this.state.selectedFrames.has(id)}
+        isSecond={this.state.secondFrames.has(frame)}
+      />
+    );
+    return newFrame;
   }
 
   render() {
@@ -128,23 +113,13 @@ class Match extends React.Component {
       newFrames.push(<Frame onFrameClick={this.onFrameClick} value={frame} isRight />);
     });
     this.state.frames.forEach((frame, id) => {
-      newFrames.push(
-        <Frame
-          id={id}
-          onFrameClick={this.onFrameClick}
-          value={frame}
-          isActive={!!this.state.selectedFrames.has(id)}
-          isSecond={this.state.secondFrames.has(frame)}
-        />,
-      );
+      newFrames.push(this.createFrame(frame, id));
     });
-    // <Frame onFrameClick={this.onFrameClick} value={} />
     return newFrames;
   }
 }
 
 Match.propTypes = {
-  sendMsg: PropTypes.func.isRequired,
   answer: PropTypes.bool,
 };
 
@@ -152,19 +127,4 @@ Match.defaultProps = {
   answer: null,
 };
 
-const mapStateToProps = (state) => {
-  const { answer } = state.ws;
-  return { answer };
-};
-
-const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    answerReceived,
-  },
-  dispatch,
-);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Match);
+export default Match;
