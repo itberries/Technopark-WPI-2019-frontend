@@ -8,6 +8,8 @@ import backendAPIService from '../../../../../../services/backend';
 import SpinnerCentered from '../../../../../../common.blocks/SpinnerCentered/SpinnerCentered';
 import Card from '../../__Card/Card';
 
+import './Theory.scss';
+
 class Theory extends React.Component {
   constructor(props) {
     super(props);
@@ -35,7 +37,11 @@ class Theory extends React.Component {
 
   render() {
     const { isLoading } = this.state;
-    return <Group>{isLoading ? <SpinnerCentered /> : this.generateCards()}</Group>;
+    return (
+      <Group className="theory__container">
+        {isLoading ? <SpinnerCentered /> : this.generateCards()}
+      </Group>
+    );
   }
 }
 

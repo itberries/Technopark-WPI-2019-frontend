@@ -7,6 +7,6 @@ res.VKWebAppGetUserInfo.data = {
     photo_200: 'https://pp.userapi.com/c841034/v841034569/3b8c1/pt3sOw_qhfg.jpg',
     first_name: 'Василий',
     last_name: 'Иванов',
-    id: 2147483640,
+    id: 476339761,
   },
 };
