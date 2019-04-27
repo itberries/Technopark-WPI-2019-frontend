@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Div } from '@vkontakte/vkui';
 
 import './MiniGame.scss';
 
@@ -11,8 +10,14 @@ class MiniGame extends React.Component {
     this.state = {
       gameTypes,
     };
+
     this.generateMatch = this.generateMatch.bind(this);
+    this.generateChain = this.generateChain.bind(this);
+    this.generateQuestion = this.generateQuestion.bind(this);
+
     this.state.gameTypes.set('match', this.generateMatch);
+    this.state.gameTypes.set('chain', this.generateChain);
+    this.state.gameTypes.set('question', this.generateQuestion);
   }
 
   generateGame() {
@@ -20,7 +25,7 @@ class MiniGame extends React.Component {
   }
 
   render() {
-    return <Div className="MiniGame">{this.generateGame()}</Div>;
+    return this.generateGame();
   }
 }
 

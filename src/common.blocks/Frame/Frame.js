@@ -6,6 +6,23 @@ import './Frame.scss';
 
 class Frame extends React.Component {
   render() {
+    let classes = 'frame';
+    if (this.props.isRight) {
+      classes += ' frame-right frame-unlikable';
+    } else if (this.props.dummy) {
+      classes += ' frame-dummy frame-unlikable';
+    } else if (this.props.fakeHidden) {
+      classes += ' frame-fakeHidden frame-unlikable';
+    } else {
+      if (this.props.isSecond) {
+        classes += ' frame-second-type';
+      } else {
+        classes += ' frame-first-type';
+      }
+      if (this.props.isActive) {
+        classes += ' frame-active';
+      }
+    }
     const button = (
       <Button
         onClick={(e) => {
@@ -13,9 +30,7 @@ class Frame extends React.Component {
           e.stopPropagation();
           this.props.onFrameClick(this.props.id);
         }}
-        className={`frame ${this.props.isRight ? 'frame-right' : ''} ${
-          this.props.isActive ? 'frame-active' : ''
-        } ${this.props.isSecond ? 'frame-second-type' : ''}`}
+        className={classes}
       >
         {this.props.value}
       </Button>
@@ -46,6 +61,8 @@ Frame.propTypes = {
   tip: PropTypes.bool,
   tipText: PropTypes.string,
   onTipClick: PropTypes.func,
+  dummy: PropTypes.bool,
+  fakeHidden: PropTypes.bool,
 };
 
 Frame.defaultProps = {
@@ -55,6 +72,8 @@ Frame.defaultProps = {
   tip: false,
   tipText: '',
   onTipClick: null,
+  dummy: false,
+  fakeHidden: false,
 };
 
 export default Frame;
