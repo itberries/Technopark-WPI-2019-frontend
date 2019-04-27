@@ -4,7 +4,6 @@ import { Header, Div, Button } from '@vkontakte/vkui';
 
 import Theory from './types/__Theory/Theory';
 import Interact from './types/__Interactive/Interactive';
-import Traning from './types/__Training/Training';
 
 import './Step.scss';
 
