@@ -10,6 +10,7 @@ import { websocketOpen, websocketOnMessage, websocketClose } from '../../../../.
 
 import MiniGame from './MiniGame';
 import MatchGame from './InteractiveGames/types/InteractiveMatch/InteractiveMatch';
+import ChainGame from './InteractiveGames/types/InteracriveChain/InteractiveChain';
 
 import './MiniGame.scss';
 import popupStyles from '../../../../../../../common.blocks/Popup/Popup';
@@ -43,6 +44,11 @@ class InteractiveGame extends MiniGame {
   }
 
   componentWillMount() {
+    if (this.props.gameType === 'question') {
+      this.props.onCompleted();
+      return;
+    }
+    console.log('this.props.gameType: ', this.props.gameType);
     this.props.websocketOpen('match');
     this.setState({ socketNotSet: true });
   }
@@ -196,6 +202,14 @@ class InteractiveGame extends MiniGame {
         </Popup>
       </React.Fragment>
     );
+  }
+
+  generateChain() {
+    return <ChainGame gameData={this.props.gameData} doTurn={this.sendMsg} />;
+  }
+
+  generateQuestion() {
+    return '';
   }
 }
 

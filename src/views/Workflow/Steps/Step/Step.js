@@ -4,7 +4,6 @@ import { Header, Div, Button } from '@vkontakte/vkui';
 
 import Theory from './types/__Theory/Theory';
 import Interact from './types/__Interactive/Interactive';
-import Traning from './types/__Training/Training';
 
 import './Step.scss';
 
@@ -26,6 +25,7 @@ class Step extends React.Component {
           id: this.props.id,
           key: this.props.id,
           onCompleted: () => {
+            console.log('onCompleted');
             this.props.goForward();
             this.setContent();
           },
@@ -43,7 +43,7 @@ class Step extends React.Component {
     return (
       <React.Fragment>
         <Header className="step__header">{this.props.name}</Header>
-        <Div className="step__content">{cont}</Div>
+        <Div>{cont}</Div>
         <Div className="step__buttons">
           <Div>
             <Button

@@ -52,6 +52,13 @@ class Profile extends React.Component {
   }
 
   async componentDidMount() {
+    const scroll = localStorage.getItem('scroll');
+    if (scroll !== '' && scroll !== undefined && scroll !== 'undefined' && scroll !== null) {
+      window.scrollTo(0, scroll);
+    } else {
+      window.scrollTo(0, 0);
+    }
+
     if (typeof this.props.user !== 'undefined') {
       console.log('BEFORE GET');
       await this.props.getUserProfile(this.props.user.id);
@@ -87,6 +94,10 @@ class Profile extends React.Component {
     return {
       ...prevState,
     };
+  }
+
+  componentWillUnmount() {
+    localStorage.setItem('scroll', window.scrollY);
   }
 
   render() {

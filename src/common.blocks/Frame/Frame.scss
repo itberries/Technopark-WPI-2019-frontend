@@ -1,11 +1,11 @@
 .frame {
-  background-color: #028E9B; /* temporary all frames with one color */
-  color: aliceblue;
   margin: 2vmin;
   min-height: 3.5em;
+  background-color: white;
+  color: white;
 
   &.frame-first-type {
-    /* background-color: #FFAA00;*/
+    background-color: #028E9B;
   }
 
   &.frame-second-type {
@@ -20,6 +20,14 @@
     border: 3px solid #660BAB;
   }
 
+  &.frame-dummy {
+    background-color: #E5E3E0;
+    color: #E5E3E0;
+  }
+
+  &.frame-unlikable{
+    pointer-events: none;
+  }
 }
 
 .frame.Button {

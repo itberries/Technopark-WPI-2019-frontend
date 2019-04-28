@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Group, Div } from '@vkontakte/vkui';
 import Frame from '../../../../../../../../../../common.blocks/Frame/Frame';
 
 class Match extends React.Component {
@@ -100,7 +101,7 @@ class Match extends React.Component {
         id={id}
         onFrameClick={this.onFrameClick}
         value={frame}
-        isActive={!!this.state.selectedFrames.has(id)}
+        isActive={this.state.selectedFrames.has(id)}
         isSecond={this.state.secondFrames.has(frame)}
       />
     );
@@ -115,7 +116,11 @@ class Match extends React.Component {
     this.state.frames.forEach((frame, id) => {
       newFrames.push(this.createFrame(frame, id));
     });
-    return newFrames;
+    return (
+      <Group>
+        <Div>{newFrames}</Div>
+      </Group>
+    );
   }
 }
 

@@ -1,11 +1,20 @@
 import React from 'react';
 
 import MiniGame from './MiniGame';
-import MatchTraning from './Tranings/types/TraningMatch/TraningMatch';
+import TraningMatch from './Tranings/types/TraningMatch/TraningMatch';
+import TraningChain from './Base/types/Chain/Chain';
 
 class TrainingGame extends MiniGame {
   generateMatch() {
-    return <MatchTraning gameData={this.props.gameData} onComplete={this.props.onCompleted} />;
+    return <TraningMatch onComplete={this.props.onCompleted} />;
+  }
+
+  generateChain() {
+    return <TraningChain onComplete={this.props.onCompleted} />;
+  }
+
+  generateQuestion() {
+    return '';
   }
 }
 
