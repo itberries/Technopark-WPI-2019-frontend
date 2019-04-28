@@ -5,9 +5,9 @@ import { Group, Div } from '@vkontakte/vkui';
 
 import Popup from 'react-skylight';
 import AchievementsItem from './__Item/Achievements__Item';
-import achievementPopupStyles from './__Popup/Achievements__Popup';
 
 import './Achievements.scss';
+import popupStyles from '../Popup/Popup';
 
 import tipIcon from '../../images/icons/question.svg';
 
@@ -42,9 +42,9 @@ class Achievements extends React.Component {
   render() {
     let tipPopupStyles;
     if (window.innerWidth < 768) {
-      tipPopupStyles = achievementPopupStyles.tipPopupStylesMobile;
+      tipPopupStyles = Object.assign({}, popupStyles.bigHeightStyles);
     } else {
-      tipPopupStyles = achievementPopupStyles.tipPopupStylesDesktop;
+      tipPopupStyles = Object.assign({}, popupStyles.basicStyles);
     }
 
     const items = this.generateItems(this.props.allAchievements, this.props.activeAchievements);

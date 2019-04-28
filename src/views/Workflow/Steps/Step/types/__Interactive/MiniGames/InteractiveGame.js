@@ -1,23 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
+import Popup from 'react-skylight';
+
 import { websocketOpen, websocketOnMessage, websocketClose } from '../../../../../../../actions/ws';
+
 import MiniGame from './MiniGame';
 import MatchGame from './InteractiveGames/types/InteractiveMatch/InteractiveMatch';
 import ChainGame from './InteractiveGames/types/InteracriveChain/InteractiveChain';
 
 import './MiniGame.scss';
+import popupStyles from '../../../../../../../common.blocks/Popup/Popup';
+
+const mapStateToProps = (state) => {
+  const { socket } = state.ws;
+  return { socket };
+};
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    websocketOpen,
+    websocketClose,
+    websocketOnMessage,
+  },
+  dispatch,
+);
 
 class InteractiveGame extends MiniGame {
   constructor(props) {
     super(props);
 
     this.sendMsg = this.sendMsg.bind(this);
+    this.completeGame = this.completeGame.bind(this);
 
     this.state.socketNotSet = true;
     this.state.socketReadyToSend = false;
     this.state.actions = [];
+    this.state.gainedCoins = undefined;
+    this.state.reward = undefined;
   }
 
   componentWillMount() {
@@ -111,9 +134,19 @@ class InteractiveGame extends MiniGame {
         this.props.websocketOnMessage(answer.payload.data);
         return;
       case 'GameCompleted':
-        console.log(`we won and our score grew by ${answer.payload.result} points`);
+        // TODO: popup
+        console.log('game completed, payoad:', answer.payload);
         this.props.socket.close();
-        this.props.onCompleted();
+        if (typeof answer.payload.reward !== 'undefined' && answer.payload.reward !== null) {
+          this.setState({
+            gainedCoins: answer.payload.result,
+            reward: answer.payload.reward,
+          });
+        } else {
+          this.setState({ gainedCoins: answer.payload.result });
+        }
+        console.log('showing scores popup...');
+        this.scoresPopup.show();
         return;
       default:
         console.log('unknown message!');
@@ -133,8 +166,42 @@ class InteractiveGame extends MiniGame {
     });
   }
 
+  completeGame() {
+    this.props.onCompleted();
+  }
+
   generateMatch() {
-    return <MatchGame gameData={this.props.gameData} doTurn={this.sendMsg} />;
+    const minigamePopupStyles = Object.assign({}, popupStyles.bigHeightStyles);
+    minigamePopupStyles.textAlign = 'center';
+
+    let reward;
+    if (this.state.reward) {
+      reward = (
+        <React.Fragment>
+          Открыто новое достижение!
+          <br />
+          <img src={this.state.reward.imageUrl} alt={`Достижение ${this.state.reward.note}`} />
+          <br />
+          {this.state.reward.note}
+        </React.Fragment>
+      );
+    }
+
+    return (
+      <React.Fragment>
+        <MatchGame gameData={this.props.gameData} doTurn={this.sendMsg} />
+        <Popup
+          dialogStyles={minigamePopupStyles}
+          hideOnOverlayClicked
+          ref={ref => (this.scoresPopup = ref)}
+          title="Поздравляем!"
+          afterClose={this.completeGame}
+        >
+          {`Вы получили ${this.state.gainedCoins} монет! `}
+          {this.state.reward && reward}
+        </Popup>
+      </React.Fragment>
+    );
   }
 
   generateChain() {
@@ -161,20 +228,6 @@ InteractiveGame.defaultProps = {
   websocketClose: null,
   gameData: [],
 };
-
-const mapStateToProps = (state) => {
-  const { socket } = state.ws;
-  return { socket };
-};
-
-const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    websocketOpen,
-    websocketClose,
-    websocketOnMessage,
-  },
-  dispatch,
-);
 
 export default connect(
   mapStateToProps,
