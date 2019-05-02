@@ -10,7 +10,8 @@ import { websocketOpen, websocketOnMessage, websocketClose } from '../../../../.
 
 import MiniGame from './MiniGame';
 import MatchGame from './InteractiveGames/types/InteractiveMatch/InteractiveMatch';
-import ChainGame from './InteractiveGames/types/InteracriveChain/InteractiveChain';
+import ChainGame from './InteractiveGames/types/InteractiveChain/InteractiveChain';
+import QuestionGame from './InteractiveGames/types/InteractiveQuestion/InteractiveQuestion';
 
 import './MiniGame.scss';
 import popupStyles from '../../../../../../../common.blocks/Popup/Popup';
@@ -44,10 +45,6 @@ class InteractiveGame extends MiniGame {
   }
 
   componentWillMount() {
-    if (this.props.gameType === 'question') {
-      this.props.onCompleted();
-      return;
-    }
     console.log('this.props.gameType: ', this.props.gameType);
     this.props.websocketOpen('match');
     this.setState({ socketNotSet: true });
@@ -103,6 +100,8 @@ class InteractiveGame extends MiniGame {
           type: 'joinGame',
           gameType: this.props.gameType,
           stepId: this.props.id,
+          // TODO: enable it!
+          // mode: 'singleplayer',
         }),
       );
     }
@@ -171,6 +170,18 @@ class InteractiveGame extends MiniGame {
   }
 
   generateMatch() {
+    return <MatchGame gameData={this.props.gameData} doTurn={this.sendMsg} />;
+  }
+
+  generateChain() {
+    return <ChainGame gameData={this.props.gameData} doTurn={this.sendMsg} />;
+  }
+
+  generateQuestion() {
+    return <QuestionGame gameData={this.props.gameData} doTurn={this.sendMsg} />;
+  }
+
+  gneratePopup() {
     const minigamePopupStyles = Object.assign({}, popupStyles.bigHeightStyles);
     minigamePopupStyles.textAlign = 'center';
 
@@ -186,30 +197,27 @@ class InteractiveGame extends MiniGame {
         </React.Fragment>
       );
     }
-
     return (
-      <React.Fragment>
-        <MatchGame gameData={this.props.gameData} doTurn={this.sendMsg} />
-        <Popup
-          dialogStyles={minigamePopupStyles}
-          hideOnOverlayClicked
-          ref={ref => (this.scoresPopup = ref)}
-          title="Поздравляем!"
-          afterClose={this.completeGame}
-        >
-          {`Вы получили ${this.state.gainedCoins} монет! `}
-          {this.state.reward && reward}
-        </Popup>
-      </React.Fragment>
+      <Popup
+        dialogStyles={minigamePopupStyles}
+        hideOnOverlayClicked
+        ref={ref => (this.scoresPopup = ref)}
+        title="Поздравляем!"
+        afterClose={this.completeGame}
+      >
+        {`Вы получили ${this.state.gainedCoins} монет! `}
+        {this.state.reward && reward}
+      </Popup>
     );
   }
 
-  generateChain() {
-    return <ChainGame gameData={this.props.gameData} doTurn={this.sendMsg} />;
-  }
-
-  generateQuestion() {
-    return '';
+  render() {
+    return (
+      <React.Fragment>
+        {this.generateGame()}
+        {this.gneratePopup()}
+      </React.Fragment>
+    );
   }
 }
 
