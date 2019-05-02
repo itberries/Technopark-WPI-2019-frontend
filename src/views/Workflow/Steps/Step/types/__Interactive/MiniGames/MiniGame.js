@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ChainGame from './Base/types/Chain/Chain';
+import MatchGame from './Base/types/Match/Match';
+import QuestionGame from './Base/types/Question/Question';
+
 import './MiniGame.scss';
 
 class MiniGame extends React.Component {
@@ -22,6 +26,18 @@ class MiniGame extends React.Component {
 
   generateGame() {
     return this.state.gameTypes.get(this.props.gameType)();
+  }
+
+  generateMatch() {
+    return <MatchGame />;
+  }
+
+  generateChain() {
+    return <ChainGame />;
+  }
+
+  generateQuestion() {
+    return <QuestionGame />;
   }
 
   render() {

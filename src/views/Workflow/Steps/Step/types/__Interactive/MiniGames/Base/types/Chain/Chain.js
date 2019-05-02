@@ -31,6 +31,7 @@ class Chain extends React.Component {
   }
 
   componentDidUpdate() {
+    // check that all chain's frames used and game not done yet
     if (!this.state.completed && this.state.selectedFrames.size === this.state.frames.length) {
       this.checkChain(this.state.selectedFrames.values());
     }
