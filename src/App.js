@@ -153,7 +153,7 @@ class App extends React.Component {
       },
     ];
     const { showIntro } = this.state;
-    const result = !showIntro ? (
+    const result = showIntro ? (
       <Introduction onStartClick={this.showMainNavigation} />
     ) : (
       <Navigation
