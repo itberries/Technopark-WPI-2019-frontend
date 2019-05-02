@@ -1,0 +1,15 @@
+.finishLine {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: repeat(10, 5vw);
+
+  .finishLine__cube-white {
+    background-color: white;
+  }
+
+  .finishLine__cube-black {
+    background-color: black;
+  }
+}

@@ -1,0 +1,40 @@
+.Progress__container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1em;
+  height: 20vw;
+  justify-content: center;
+
+  .Progress__header {
+    height: 6vw;
+    font-weight: bold;
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+  }
+
+  .Progress__Map {
+    display: flex;
+    border: 1px solid #E10555;
+    box-sizing: border-box;
+
+    .Map__cell {
+      width: 9vw;
+      height: 9vw;
+      background-color: #E7E7E7;
+      border: 1px solid #000000;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.rocket {
+        background-color: #3D4EA9;
+      }
+      img {
+        width: 8vw;
+        height: 8vw;
+      }
+    }
+  }
+}
