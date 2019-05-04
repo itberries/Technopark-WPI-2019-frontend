@@ -100,8 +100,7 @@ class InteractiveGame extends MiniGame {
           type: 'joinGame',
           gameType: this.props.gameType,
           stepId: this.props.id,
-          // TODO: enable it!
-          // mode: 'singleplayer',
+          mode: 'singleplayer',
         }),
       );
     }
