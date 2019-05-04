@@ -4,7 +4,6 @@ export function websocketOpen(path) {
   return async (dispatch) => {
     const socket = new WebSocket(`wss://it-berries.ru/game/${path}/`);
     socket.onopen = () => {
-      console.log('Connection opened');
       console.log('socket in action', socket);
       dispatch({
         type: types.WEBSOCKET_OPENED,
