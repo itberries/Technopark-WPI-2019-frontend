@@ -69,14 +69,17 @@ class Games extends React.Component {
       <View key={this.props.id} id={this.props.id} activePanel={this.props.id}>
         <Panel id={this.props.id}>
           <PanelHeader>Игры с друзьями</PanelHeader>
-          <Map
-            playerPosition={this.props.playerPosition}
-            opponentPosition={this.props.opponentPosition}
-          />
-          <Timer />
-          <Group>
-            <Div>Game</Div>
-          </Group>
+          <div className="multiplayergame">
+            <Map
+              className="multiplayergame__map"
+              playerPosition={this.props.playerPosition}
+              opponentPosition={this.props.opponentPosition}
+            />
+            <Timer className="multiplayergame__timer" />
+            <Group className="multiplayergame__game">
+              <Div>Game</Div>
+            </Group>
+          </div>
         </Panel>
       </View>
     );

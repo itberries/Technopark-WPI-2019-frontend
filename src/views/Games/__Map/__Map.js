@@ -15,9 +15,9 @@ class Map extends React.Component {
     const player1Color = '#24B13B';
     const player2Color = '#CC0303';
     return (
-      <Group>
+      <Group className={this.props.className}>
         <div className="gameRoad">
-          <div className="progreses">
+          <div className="progresses">
             <Progress
               header="Your progress"
               playerIcon={rocket1}

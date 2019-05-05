@@ -1,0 +1,34 @@
+.multiplayergame {
+  display: block;
+}
+
+@media screen and (min-width: 700px) {
+  .multiplayergame {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    grid-column-gap: 10px;
+    grid-template-rows: 43vh 15vh auto;
+  }
+
+  .multiplayergame__map {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+
+  .multiplayergame__timer {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+
+  .multiplayergame__game {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 4;
+  }
+
+}
