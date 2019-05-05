@@ -10,13 +10,17 @@ class Timer extends React.Component {
     document.getElementsByClassName('timer__fullness')[0].style.animationDuration = '6s';
     const times = 6;
     let i = 0;
-    const timerId = setInterval(() => {
+    this.timerId = setInterval(() => {
       i += 1;
       document.getElementsByClassName('timer__title')[0].innerHTML = `${times - i} seconds`;
       if (i === times) {
-        clearInterval(timerId);
+        clearInterval(this.timerId);
       }
     }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerId);
   }
 
   render() {
