@@ -1,4 +1,4 @@
-.Progress__container{
+.Progress__container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,6 +34,28 @@
       img {
         width: 8vw;
         height: 8vw;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .Progress__container {
+    height: 10vw;
+
+    .Progress__header {
+      height: 3vw;
+    }
+
+    .Progress__Map {
+      .Map__cell {
+        width: 4vw;
+        height: 4vw;
+
+        img {
+          width: 3vw;
+          height: 3vw;
+        }
       }
     }
   }

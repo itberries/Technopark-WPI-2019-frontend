@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Group } from '@vkontakte/vkui';
 
 import Progress from './__Progress/__Progress';
@@ -9,17 +10,27 @@ import rocket2 from '../../../images/icons/Player2Rocket.svg';
 
 import './__Map.scss';
 
-class Games extends React.Component {
+class Map extends React.Component {
   render() {
     const player1Color = '#24B13B';
     const player2Color = '#CC0303';
     return (
-      <Group>
+      <Group className={this.props.className}>
         <div className="gameRoad">
-          <div className="progreses">
-            <Progress header="Your progress" playerIcon={rocket1} roadColor={player1Color} />
+          <div className="progresses">
+            <Progress
+              header="Your progress"
+              playerIcon={rocket1}
+              roadColor={player1Color}
+              position={this.props.playerPosition}
+            />
             <hr />
-            <Progress header="Opponent’s progress" playerIcon={rocket2} roadColor={player2Color} />
+            <Progress
+              header="Opponent’s progress"
+              playerIcon={rocket2}
+              roadColor={player2Color}
+              position={this.props.opponentPosition}
+            />
           </div>
           <FinishLine />
         </div>
@@ -28,4 +39,14 @@ class Games extends React.Component {
   }
 }
 
-export default Games;
+Map.propTypes = {
+  playerPosition: PropTypes.number,
+  opponentPosition: PropTypes.number,
+};
+
+Map.defaultProps = {
+  playerPosition: 0,
+  opponentPosition: 0,
+};
+
+export default Map;
