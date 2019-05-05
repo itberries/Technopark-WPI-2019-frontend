@@ -3,11 +3,11 @@
   flex-direction: column;
   align-items: center;
   font-size: 1em;
-  height: 20vw;
+  height: 12vh;
   justify-content: center;
 
   .Progress__header {
-    height: 6vw;
+    height: 4vh;
     font-weight: bold;
     margin-top: 1vw;
     margin-bottom: 1vw;
@@ -19,8 +19,8 @@
     box-sizing: border-box;
 
     .Map__cell {
-      width: 9vw;
-      height: 9vw;
+      width: 5vh;
+      height: 5vh;
       background-color: #E7E7E7;
       border: 1px solid #000000;
       box-sizing: border-box;
@@ -32,8 +32,8 @@
         background-color: #3D4EA9;
       }
       img {
-        width: 8vw;
-        height: 8vw;
+        width: 5vh;
+        height: 5vh;
       }
     }
   }
@@ -41,20 +41,20 @@
 
 @media screen and (min-width: 700px) {
   .Progress__container {
-    height: 9vw;
+    height: 16vh;
 
     .Progress__header {
-      height: 3vw;
+      height: 5vh;
     }
 
     .Progress__Map {
       .Map__cell {
-        width: 4vw;
-        height: 4vw;
+        width: 6vh;
+        height: 6vh;
 
         img {
-          width: 3vw;
-          height: 3vw;
+          width: 5vh;
+          height: 5vh;
         }
       }
     }
