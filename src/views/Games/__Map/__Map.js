@@ -24,7 +24,7 @@ class Map extends React.Component {
               roadColor={player1Color}
               position={this.props.playerPosition}
             />
-            <hr />
+            <hr className="progresses__separator" />
             <Progress
               header="Opponent’s progress"
               playerIcon={rocket2}
