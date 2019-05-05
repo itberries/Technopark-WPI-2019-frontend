@@ -6,6 +6,11 @@
 
 @media screen and (min-width: 700px) {
   .gameRoad {
-    height: 39vh;
+    height: 36vh;
+  }
+
+  .progresses__separator {
+    margin: 0;
+    margin-top: 8px;
   }
 }

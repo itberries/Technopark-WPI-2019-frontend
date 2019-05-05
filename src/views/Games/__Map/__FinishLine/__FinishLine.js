@@ -5,7 +5,7 @@ import './__FinishLine.scss';
 class FinishLine extends React.Component {
   render() {
     const finish = [];
-    const cubesNumber = 10;
+    const cubesNumber = 9;
     for (const x of Array(cubesNumber).keys()) {
       if (x % 2 === 0) {
         finish.push(

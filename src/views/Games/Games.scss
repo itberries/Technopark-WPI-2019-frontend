@@ -7,7 +7,7 @@
     display: grid;
     grid-template-columns: 45% 55%;
     grid-column-gap: 10px;
-    grid-template-rows: 43vh 15vh auto;
+    grid-template-rows: 40vh 15vh auto;
   }
 
   .multiplayergame__map {
@@ -30,5 +30,4 @@
     grid-row-start: 1;
     grid-row-end: 4;
   }
-
 }
