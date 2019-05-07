@@ -132,7 +132,6 @@ class InteractiveGame extends MiniGame {
         this.props.websocketOnMessage(answer.payload.data);
         return;
       case 'GameCompleted':
-        // TODO: popup
         console.log('game completed, payoad:', answer.payload);
         this.props.socket.close();
         if (typeof answer.payload.reward !== 'undefined' && answer.payload.reward !== null) {
@@ -180,13 +179,29 @@ class InteractiveGame extends MiniGame {
     return <QuestionGame gameData={this.props.gameData} doTurn={this.sendMsg} />;
   }
 
-  gneratePopup() {
+  generatePopup() {
     const minigamePopupStyles = Object.assign({}, popupStyles.bigHeightStyles);
     minigamePopupStyles.textAlign = 'center';
 
-    let reward;
+    let stepResultFragment;
+    if (this.state.gainedCoins !== 0) {
+      stepResultFragment = `Вы получили ${this.state.gainedCoins} монет! `;
+    } else {
+      stepResultFragment = (
+        <React.Fragment>
+          Закрепление пройденного материала - важная часть успешного обучения!
+          <br />
+          <img
+            src="https://it-berries.ru/rewards/reward1.png"
+            alt="Повторное выполнение задания, ракета"
+          />
+        </React.Fragment>
+      );
+    }
+
+    let rewardFragment;
     if (this.state.reward) {
-      reward = (
+      rewardFragment = (
         <React.Fragment>
           Открыто новое достижение!
           <br />
@@ -201,11 +216,11 @@ class InteractiveGame extends MiniGame {
         dialogStyles={minigamePopupStyles}
         hideOnOverlayClicked
         ref={ref => (this.scoresPopup = ref)}
-        title="Поздравляем!"
+        title="Задание выполнено!"
         afterClose={this.completeGame}
       >
-        {`Вы получили ${this.state.gainedCoins} монет! `}
-        {this.state.reward && reward}
+        {stepResultFragment}
+        {this.state.reward && rewardFragment}
       </Popup>
     );
   }
@@ -214,7 +229,7 @@ class InteractiveGame extends MiniGame {
     return (
       <React.Fragment>
         {this.generateGame()}
-        {this.gneratePopup()}
+        {this.generatePopup()}
       </React.Fragment>
     );
   }
