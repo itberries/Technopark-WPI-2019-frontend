@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 
 import Popup from 'react-skylight';
 
+import serverUrl from '../../../../../../../config';
+
 import { websocketOpen, websocketOnMessage, websocketClose } from '../../../../../../../actions/ws';
 
 import MiniGame from './MiniGame';
@@ -187,14 +189,12 @@ class InteractiveGame extends MiniGame {
     if (this.state.gainedCoins !== 0) {
       stepResultFragment = `Вы получили ${this.state.gainedCoins} монет! `;
     } else {
+      const repeatStepImage = `${serverUrl}/rewards/repeat.png`;
       stepResultFragment = (
         <React.Fragment>
           Закрепление пройденного материала - важная часть успешного обучения!
           <br />
-          <img
-            src="https://it-berries.ru/rewards/reward1.png"
-            alt="Повторное выполнение задания, ракета"
-          />
+          <img src={repeatStepImage} alt="Ракета" />
         </React.Fragment>
       );
     }
