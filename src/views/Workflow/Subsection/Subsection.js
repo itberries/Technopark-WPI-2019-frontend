@@ -77,14 +77,15 @@ class Subsection extends React.Component {
         if (step.id === lastCompletedStepId) {
           afterLastCompleted = true;
         }
+        step.isCompleted = !afterLastCompleted;
         subsectionBlocks.push(
           <SubsectionBlock
             key={step.name}
             withSeparator={!isLastStep} // {index !== this.state.steps.length - 1} // TODO: check if it works
             type={step.type}
-            isCompleted={!afterLastCompleted} // || (this.props.data.get('section_done') && isLastStep)}
+            isCompleted={step.isCompleted} // || (this.props.data.get('section_done') && isLastStep)}
             isLocked={afterLastCompleted && lastCompletedStepId !== step.id}
-            isActive={!afterLastCompleted || lastCompletedStepId === step.id}
+            isActive={step.isCompleted || lastCompletedStepId === step.id}
             onSelectStep={this.props.onSelectStep}
             id={step.id}
           >

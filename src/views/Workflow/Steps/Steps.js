@@ -4,9 +4,14 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import Popup from 'react-skylight';
+
+import serverUrl from '../../../config';
+
 import Step from './Step/Step';
 
 import { completeStep } from '../../../actions/steps';
+import popupStyles from '../../../common.blocks/Popup/Popup';
 
 const mapStateToProps = (state) => {
   const steps = state.subsection.subsectionStepsById;
@@ -48,16 +53,19 @@ class Steps extends React.Component {
   }
 
   async goForward() {
+    const wasStepCompleted = this.state.activeStep.isCompleted;
     await this.props.completeStep(this.state.activeStep.id);
     if (this.state.activeStep.childId !== 0) {
       const activeStep = this.props.steps.get(this.state.activeStep.childId);
       this.setState({ activeStep });
+    } else if (this.state.activeStep.childId === 0 && !wasStepCompleted) {
+      this.lastStepPopup.show();
     } else {
       this.props.goBack();
     }
   }
 
-  render() {
+  generateActiveStep() {
     const step = this.state.activeStep;
     return (
       <Step
@@ -69,6 +77,41 @@ class Steps extends React.Component {
         next={step.childId}
         previous={step.parentId}
       />
+    );
+  }
+
+  generatePopup() {
+    const lastStepPopupStyles = Object.assign({}, popupStyles.bigHeightStyles);
+    lastStepPopupStyles.textAlign = 'center';
+
+    const lastStepImage = `${serverUrl}/rewards/laststep.png`;
+    const stepResultFragment = (
+      <React.Fragment>
+        Подсекция завершена. Телепортируйтесь в следующий блок!
+        <br />
+        <img src={lastStepImage} alt="Телепорт" />
+      </React.Fragment>
+    );
+
+    return (
+      <Popup
+        dialogStyles={lastStepPopupStyles}
+        hideOnOverlayClicked
+        ref={ref => (this.lastStepPopup = ref)}
+        title="Поздавляем!"
+        afterClose={() => this.props.goBack()}
+      >
+        {stepResultFragment}
+      </Popup>
+    );
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        {this.generateActiveStep()}
+        {this.generatePopup()}
+      </React.Fragment>
     );
   }
 }
