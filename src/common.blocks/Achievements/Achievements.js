@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Group, Div } from '@vkontakte/vkui';
+import Popup from 'sweetalert2';
 
-import Popup from 'react-skylight';
 import AchievementsItem from './__Item/Achievements__Item';
 
 import './Achievements.scss';
-import popupStyles from '../Popup/Popup';
 
 import tipIcon from '../../images/icons/question.svg';
 
@@ -36,18 +35,18 @@ class Achievements extends React.Component {
   }
 
   showTip() {
-    this.tipPopup.show();
+    Popup.fire({
+      confirmButtonColor: '#41046F',
+      confirmButtonText: 'Все понятно!',
+      title: 'Космические достижения!',
+      text:
+        'Открывай новые достижения, зарабатывая монетки в интерактивных мини-играх и соревнованиях с другими пользователями.',
+    });
   }
 
   render() {
-    let tipPopupStyles;
-    if (window.innerWidth < 768) {
-      tipPopupStyles = Object.assign({}, popupStyles.bigHeightStyles);
-    } else {
-      tipPopupStyles = Object.assign({}, popupStyles.basicStyles);
-    }
-
     const items = this.generateItems(this.props.allAchievements, this.props.activeAchievements);
+
     return (
       <Group className="achievements">
         {typeof items !== 'undefined' ? (
@@ -61,15 +60,6 @@ class Achievements extends React.Component {
                   alt="tip icon"
                   onClick={this.showTip}
                 />
-                <Popup
-                  dialogStyles={tipPopupStyles}
-                  hideOnOverlayClicked
-                  ref={ref => (this.tipPopup = ref)}
-                  title="Космические достижения!"
-                >
-                  Открывай новые достижения, зарабатывая монетки в интерактивных мини-играх и
-                  соревнованиях с другими пользователями.
-                </Popup>
               </div>
             </Div>
             <Div className="achievements__items">{items}</Div>
