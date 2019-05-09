@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Popup from 'react-skylight';
+import Popup from 'sweetalert2';
 
 import serverUrl from '../../../config';
 
-import Step from './Step/Step';
-
 import { completeStep } from '../../../actions/steps';
-import popupStyles from '../../../common.blocks/Popup/Popup';
+
+import Step from './Step/Step';
 
 const mapStateToProps = (state) => {
   const steps = state.subsection.subsectionStepsById;
@@ -59,7 +58,7 @@ class Steps extends React.Component {
       const activeStep = this.props.steps.get(this.state.activeStep.childId);
       this.setState({ activeStep });
     } else if (this.state.activeStep.childId === 0 && !wasStepCompleted) {
-      this.lastStepPopup.show();
+      this.showLastStepPopup();
     } else {
       this.props.goBack();
     }
@@ -80,39 +79,23 @@ class Steps extends React.Component {
     );
   }
 
-  generatePopup() {
-    const lastStepPopupStyles = Object.assign({}, popupStyles.bigHeightStyles);
-    lastStepPopupStyles.textAlign = 'center';
-
-    const lastStepImage = `${serverUrl}/rewards/laststep.png`;
-    const stepResultFragment = (
-      <React.Fragment>
-        Подсекция завершена. Телепортируйтесь в следующий блок!
-        <br />
-        <img src={lastStepImage} alt="Телепорт" />
-      </React.Fragment>
-    );
-
-    return (
-      <Popup
-        dialogStyles={lastStepPopupStyles}
-        hideOnOverlayClicked
-        ref={ref => (this.lastStepPopup = ref)}
-        title="Поздавляем!"
-        afterClose={() => this.props.goBack()}
-      >
-        {stepResultFragment}
-      </Popup>
-    );
+  showLastStepPopup() {
+    Popup.fire({
+      title: 'Поздравляем!',
+      text: 'Подсекция завершена! Следующий блок обучения открыт.',
+      confirmButtonColor: '#41046F',
+      confirmButtonText: 'Вернуться',
+      imageUrl: `${serverUrl}/rewards/star.png`,
+      imageWidth: 150,
+      imageHeight: 150,
+      imageAlt: 'Звезда',
+    }).then(() => {
+      this.props.goBack();
+    });
   }
 
   render() {
-    return (
-      <React.Fragment>
-        {this.generateActiveStep()}
-        {this.generatePopup()}
-      </React.Fragment>
-    );
+    return <React.Fragment>{this.generateActiveStep()}</React.Fragment>;
   }
 }
 
