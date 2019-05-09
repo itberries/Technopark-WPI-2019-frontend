@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Popup from 'react-skylight';
+import Popup from 'sweetalert2';
 
 import serverUrl from '../../../../../../../config';
 
@@ -16,7 +16,6 @@ import ChainGame from './InteractiveGames/types/InteractiveChain/InteractiveChai
 import QuestionGame from './InteractiveGames/types/InteractiveQuestion/InteractiveQuestion';
 
 import './MiniGame.scss';
-import popupStyles from '../../../../../../../common.blocks/Popup/Popup';
 
 const mapStateToProps = (state) => {
   const { socket } = state.ws;
@@ -145,7 +144,7 @@ class InteractiveGame extends MiniGame {
           this.setState({ gainedCoins: answer.payload.result });
         }
         console.log('showing scores popup...');
-        this.scoresPopup.show();
+        this.showResultPopup();
         return;
       default:
         console.log('unknown message!');
@@ -181,57 +180,48 @@ class InteractiveGame extends MiniGame {
     return <QuestionGame gameData={this.props.gameData} doTurn={this.sendMsg} />;
   }
 
-  generatePopup() {
-    const minigamePopupStyles = Object.assign({}, popupStyles.bigHeightStyles);
-    minigamePopupStyles.textAlign = 'center';
-
-    let stepResultFragment;
+  showResultPopup() {
     if (this.state.gainedCoins !== 0) {
-      stepResultFragment = `Вы получили ${this.state.gainedCoins} монет! `;
+      Popup.fire({
+        title: 'Задание выполнено!',
+        text: `Вы получили ${this.state.gainedCoins} монет! `,
+        confirmButtonColor: '#41046F',
+        imageUrl: `${serverUrl}/rewards/coins.png`,
+        imageWidth: 200,
+        imageHeight: 200,
+        imageAlt: 'Монетки',
+      }).then(() => {
+        if (this.state.reward) {
+          Popup.fire({
+            title: 'Открыто новое достижение!',
+            text: `Достижение ${this.state.reward.note}`,
+            confirmButtonText: 'Дальше',
+            confirmButtonColor: '#41046F',
+            imageUrl: this.state.reward.imageUrl,
+            imageWidth: 200,
+            imageHeight: 200,
+            imageAlt: `Достижение ${this.state.reward.note}`,
+          }).then(() => {
+            this.completeGame();
+          });
+        } else {
+          this.completeGame();
+        }
+      });
     } else {
-      const repeatStepImage = `${serverUrl}/rewards/repeat.png`;
-      stepResultFragment = (
-        <React.Fragment>
-          Закрепление пройденного материала - важная часть успешного обучения!
-          <br />
-          <img src={repeatStepImage} alt="Ракета" />
-        </React.Fragment>
-      );
+      Popup.fire({
+        title: 'Задание выполнено!',
+        text: 'Закрепление пройденного материала - важная часть успешного обучения.',
+        confirmButtonText: 'Дальше',
+        confirmButtonColor: '#41046F',
+        imageUrl: `${serverUrl}/rewards/startup.png`,
+        imageWidth: 200,
+        imageHeight: 200,
+        imageAlt: 'Ракета',
+      }).then(() => {
+        this.completeGame();
+      });
     }
-
-    let rewardFragment;
-    if (this.state.reward) {
-      rewardFragment = (
-        <React.Fragment>
-          Открыто новое достижение!
-          <br />
-          <img src={this.state.reward.imageUrl} alt={`Достижение ${this.state.reward.note}`} />
-          <br />
-          {this.state.reward.note}
-        </React.Fragment>
-      );
-    }
-    return (
-      <Popup
-        dialogStyles={minigamePopupStyles}
-        hideOnOverlayClicked
-        ref={ref => (this.scoresPopup = ref)}
-        title="Задание выполнено!"
-        afterClose={this.completeGame}
-      >
-        {stepResultFragment}
-        {this.state.reward && rewardFragment}
-      </Popup>
-    );
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        {this.generateGame()}
-        {this.generatePopup()}
-      </React.Fragment>
-    );
   }
 }
 
