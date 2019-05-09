@@ -37,7 +37,7 @@ class Achievements extends React.Component {
   showTip() {
     Popup.fire({
       confirmButtonColor: '#41046F',
-      confirmButtonText: 'Все понятно!',
+      confirmButtonText: 'Все понятно',
       title: 'Космические достижения!',
       text:
         'Открывай новые достижения, зарабатывая монетки в интерактивных мини-играх и соревнованиях с другими пользователями.',
