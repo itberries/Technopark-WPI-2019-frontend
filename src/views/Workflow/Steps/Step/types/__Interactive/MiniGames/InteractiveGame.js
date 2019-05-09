@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 
 import Popup from 'sweetalert2';
 
-import serverUrl from '../../../../../../../config';
-
 import { websocketOpen, websocketOnMessage, websocketClose } from '../../../../../../../actions/ws';
 
 import MiniGame from './MiniGame';
@@ -16,6 +14,9 @@ import ChainGame from './InteractiveGames/types/InteractiveChain/InteractiveChai
 import QuestionGame from './InteractiveGames/types/InteractiveQuestion/InteractiveQuestion';
 
 import './MiniGame.scss';
+
+import coinsImage from '../../../../../../../images/icons/coins.svg';
+import rocketImage from '../../../../../../../images/icons/rocket_launch.svg';
 
 const mapStateToProps = (state) => {
   const { socket } = state.ws;
@@ -186,7 +187,7 @@ class InteractiveGame extends MiniGame {
         title: 'Задание выполнено!',
         text: `Вы получили ${this.state.gainedCoins} монет! `,
         confirmButtonColor: '#41046F',
-        imageUrl: `${serverUrl}/rewards/coins.png`,
+        imageUrl: coinsImage,
         imageWidth: 150,
         imageHeight: 150,
         imageAlt: 'Монетки',
@@ -218,7 +219,7 @@ class InteractiveGame extends MiniGame {
         text: 'Закрепление пройденного материала - важная часть успешного обучения.',
         confirmButtonText: 'Дальше',
         confirmButtonColor: '#41046F',
-        imageUrl: `${serverUrl}/rewards/startup.png`,
+        imageUrl: rocketImage,
         imageWidth: 150,
         imageHeight: 150,
         imageAlt: 'Ракета',

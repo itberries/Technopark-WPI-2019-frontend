@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 
 import Popup from 'sweetalert2';
 
-import serverUrl from '../../../config';
-
 import { completeStep } from '../../../actions/steps';
 
 import Step from './Step/Step';
+
+import starImage from '../../../images/icons/star.svg';
 
 const mapStateToProps = (state) => {
   const steps = state.subsection.subsectionStepsById;
@@ -85,7 +85,7 @@ class Steps extends React.Component {
       text: 'Подсекция завершена! Следующий блок обучения открыт.',
       confirmButtonColor: '#41046F',
       confirmButtonText: 'Вернуться',
-      imageUrl: `${serverUrl}/rewards/star.png`,
+      imageUrl: starImage,
       imageWidth: 150,
       imageHeight: 150,
       imageAlt: 'Звезда',
