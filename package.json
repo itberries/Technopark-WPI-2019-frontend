@@ -58,7 +58,8 @@
     "react-skylight": "^0.5.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "seamless-immutable": "^7.1.4"
+    "seamless-immutable": "^7.1.4",
+    "sweetalert2": "^8.10.3"
   },
   "browserslist": [
     ">0.2%",

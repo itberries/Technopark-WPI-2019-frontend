@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import {
   Div, Group, View, Panel, PanelHeader,
@@ -11,7 +11,6 @@ import {
 import {
   movePlayer, moveOpponent, resetTimer, timerWasReset,
 } from '../../actions/multiplayer';
-
 import { websocketOpen, websocketOnMessage, websocketClose } from '../../actions/ws';
 
 import Map from './__Map/__Map';
@@ -46,22 +45,33 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 
 class Games extends React.Component {
   componentDidMount() {
+    this.unblock = this.props.history.block(
+      'Вы уверены, что хотите покинуть игру? Победа достанется Вашему противнику!',
+    );
+
+    // TODO: it's temp, change to real logic
     let i = 0;
     let j = 0;
-    const timerId = setInterval(() => {
+    this.timerId1 = setInterval(() => {
       i += 1;
       this.props.movePlayer(i);
       if (i === 8) {
-        clearInterval(timerId);
+        clearInterval(this.timerId1);
       }
     }, 1000);
-    const timerId2 = setInterval(() => {
+    this.timerId2 = setInterval(() => {
       j += 1;
       this.props.moveOpponent(j);
       if (j === 8) {
-        clearInterval(timerId2);
+        clearInterval(this.timerId2);
       }
     }, 2000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerId1);
+    clearInterval(this.timerId2);
+    this.unblock();
   }
 
   render() {
@@ -97,7 +107,9 @@ Games.defaultProps = {
   opponentPosition: 0,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Games);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Games),
+);
