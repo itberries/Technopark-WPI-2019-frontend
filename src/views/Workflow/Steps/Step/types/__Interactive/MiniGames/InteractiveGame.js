@@ -187,8 +187,8 @@ class InteractiveGame extends MiniGame {
         text: `Вы получили ${this.state.gainedCoins} монет! `,
         confirmButtonColor: '#41046F',
         imageUrl: `${serverUrl}/rewards/coins.png`,
-        imageWidth: 200,
-        imageHeight: 200,
+        imageWidth: 150,
+        imageHeight: 150,
         imageAlt: 'Монетки',
       }).then(() => {
         if (this.state.reward) {
@@ -201,6 +201,10 @@ class InteractiveGame extends MiniGame {
             imageWidth: 200,
             imageHeight: 200,
             imageAlt: `Достижение ${this.state.reward.note}`,
+            animation: false,
+            customClass: {
+              popup: 'animated tada',
+            },
           }).then(() => {
             this.completeGame();
           });
@@ -215,8 +219,8 @@ class InteractiveGame extends MiniGame {
         confirmButtonText: 'Дальше',
         confirmButtonColor: '#41046F',
         imageUrl: `${serverUrl}/rewards/startup.png`,
-        imageWidth: 200,
-        imageHeight: 200,
+        imageWidth: 150,
+        imageHeight: 150,
         imageAlt: 'Ракета',
       }).then(() => {
         this.completeGame();
