@@ -4,9 +4,13 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Step from './Step/Step';
+import Popup from 'sweetalert2';
+
+import serverUrl from '../../../config';
 
 import { completeStep } from '../../../actions/steps';
+
+import Step from './Step/Step';
 
 const mapStateToProps = (state) => {
   const steps = state.subsection.subsectionStepsById;
@@ -48,16 +52,19 @@ class Steps extends React.Component {
   }
 
   async goForward() {
+    const wasStepCompleted = this.state.activeStep.isCompleted;
     await this.props.completeStep(this.state.activeStep.id);
     if (this.state.activeStep.childId !== 0) {
       const activeStep = this.props.steps.get(this.state.activeStep.childId);
       this.setState({ activeStep });
+    } else if (this.state.activeStep.childId === 0 && !wasStepCompleted) {
+      this.showLastStepPopup();
     } else {
       this.props.goBack();
     }
   }
 
-  render() {
+  generateActiveStep() {
     const step = this.state.activeStep;
     return (
       <Step
@@ -70,6 +77,25 @@ class Steps extends React.Component {
         previous={step.parentId}
       />
     );
+  }
+
+  showLastStepPopup() {
+    Popup.fire({
+      title: 'Поздравляем!',
+      text: 'Подсекция завершена! Следующий блок обучения открыт.',
+      confirmButtonColor: '#41046F',
+      confirmButtonText: 'Вернуться',
+      imageUrl: `${serverUrl}/rewards/star.png`,
+      imageWidth: 150,
+      imageHeight: 150,
+      imageAlt: 'Звезда',
+    }).then(() => {
+      this.props.goBack();
+    });
+  }
+
+  render() {
+    return <React.Fragment>{this.generateActiveStep()}</React.Fragment>;
   }
 }
 

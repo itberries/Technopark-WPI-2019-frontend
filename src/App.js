@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createBrowserHistory } from 'history';
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import '@vkontakte/vkui/dist/vkui.css';
 
@@ -29,8 +28,6 @@ import './defaultApiSettings';
 import './vkMockSettings';
 
 import './App.scss';
-
-const history = createBrowserHistory();
 
 const mapStateToProps = (state) => {
   const { vkUserInfo } = state.vk.vkAppUser;
@@ -66,7 +63,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       activeView: props.viewName,
-      showIntro: true,
+      showIntro: false,
     };
     this.onViewChange = this.onViewChange.bind(this);
     this.showMainNavigation = this.showMainNavigation.bind(this);
@@ -105,8 +102,7 @@ class App extends React.Component {
     const location = {
       pathname: `/${e.currentTarget.dataset.story}`,
     };
-    history.push(location);
-    this.setState({ activeView: e.currentTarget.dataset.story });
+    this.props.history.push(location);
   }
 
   /**
@@ -174,7 +170,9 @@ App.defaultProps = {
   viewName: 'workflow',
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(App),
+);

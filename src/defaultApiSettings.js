@@ -1,5 +1,7 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://it-berries.ru:443/api';
+import serverUrl from './config';
+
+axios.defaults.baseURL = `${serverUrl}/api`;
 axios.defaults.mode = 'cors';
 axios.defaults.withCredentials = true;
