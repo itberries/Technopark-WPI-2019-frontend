@@ -16,6 +16,10 @@
     background-color: #3BB379;
   }
 
+  &.frame-wrong {
+    background-color: #d83b3b;
+  }
+
   &.frame-active {
     border: 3px solid #660BAB;
   }
@@ -25,7 +29,7 @@
     color: #E5E3E0;
   }
 
-  &.frame-unlikable{
+  &.frame-unclikable{
     pointer-events: none;
   }
 }

@@ -1,10 +1,14 @@
+@import "~animate.css/source/_base.css";
+@import "~animate.css/source/attention_seekers/tada.css";
+@import "~animate.css/source/attention_seekers/shake.css";
+
 :root {
   --accent: #41046F;
   --header_background: #260C3B;
   --tabbar_active_icon: #41046F;
 }
 
-body::-webkit-scrollbar { 
+body::-webkit-scrollbar {
   width: 0 !important
 }
 

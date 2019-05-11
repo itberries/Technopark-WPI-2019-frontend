@@ -15,9 +15,11 @@ class Match extends React.Component {
       answer: null,
       framesOnCheck: [],
       rightFrames: [],
+      wrongFrames: new Map(),
     };
     console.log('Match state: ', this.state);
     this.onFrameClick = this.onFrameClick.bind(this);
+    this.removeFromWrongFrames = this.removeFromWrongFrames.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -80,14 +82,31 @@ class Match extends React.Component {
 
   wrongAnswer() {
     this.setState((prevState) => {
-      const { framesOnCheck, selectedFrames } = prevState;
-      const newRightFrames = framesOnCheck.shift();
-      if (newRightFrames !== undefined) {
-        newRightFrames.forEach((id) => {
+      const {
+        framesOnCheck, wrongFrames, selectedFrames, frames,
+      } = prevState;
+      const newWrongFrames = framesOnCheck.shift();
+      if (newWrongFrames !== undefined) {
+        newWrongFrames.forEach((id) => {
+          wrongFrames.set(id, prevState.frames.get(id));
           selectedFrames.delete(id);
         });
       }
-      return { framesOnCheck, selectedFrames };
+      return {
+        framesOnCheck,
+        selectedFrames,
+        frames,
+        wrongFrames,
+      };
+    });
+  }
+
+  removeFromWrongFrames(id) {
+    console.log('MATCH removeFromWrongFrames');
+    this.setState((prevState) => {
+      const { wrongFrames } = prevState;
+      wrongFrames.delete(id);
+      return { wrongFrames };
     });
   }
 
@@ -96,13 +115,17 @@ class Match extends React.Component {
 
   // TODO: remove this hack!
   createFrame(frame, id) {
+    const isWrongFrame = this.state.wrongFrames.has(id);
     const newFrame = (
       <Frame
+        key={id}
         id={id}
         onFrameClick={this.onFrameClick}
         value={frame}
         isActive={this.state.selectedFrames.has(id)}
         isSecond={this.state.secondFrames.has(frame)}
+        isWrong={isWrongFrame}
+        onWrongAnimationEnds={isWrongFrame && this.removeFromWrongFrames}
       />
     );
     return newFrame;
