@@ -10,6 +10,15 @@ class Frame extends React.Component {
     this.frame = React.createRef();
   }
 
+  componentDidMount() {
+    if (this.frame.current && this.props.isRight) {
+      this.frame.current.addEventListener('animationend', () => {
+        this.frame.current.classList.remove('animated');
+        this.frame.current.classList.remove('bounceIn');
+      });
+    }
+  }
+
   componentDidUpdate() {
     if (this.frame.current && this.props.isWrong) {
       this.frame.current.addEventListener('animationend', () => {
@@ -25,6 +34,7 @@ class Frame extends React.Component {
     let frameClasses = '';
     if (this.props.isRight) {
       buttonClasses += ' frame-right frame-unclikable';
+      frameClasses += ' animated bounceIn';
     } else if (this.props.dummy) {
       buttonClasses += ' frame-dummy frame-unclikable';
     } else if (this.props.fakeHidden) {
