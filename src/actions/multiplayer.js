@@ -1,4 +1,4 @@
-import * as types from '../constants/multiplayerActionTypes';
+import * as types from '../constants/actionTypes';
 
 export function movePlayer(position) {
   console.log('action movePlayer ', types.PLAYER_MOVE);
@@ -19,10 +19,17 @@ export function moveOpponent(position) {
   };
 }
 
-export function resetTimer() {
+export function resetTimer(time) {
   return async (dispatch) => {
+    let timer = time;
+    console.log('timer: ', timer);
+    if (timer === undefined || timer === null) {
+      timer = 5;
+    }
+    console.log('timer: ', timer);
     dispatch({
       type: types.TIMER_RESET,
+      timer,
     });
   };
 }

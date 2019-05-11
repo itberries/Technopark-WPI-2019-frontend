@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Group } from '@vkontakte/vkui';
 
 import Progress from './__Progress/__Progress';
@@ -9,6 +10,11 @@ import rocket1 from '../../../images/icons/Player1Rocket.svg';
 import rocket2 from '../../../images/icons/Player2Rocket.svg';
 
 import './__Map.scss';
+
+const mapStateToProps = (state) => {
+  const { playerPosition, opponentPosition } = state.multiplayer;
+  return { playerPosition, opponentPosition };
+};
 
 class Map extends React.Component {
   render() {
@@ -49,4 +55,4 @@ Map.defaultProps = {
   opponentPosition: 0,
 };
 
-export default Map;
+export default connect(mapStateToProps)(Map);

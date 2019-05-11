@@ -6,8 +6,7 @@ import Question from '../../../Base/types/Question/Question';
 class InteractiveQuestion extends Question {
   constructor(props) {
     super(props);
-    console.log('props.gameData: ', props.gameData);
-    const questionFrames = JSON.parse(props.gameData[0].note).data;
+    const questionFrames = props.gameData;
     this.state.frames = questionFrames;
   }
 
@@ -35,6 +34,7 @@ class InteractiveQuestion extends Question {
         payload: {
           data: this.state.selectedFrameId + 1,
         },
+        mode: this.props.mode,
       };
       this.props.doTurn(JSON.stringify(msg));
     }

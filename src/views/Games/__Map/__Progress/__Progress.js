@@ -5,7 +5,7 @@ import './__Progress.scss';
 class Progress extends React.Component {
   render() {
     const cells = [];
-    const cellsNumber = 9;
+    const cellsNumber = 3;
     const doneCells = this.props.position < 9 ? this.props.position : 8;
     for (const x of Array(doneCells).keys()) {
       cells.push(<div className="Map__cell" style={{ backgroundColor: this.props.roadColor }} />);

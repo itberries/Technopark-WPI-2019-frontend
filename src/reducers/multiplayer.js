@@ -1,14 +1,15 @@
 import Immutable from 'seamless-immutable';
-import * as types from '../constants/multiplayerActionTypes';
+import * as types from '../constants/actionTypes';
 
 const initialState = Immutable({
   playerPosition: 0,
   opponentPosition: 0,
+  timerResetValue: 5,
   timerNeedReset: false,
 });
 
 export default function reduce(state = initialState, action) {
-  console.log('reduce multiplayer ', action);
+  console.log('action reduce');
   switch (action.type) {
     case types.PLAYER_MOVE:
       console.log('action PLAYER_MOVE');
@@ -24,8 +25,10 @@ export default function reduce(state = initialState, action) {
       });
     case types.TIMER_RESET:
       console.log('action TIMER_RESET');
+      console.log('action.timer:', action.timer);
       return Immutable.merge({
         ...state,
+        timerResetValue: action.timer,
         timerNeedReset: true,
       });
     case types.TIMER_WAS_RESET:

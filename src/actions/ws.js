@@ -1,8 +1,8 @@
 import * as types from '../constants/actionTypes';
 
-export function websocketOpen(path) {
+export function websocketOpen() {
   return async (dispatch) => {
-    const socket = new WebSocket(`wss://it-berries.ru/game/${path}/`);
+    const socket = new WebSocket('wss://it-berries.ru/game/');
     socket.onopen = () => {
       console.log('socket in action', socket);
       dispatch({
