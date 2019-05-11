@@ -21,16 +21,16 @@ class Map extends React.Component {
     const player1Color = '#24B13B';
     const player2Color = '#CC0303';
     return (
-      <Group>
+      <Group className={this.props.className}>
         <div className="gameRoad">
-          <div className="progreses">
+          <div className="progresses">
             <Progress
               header="Your progress"
               playerIcon={rocket1}
               roadColor={player1Color}
               position={this.props.playerPosition}
             />
-            <hr />
+            <hr className="progresses__separator" />
             <Progress
               header="Opponent’s progress"
               playerIcon={rocket2}
