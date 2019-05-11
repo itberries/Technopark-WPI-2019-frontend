@@ -1,22 +1,65 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Group } from '@vkontakte/vkui';
+import { bindActionCreators } from 'redux';
+
+import { timerWasReset } from '../../../actions/multiplayer';
 
 import timer from '../../../images/icons/stopwatch.svg';
 
 import './__Timer.scss';
 
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    timerWasReset,
+  },
+  dispatch,
+);
+
+const mapStateToProps = (state) => {
+  const { timerNeedReset, timerResetValue } = state.multiplayer;
+  return { timerNeedReset, timerResetValue };
+};
+
 class Timer extends React.Component {
-  componentDidMount() {
-    document.getElementsByClassName('timer__fullness')[0].style.animationDuration = '6s';
-    const times = 6;
-    let i = 0;
-    this.timerId = setInterval(() => {
-      i += 1;
-      document.getElementsByClassName('timer__title')[0].innerHTML = `${times - i} seconds`;
-      if (i === times) {
-        clearInterval(this.timerId);
+  constructor(props) {
+    super(props);
+    this.state = {
+      timerId: null,
+    };
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.timerNeedReset) {
+      if (this.state.timerId !== null) {
+        clearInterval(this.state.timerId);
       }
-    }, 1000);
+      console.log('reseting!');
+      const className = 'timer__fullness';
+      const fullness = document.getElementsByClassName(className)[0];
+      fullness.style.animationDuration = `${nextProps.timerResetValue}s`;
+      fullness.style.webkitAnimation = 'none';
+      fullness.style.webkitAnimation = '';
+
+      this.props.timerWasReset();
+      const times = nextProps.timerResetValue;
+      document.getElementsByClassName('timer__title')[0].innerHTML = `${times} seconds`;
+      let i = 0;
+      const timerId = setInterval(() => {
+        i += 1;
+        document.getElementsByClassName('timer__title')[0].innerHTML = `${times - i} seconds`;
+        if (i === times) {
+          clearInterval(this.state.timerId);
+        }
+      }, 1000);
+      this.setState({ timerId });
+    }
+    return true;
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.timerId);
   }
 
   componentWillUnmount() {
@@ -38,4 +81,13 @@ class Timer extends React.Component {
   }
 }
 
-export default Timer;
+Timer.propTypes = {
+  timerNeedReset: PropTypes.bool.isRequired,
+  timerWasReset: PropTypes.func.isRequired,
+  timerResetValue: PropTypes.number.isRequired,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Timer);

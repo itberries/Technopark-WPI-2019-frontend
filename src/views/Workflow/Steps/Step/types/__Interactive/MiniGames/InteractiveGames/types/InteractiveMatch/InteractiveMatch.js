@@ -7,7 +7,7 @@ class InteractiveMatch extends Match {
   constructor(props) {
     super(props);
 
-    const cardForMatch = JSON.parse(props.gameData[0].note).data;
+    const cardForMatch = props.gameData;
     let frames = [];
     const secondFrames = new Map();
     cardForMatch.forEach((element) => {
@@ -43,6 +43,7 @@ class InteractiveMatch extends Match {
       payload: {
         data: {},
       },
+      mode: this.props.mode,
     };
     msg.payload.data[frames[0]] = frames[1];
     this.props.doTurn(JSON.stringify(msg));

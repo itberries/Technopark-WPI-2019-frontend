@@ -25,3 +25,8 @@ export const VK_GET_USER_INFO_FAILED = 'VK_APP/VK_GET_USER_INFO_FAILED';
 export const USER_PROFILE_FETCHED = 'user.USER_PROFILE_FETCHED';
 export const USER_NEW_STATE_FETCHED = 'user.USER_NEW_STATE_FETCHED';
 export const USER_ACHIEVEMENTS_FETCHED = 'user.USER_ACHIEVEMENTS_FETCHED';
+
+export const PLAYER_MOVE = 'multiplayer.PLAYER_MOVE';
+export const OPPONENT_MOVE = 'multiplayer.OPPONENT_MOVE';
+export const TIMER_RESET = 'multiplayer.TIMER_RESET';
+export const TIMER_WAS_RESET = 'multiplayer.TIMER_WAS_RESET';

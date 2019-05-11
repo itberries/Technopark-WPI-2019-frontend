@@ -48,7 +48,7 @@ class InteractiveGame extends MiniGame {
 
   componentWillMount() {
     console.log('this.props.gameType: ', this.props.gameType);
-    this.props.websocketOpen('match');
+    this.props.websocketOpen();
     this.setState({ socketNotSet: true });
   }
 
@@ -170,15 +170,19 @@ class InteractiveGame extends MiniGame {
   }
 
   generateMatch() {
-    return <MatchGame gameData={this.props.gameData} doTurn={this.sendMsg} />;
+    const { data } = JSON.parse(this.props.gameData[0].note);
+    return <MatchGame gameData={data} doTurn={this.sendMsg} mode="singleplayer" />;
   }
 
   generateChain() {
-    return <ChainGame gameData={this.props.gameData} doTurn={this.sendMsg} />;
+    const { data } = JSON.parse(this.props.gameData[0].note);
+    return <ChainGame gameData={data} doTurn={this.sendMsg} mode="singleplayer" />;
   }
 
   generateQuestion() {
-    return <QuestionGame gameData={this.props.gameData} doTurn={this.sendMsg} />;
+    return (
+      <QuestionGame gameData={this.props.gameData} doTurn={this.sendMsg} mode="singleplayer" />
+    );
   }
 
   showResultPopup() {

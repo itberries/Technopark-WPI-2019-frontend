@@ -6,8 +6,7 @@ import Chain from '../../../Base/types/Chain/Chain';
 class InteractiveChain extends Chain {
   constructor(props) {
     super(props);
-    console.log('props.gameData: ', props.gameData);
-    const chainFrames = JSON.parse(props.gameData[0].note).data;
+    const chainFrames = props.gameData;
     const frames = [];
     chainFrames.forEach((value) => {
       frames.push(value);
@@ -31,6 +30,7 @@ class InteractiveChain extends Chain {
       payload: {
         data: Array.from(chain),
       },
+      mode: this.props.mode,
     };
     this.props.doTurn(JSON.stringify(msg));
   }
