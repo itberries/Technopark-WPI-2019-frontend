@@ -26,6 +26,8 @@ export const USER_PROFILE_FETCHED = 'user.USER_PROFILE_FETCHED';
 export const USER_NEW_STATE_FETCHED = 'user.USER_NEW_STATE_FETCHED';
 export const USER_ACHIEVEMENTS_FETCHED = 'user.USER_ACHIEVEMENTS_FETCHED';
 
+export const LEADERBOARD_TOP_USERS_FETCHED = 'leaderboard.LEADERBOARD_TOP_USERS_FETCHED';
+
 export const PLAYER_MOVE = 'multiplayer.PLAYER_MOVE';
 export const OPPONENT_MOVE = 'multiplayer.OPPONENT_MOVE';
 export const TIMER_RESET = 'multiplayer.TIMER_RESET';

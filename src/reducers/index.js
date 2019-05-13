@@ -6,6 +6,7 @@ import learningMapReducer from './learningmap';
 import subsectionReducer from './subsection';
 import wsReducer from './ws';
 import multiplayerReducer from './multiplayer';
+import leaderboardReducer from './leaderboard';
 
 const rootReducer = combineReducers({
   vk: vkReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   subsection: subsectionReducer,
   ws: wsReducer,
   multiplayer: multiplayerReducer,
+  leaderboard: leaderboardReducer,
 });
 
 export default rootReducer;

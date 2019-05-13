@@ -80,6 +80,15 @@ class BackendAPIServiceMock {
     console.log('BackendAPIServiceMOCK: getAchievements res: ', res);
     return res.data;
   }
+
+  async getTopUsers(userId) {
+    const res = await delay(API_MOCK_DELAY).then(() => {
+      const topUsers = fakeDatabase.topUsers.map(topUser => Object.assign({}, topUser));
+      return { data: topUsers };
+    });
+    console.log('BackendAPIServiceMOCK: getTopUsers res: ', res);
+    return res.data;
+  }
 }
 
 export default BackendAPIServiceMock;
