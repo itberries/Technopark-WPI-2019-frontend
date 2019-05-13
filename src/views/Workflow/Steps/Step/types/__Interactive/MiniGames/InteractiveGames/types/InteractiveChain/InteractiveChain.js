@@ -12,6 +12,7 @@ class InteractiveChain extends Chain {
       frames.push(value);
     });
     this.state.frames = frames;
+    this.state.notSend = true;
   }
 
   // TODO: This is a bad decision. If we have time, we need to think better
@@ -19,8 +20,15 @@ class InteractiveChain extends Chain {
     super.shouldComponentUpdate(nextProps, nextState);
     if (nextProps.answer !== null) {
       this.props.answerReceived();
+      nextState.notSend = true;
     }
     return true;
+  }
+
+  componentDidUpdate() {
+    if (this.state.notSend) {
+      super.componentDidUpdate();
+    }
   }
 
   checkChain(chain) {
@@ -32,6 +40,7 @@ class InteractiveChain extends Chain {
       },
       mode: this.props.mode,
     };
+    this.setState({ notSend: false });
     this.props.doTurn(JSON.stringify(msg));
   }
 }

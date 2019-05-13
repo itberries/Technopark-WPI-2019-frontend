@@ -180,9 +180,8 @@ class InteractiveGame extends MiniGame {
   }
 
   generateQuestion() {
-    return (
-      <QuestionGame gameData={this.props.gameData} doTurn={this.sendMsg} mode="singleplayer" />
-    );
+    const { data } = JSON.parse(this.props.gameData[0].note);
+    return <QuestionGame gameData={data} doTurn={this.sendMsg} mode="singleplayer" />;
   }
 
   showResultPopup() {

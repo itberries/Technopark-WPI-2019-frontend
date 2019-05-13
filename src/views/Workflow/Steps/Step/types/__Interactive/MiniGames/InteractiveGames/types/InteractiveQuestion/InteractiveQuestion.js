@@ -11,6 +11,7 @@ class InteractiveQuestion extends Question {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    super.shouldComponentUpdate(nextProps, nextState);
     console.log('nextState: ', nextState);
     if (nextProps.answer !== null && !nextState.completed) {
       console.log('nextProps.answer: ', nextProps.answer);
@@ -26,6 +27,12 @@ class InteractiveQuestion extends Question {
     return true;
   }
 
+  componentDidUpdate() {
+    if (this.state.choosed) {
+      this.checkQuestion();
+    }
+  }
+
   checkQuestion() {
     console.log('this.state.selectedFrameId: ', this.state.selectedFrameId);
     if (this.state.selectedFrameId !== null) {
@@ -36,6 +43,7 @@ class InteractiveQuestion extends Question {
         },
         mode: this.props.mode,
       };
+      this.setState({ choosed: false });
       this.props.doTurn(JSON.stringify(msg));
     }
   }
