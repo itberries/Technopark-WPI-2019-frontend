@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { Group } from '@vkontakte/vkui';
 import { bindActionCreators } from 'redux';
 
-import { timerWasReset } from '../../../actions/multiplayer';
+import { timerWasReset } from '../../../../actions/multiplayer';
 
-import timer from '../../../images/icons/stopwatch.svg';
+import timer from '../../../../images/icons/stopwatch.svg';
 
 import './__Timer.scss';
 
