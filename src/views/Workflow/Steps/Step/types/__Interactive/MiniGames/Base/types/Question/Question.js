@@ -15,16 +15,17 @@ class Question extends React.Component {
       ],
       completed: false,
       selectedFrameId: null,
+      choosed: false,
     };
 
     this.onFrameClick = this.onFrameClick.bind(this);
   }
 
-  componentDidUpdate() {
-    // check that have selectedFrame and game not done yet
-    if (this.state.selectedFrameId !== null && !this.state.completed) {
-      this.checkQuestion();
+  shouldComponentUpdate(nextProps, nextState) {
+    if (!nextState.completed && nextState.choosed && nextState.selectedFrameId !== null) {
+      nextState.choosed = true;
     }
+    return true;
   }
 
   onFrameClick(id) {
@@ -32,7 +33,8 @@ class Question extends React.Component {
     this.setState((prevState) => {
       let { selectedFrameId } = prevState;
       selectedFrameId = id;
-      return { selectedFrameId };
+      console.log('selectedFrameId: ', selectedFrameId);
+      return { selectedFrameId, choosed: true };
     });
   }
 
