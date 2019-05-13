@@ -1,296 +1,60 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 import {
-  Div, Group, View, Panel, PanelHeader,
+  Div, Group, View, Panel, PanelHeader, Header, Button,
 } from '@vkontakte/vkui';
-import SpinnerCentered from '../../common.blocks/SpinnerCentered/SpinnerCentered';
 
-import { movePlayer, moveOpponent, resetTimer } from '../../actions/multiplayer';
-
-import { websocketOpen, websocketOnMessage, websocketClose } from '../../actions/ws';
-
-import Map from './__Map/__Map';
-import Timer from './__Timer/__Timer';
+import MultiplayerGame from './MultiplayerGame/MultiplayerGame';
 
 import './Games.scss';
 
-import Match from '../Workflow/Steps/Step/types/__Interactive/MiniGames/InteractiveGames/types/InteractiveMatch/InteractiveMatch';
-import Chain from '../Workflow/Steps/Step/types/__Interactive/MiniGames/InteractiveGames/types/InteractiveChain/InteractiveChain';
-import Question from '../Workflow/Steps/Step/types/__Interactive/MiniGames/InteractiveGames/types/InteractiveQuestion/InteractiveQuestion';
-
-const mapStateToProps = (state) => {
-  const { socket } = state.ws;
-  const { playerPosition, opponentPosition } = state.multiplayer;
-  return { socket, playerPosition, opponentPosition };
-};
-
-const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    movePlayer,
-    moveOpponent,
-    resetTimer,
-
-    websocketOpen,
-    websocketClose,
-    websocketOnMessage,
-  },
-  dispatch,
-);
+import rocket1Icon from '../../images/icons/Player1Rocket.svg';
+import rocket2Icon from '../../images/icons/Player2Rocket.svg';
 
 class Games extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      socketNotSet: true,
-      socketReadyToSend: false,
-      actions: [],
-      isLoading: true,
-      tasks: [],
-      currentTask: 0,
+      isGameStarted: false,
     };
-
-    this.sendMsg = this.sendMsg.bind(this);
+    this.stopGame = this.stopGame.bind(this);
   }
 
-  componentDidMount() {
-   // setting up the popup message for the page leave action
-    this.unblock = this.props.history.block(
-      'Вы уверены, что хотите покинуть игру? Победа достанется Вашему противнику!',
-    );
-    console.log('opening games socket');
-    this.props.websocketOpen();
-    this.setState({ socketNotSet: true });
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('this.state.socketNotSet: ', this.state.socketNotSet);
-    if (nextProps.socket !== null && nextProps.gameType !== null) {
-      if (this.state.socketNotSet) {
-        nextProps.socket.onclose = (event) => {
-          this.props.websocketClose();
-          this.state.socketNotSet = true;
-          this.state.actions = [];
-          if (event.wasClean) {
-            console.log('Соединение закрыто чисто');
-          } else {
-            console.log('Обрыв соединения'); // например, "убит" процесс сервера
-            this.props.websocketOpen('match');
-          }
-          console.log('we are close this socket!');
-          console.log('Код: ', event.code, ' причина: ', event.reason);
-        };
-        nextProps.socket.onerror = (error) => {
-          console.log('Ошибка ', error.message);
-        };
-        nextProps.socket.onmessage = (event) => {
-          console.log('answer: ', event.data);
-          this.processAnswr(event.data);
-          this.setState((prevState) => {
-            const msgs = prevState.actions;
-            msgs.shift();
-            if (msgs.length !== 0) {
-              const msg = msgs[0];
-              console.log('отправка сообщения: ', msg);
-              this.props.socket.send(msg);
-            }
-            return { actions: msgs };
-          });
-        };
-        this.setState({ socketNotSet: false, socketReadyToSend: true });
-      } else {
-        nextState.socketReadyToSend = false;
-      }
-    }
-    return true;
-  }
-
-  componentDidUpdate() {
-    if (this.state.socketReadyToSend) {
-      console.log('start send msgs!');
-      this.sendMsg(
-        JSON.stringify({
-          type: 'joinGame',
-          mode: 'multiplayer',
-        }),
-      );
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.props.socket !== null) {
-      this.props.socket.close();
-    }
-  }
-
-  // Сделать всплывашку о победе
-  gameCompleted() {}
-
-  processAnswr(data) {
-    const answer = JSON.parse(data);
-    console.log('answer: ', answer);
-    switch (answer.type) {
-      case 'MPStartGameMessage':
-        console.log('Success start  multiplayer sessiong');
-        const tasks = answer.payload.tasks;
-        tasks.forEach((task) => {
-          task.data = JSON.parse(task.task).data;
-        });
-        this.setState({
-          isLoading: false,
-          tasks,
-        });
-        const task = tasks[0];
-        switch (task.type) {
-          case 'question':
-            console.log('reset timer 30');
-            this.props.resetTimer(30);
-            break;
-          case 'match':
-          case 'chain':
-            console.log('reset timer 120');
-            this.props.resetTimer(120);
-            setTimeout(() => {
-              console.log('reseting!');
-              this.props.resetTimer(10);
-            }, 10000);
-            break;
-          default:
-            console.log('unknown game');
-        }
-        return;
-      case 'DeliveryStatus':
-        // TODO: сделать обработчик
-        switch (answer.payload.result) {
-          case 'WAIT':
-            console.log('waiting for another player');
-            return;
-          case 'MINI_GAME_COMPLETED':
-            console.log('game completed, payoad:', answer.payload);
-            this.setState((prevState) => {
-              let { currentTask } = prevState;
-              currentTask += 1;
-              if (currentTask < prevState.tasks.length) {
-                this.props.movePlayer(this.props.playerPosition + 1);
-                const { type } = prevState.tasks[currentTask];
-                switch (type) {
-                  case 'question':
-                    this.props.resetTimer(30);
-                    break;
-                  case 'match':
-                  case 'chain':
-                    this.props.resetTimer(120);
-                    break;
-                  default:
-                    console.log('unknown game');
-                }
-              }
-              return { currentTask };
-            });
-            break;
-          case 'OPPONENT_HAS_STEPPED':
-            this.props.movePlayer(this.props.opponentPosition + 1);
-            break;
-          default:
-            console.log('unknown message!');
-            break;
-        }
-        break;
-      case 'TurnResult':
-        if (answer.payload.data) {
-          console.log('right turn');
-        } else {
-          console.log('wrong turn');
-        }
-        this.props.websocketOnMessage(answer.payload.data);
-        break;
-      case 'GameCompleted':
-        console.log('game completed, payoad:', answer.payload);
-        this.gameCompleted();
-        break;
-      default:
-        console.log('unknown message!');
-    }
-  }
-
-  sendMsg(msg) {
-    this.setState((prevState) => {
-      const msgs = prevState.actions;
-      msgs.push(msg);
-      if (msgs.length === 1) {
-        console.log('отправка сообщения: ', msg);
-        console.log('by socket: ', this.props.socket);
-        this.props.socket.send(msg);
-      }
-      return { message: msgs };
-    });
-  }
-
-  generateGame() {
-    if (this.state.tasks.length > 0 && this.state.currentTask < this.state.tasks.length) {
-      console.log('GenerateGame this.state.currentTask: ', this.state.currentTask);
-      const task = this.state.tasks[this.state.currentTask];
-      console.log('task: ', task);
-      switch (task.type) {
-        case 'chain':
-          return (
-            <React.Fragment>
-              <Group>
-                <Div>Построй цепочку</Div>
-              </Group>
-              <Chain gameData={task.data} doTurn={this.sendMsg} mode="multiplayer" />
-            </React.Fragment>
-          );
-        case 'match':
-          return (
-            <React.Fragment>
-              <Group>
-                <Div>Найди пары</Div>
-              </Group>
-              <Match gameData={task.data} doTurn={this.sendMsg} mode="multiplayer" />
-            </React.Fragment>
-          );
-        case 'question':
-          return (
-            <React.Fragment>
-              <Group>
-                <Div>Ответь на вопрос</Div>
-              </Group>
-              <Question gameData={task.data} doTurn={this.sendMsg} mode="multiplayer" />
-            </React.Fragment>
-          );
-        default:
-          console.log('unknown game');
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    this.unblock();
+  stopGame() {
+    console.log('GAMES END GAME');
+    this.setState({ isGameStarted: false });
   }
 
   render() {
     return (
       <View key={this.props.id} id={this.props.id} activePanel={this.props.id}>
         <Panel id={this.props.id}>
-          <PanelHeader>Игры с друзьями</PanelHeader>
-          {this.state.isLoading ? (
-            <SpinnerCentered />
+          <PanelHeader>Онлайн-игры</PanelHeader>
+          {!this.state.isGameStarted ? (
+            <Group className="game">
+              <Header>Космические гонки</Header>
+              <Div className="game__rockets">
+                <img className="game__rocket1" src={rocket1Icon} alt="Ракета" />
+                <img className="game__rocket2" src={rocket2Icon} alt="Ракета" />
+              </Div>
+              <Div className="game__description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua.
+              </Div>
+              <Button
+                className="game__start_btn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  this.setState({ isGameStarted: true });
+                }}
+              >
+                Начать игру
+              </Button>
+            </Group>
           ) : (
-            <div className="multiplayergame">
-              <Map
-                className="multiplayergame__map"
-                playerPosition={this.props.playerPosition}
-                opponentPosition={this.props.opponentPosition}
-              />
-              <Timer className="multiplayergame__timer" />
-              <Group className="multiplayergame__game">
-                <Div>{this.generateGame()}</Div>
-              </Group>
-            </div>
+            <MultiplayerGame onEndGame={this.stopGame} />
           )}
         </Panel>
       </View>
@@ -300,21 +64,8 @@ class Games extends React.Component {
 
 Games.propTypes = {
   id: PropTypes.string.isRequired,
-  socket: PropTypes.instanceOf(WebSocket),
-  movePlayer: PropTypes.func.isRequired,
-  moveOpponent: PropTypes.func.isRequired,
-  resetTimer: PropTypes.func.isRequired,
-  playerPosition: PropTypes.number.isRequired,
-  opponentPosition: PropTypes.number.isRequired,
 };
 
-Games.defaultProps = {
-  socket: null,
-};
+Games.defaultProps = {};
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Games),
-);
+export default Games;

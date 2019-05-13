@@ -1,33 +1,41 @@
-.multiplayergame {
-  display: block;
-}
+.game {
+  text-align: center;
 
-@media screen and (min-width: 700px) {
-  .multiplayergame {
-    display: grid;
-    grid-template-columns: 45% 55%;
-    grid-column-gap: 10px;
-    grid-template-rows: 40vh 15vh auto;
+  game__rockets {
+    width: 100%;
   }
 
-  .multiplayergame__map {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 1;
-    grid-row-end: 2;
+  @keyframes mover {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
   }
 
-  .multiplayergame__timer {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 3;
+  @keyframes mover-reverse {
+    0% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
   }
 
-  .multiplayergame__game {
-    grid-column-start: 2;
-    grid-column-end: 3;
-    grid-row-start: 1;
-    grid-row-end: 4;
+  .game__rocket1 {
+    transform: rotate(-90deg);
+    animation: mover 1s infinite  alternate;
   }
+
+  .game__rocket2 {
+    transform: rotate(-90deg);
+    animation: mover-reverse 1s infinite  alternate;
+  }
+
+  .game__description {
+
+  }
+
+  .game__start_btn {
+    margin: 20px 0;
+    height: 4em;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
 }

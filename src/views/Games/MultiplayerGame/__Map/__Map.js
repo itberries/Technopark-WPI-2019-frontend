@@ -6,8 +6,8 @@ import { Group } from '@vkontakte/vkui';
 import Progress from './__Progress/__Progress';
 import FinishLine from './__FinishLine/__FinishLine';
 
-import rocket1 from '../../../images/icons/Player1Rocket.svg';
-import rocket2 from '../../../images/icons/Player2Rocket.svg';
+import rocket1 from '../../../../images/icons/Player1Rocket.svg';
+import rocket2 from '../../../../images/icons/Player2Rocket.svg';
 
 import './__Map.scss';
 
