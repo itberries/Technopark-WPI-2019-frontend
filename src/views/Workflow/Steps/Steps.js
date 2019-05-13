@@ -14,8 +14,10 @@ import starImage from '../../../images/icons/star.svg';
 
 const mapStateToProps = (state) => {
   const steps = state.subsection.subsectionStepsById;
+  const userState = state.user.state;
   return {
     steps,
+    userState,
   };
 };
 
@@ -73,8 +75,9 @@ class Steps extends React.Component {
         type={step.type}
         goBack={this.goBack}
         goForward={this.goForward}
-        next={step.childId}
         previous={step.parentId}
+        next={step.childId}
+        isLast={step.id === this.props.userState.stepId}
       />
     );
   }

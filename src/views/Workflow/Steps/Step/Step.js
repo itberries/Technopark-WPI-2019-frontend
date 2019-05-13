@@ -63,18 +63,20 @@ class Step extends React.Component {
             <Button
               level="commerce"
               className={`step__button ${
-                this.props.type === 'interactive' ? 'step__button-unactive' : ''
+                this.props.type === 'interactive' && this.props.isLast
+                  ? 'step__button-unactive'
+                  : ''
               }`}
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                if (this.props.type !== 'interactive') {
+                if (this.props.type !== 'interactive' || !this.props.isLast) {
                   this.props.goForward();
                   this.setContent();
                 }
               }}
             >
-              Следующий
+              {this.props.next !== 0 ? 'Следующий' : 'Завершить'}
             </Button>
           </Div>
         </Div>
@@ -90,14 +92,16 @@ Step.propTypes = {
   name: PropTypes.string.isRequired,
   /* Description of prop "type". */
   type: PropTypes.string.isRequired,
+  /* Description of prop "type". */
+  isLast: PropTypes.bool.isRequired,
   /* Description of prop "goBack". */
   goBack: PropTypes.func.isRequired,
   /* Description of prop "goForward". */
   goForward: PropTypes.func.isRequired,
-  /* Description of prop "goForward". */
-  next: PropTypes.number.isRequired,
   /* Description of prop "previous". */
   previous: PropTypes.number.isRequired,
+  /* Description of prop "previous". */
+  next: PropTypes.number.isRequired,
 };
 
 export default Step;
