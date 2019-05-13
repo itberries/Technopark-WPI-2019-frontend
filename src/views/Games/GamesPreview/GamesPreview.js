@@ -50,9 +50,7 @@ const GamesPreview = ({ onStartGame }) => (
         сложности и направленности. Противостоять в онлайн-битве будут другие знатоки нашей
         галактики.
       </Div>
-      <Button className="game_preview__start_btn game_preview__start_btn-unactive">
-        В разработке...
-      </Button>
+      <Button className="game_preview__start_btn game_preview__start_btn-unactive">Скоро...</Button>
     </Group>
   </>
 );
