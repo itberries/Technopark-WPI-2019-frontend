@@ -4,23 +4,26 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import {
-  Div, Group, View, Panel, PanelHeader,
-} from '@vkontakte/vkui';
-import SpinnerCentered from '../../../common.blocks/SpinnerCentered/SpinnerCentered';
+import { Group, Div } from '@vkontakte/vkui';
+import Popup from 'sweetalert2';
 
 import { movePlayer, moveOpponent, resetTimer } from '../../../actions/multiplayer';
 
 import { websocketOpen, websocketOnMessage, websocketClose } from '../../../actions/ws';
 
+import SpinnerCentered from '../../../common.blocks/SpinnerCentered/SpinnerCentered';
+
 import Map from './__Map/__Map';
 import Timer from './__Timer/__Timer';
-
-import './MultiplayerGame.scss';
 
 import Match from '../../Workflow/Steps/Step/types/__Interactive/MiniGames/InteractiveGames/types/InteractiveMatch/InteractiveMatch';
 import Chain from '../../Workflow/Steps/Step/types/__Interactive/MiniGames/InteractiveGames/types/InteractiveChain/InteractiveChain';
 import Question from '../../Workflow/Steps/Step/types/__Interactive/MiniGames/InteractiveGames/types/InteractiveQuestion/InteractiveQuestion';
+
+import './MultiplayerGame.scss';
+
+import cupImage from '../../../images/icons/cup.svg';
+import sadSmileImage from '../../../images/icons/sad_smile.svg';
 
 const mapStateToProps = (state) => {
   const { socket } = state.ws;
@@ -131,8 +134,31 @@ class MultiplayerGame extends React.Component {
     this.unblock();
   }
 
-  gameCompleted() {
-    // TODO: Сделать всплывашку о победе
+  onWonGame(result) {
+    Popup.fire({
+      title: 'Вы одержали победу!',
+      text: `Противник повержен. Вы закрепили материал и заработали ${result} монет! `,
+      confirmButtonColor: '#41046F',
+      confirmButtonText: 'Завершить игру',
+      imageUrl: cupImage,
+      imageWidth: 150,
+      imageHeight: 150,
+      imageAlt: 'Кубок',
+    });
+  }
+
+  onLostGame() {
+    Popup.fire({
+      title: 'Вы повержены!',
+      text:
+        'Ваш противник оказался сильнее. Не расстраивайтесь, повторите материал в разделе "Путешествие" и попробуйте еще раз! ',
+      confirmButtonColor: '#41046F',
+      confirmButtonText: 'Завершить игру',
+      imageUrl: sadSmileImage,
+      imageWidth: 150,
+      imageHeight: 150,
+      imageAlt: 'Грустный',
+    });
   }
 
   processAnswr(data) {
@@ -159,10 +185,6 @@ class MultiplayerGame extends React.Component {
           case 'chain':
             console.log('reset timer 120');
             this.props.resetTimer(120);
-            setTimeout(() => {
-              console.log('reseting!');
-              this.props.resetTimer(10);
-            }, 10000);
             break;
           default:
             console.log('unknown game');
@@ -198,7 +220,10 @@ class MultiplayerGame extends React.Component {
             });
             break;
           case 'OPPONENT_HAS_STEPPED':
-            this.props.movePlayer(this.props.opponentPosition + 1);
+            this.props.moveOpponent(this.props.opponentPosition + 1);
+            break;
+          case 'OPPONENT_HAS_WIN':
+            this.onLostGame();
             break;
           default:
             console.log('unknown message!');
@@ -215,7 +240,7 @@ class MultiplayerGame extends React.Component {
         break;
       case 'GameCompleted':
         console.log('game completed, payoad:', answer.payload);
-        this.gameCompleted();
+        this.onWonGame(answer.payload.result);
         break;
       default:
         console.log('unknown message!');
