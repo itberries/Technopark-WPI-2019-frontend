@@ -57,7 +57,7 @@ class Games extends React.Component {
   }
 
   componentDidMount() {
-   // setting up the popup message for the page leave action
+    // setting up the popup message for the page leave action
     this.unblock = this.props.history.block(
       'Вы уверены, что хотите покинуть игру? Победа достанется Вашему противнику!',
     );
@@ -129,6 +129,9 @@ class Games extends React.Component {
   // Сделать всплывашку о победе
   gameCompleted() {}
 
+  // Сделать всплывашку о поражении
+  gameLosed() {}
+
   processAnswr(data) {
     const answer = JSON.parse(data);
     console.log('answer: ', answer);
@@ -153,10 +156,6 @@ class Games extends React.Component {
           case 'chain':
             console.log('reset timer 120');
             this.props.resetTimer(120);
-            setTimeout(() => {
-              console.log('reseting!');
-              this.props.resetTimer(10);
-            }, 10000);
             break;
           default:
             console.log('unknown game');
@@ -192,7 +191,10 @@ class Games extends React.Component {
             });
             break;
           case 'OPPONENT_HAS_STEPPED':
-            this.props.movePlayer(this.props.opponentPosition + 1);
+            this.props.moveOpponent(this.props.opponentPosition + 1);
+            break;
+          case 'OPPONENT_HAS_WIN':
+            this.gameLosed();
             break;
           default:
             console.log('unknown message!');

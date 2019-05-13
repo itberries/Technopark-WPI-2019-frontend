@@ -30,36 +30,38 @@ class Timer extends React.Component {
     };
   }
 
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.timerNeedReset) {
-      if (this.state.timerId !== null) {
-        clearInterval(this.state.timerId);
-      }
-      console.log('reseting!');
-      const className = 'timer__fullness';
-      const fullness = document.getElementsByClassName(className)[0];
-      fullness.style.animationDuration = `${nextProps.timerResetValue}s`;
-      fullness.style.webkitAnimation = 'none';
-      fullness.style.webkitAnimation = '';
-
-      this.props.timerWasReset();
-      const times = nextProps.timerResetValue;
-      document.getElementsByClassName('timer__title')[0].innerHTML = `${times} seconds`;
-      let i = 0;
-      const timerId = setInterval(() => {
-        i += 1;
-        document.getElementsByClassName('timer__title')[0].innerHTML = `${times - i} seconds`;
-        if (i === times) {
-          clearInterval(this.state.timerId);
-        }
-      }, 1000);
-      this.setState({ timerId });
+  componentWillUpdate() {
+    console.log('this.props.timerNeedReset: ', this.props.timerNeedReset);
+    console.log('this.props.timerResetValue: ', this.props.timerResetValue);
+    if (this.props.timerNeedReset) {
+      this.reseTimer();
     }
-    return true;
   }
 
-  componentWillUnmount() {
-    clearInterval(this.state.timerId);
+  reseTimer() {
+    if (this.state.timerId !== null) {
+      clearInterval(this.state.timerId);
+    }
+    console.log('reseting!');
+    const className = 'timer__fullness';
+    const fullness = document.getElementsByClassName(className)[0];
+    console.log('this.props.timerResetValue: ', this.props.timerResetValue);
+    const times = this.props.timerResetValue;
+    fullness.style.animationDuration = `${times}s`;
+    fullness.style.webkitAnimation = 'none';
+    fullness.style.webkitAnimation = '';
+
+    document.getElementsByClassName('timer__title')[0].innerHTML = `${times} seconds`;
+    let i = 0;
+    const timerId = setInterval(() => {
+      i += 1;
+      document.getElementsByClassName('timer__title')[0].innerHTML = `${times - i} seconds`;
+      if (i === times) {
+        clearInterval(this.state.timerId);
+      }
+    }, 1000);
+    this.setState({ timerId });
+    this.props.timerWasReset();
   }
 
   render() {
@@ -69,7 +71,7 @@ class Timer extends React.Component {
           <img src={timer} alt="timer__icon" />
           <div className="timer_timeline">
             <div className="timer__fullness" />
-            <div className="timer__title">6 seconds</div>
+            <div className="timer__title" />
           </div>
         </div>
       </Group>
