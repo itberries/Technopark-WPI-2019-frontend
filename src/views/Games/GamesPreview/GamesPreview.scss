@@ -1,0 +1,64 @@
+.game_preview {
+  text-align: center;
+
+  &__icons {
+    width: 100%;
+  }
+
+  @keyframes game_preview__rockets_anim {
+    0% { transform: translateY(20px); }
+    100% { transform: translateY(-20px); }
+  }
+
+  &__rocket1 {
+    width: 12vw;
+    margin: 10px 5vw;
+    animation: game_preview__rockets_anim 0.8s infinite;
+    animation-timing-function: linear;
+    animation-direction: alternate;
+  }
+
+  &__rocket2 {
+    width: 13vw;
+    margin: 10px 5vw;
+    animation: game_preview__rockets_anim 0.8s infinite;
+    animation-timing-function: linear;
+    animation-direction: alternate-reverse;
+  }
+
+  @keyframes game_preview__cap_anim {
+    0% {
+        transform: scale(1.0);
+    }
+    100% {
+        transform: scale(1.25);
+    }
+  }
+
+
+  &__academic_cap {
+    width: 15vw;
+    animation: game_preview__cap_anim 1s ease-in-out infinite alternate;
+  }
+
+  &__description {
+
+  }
+
+  &__start_btn {
+    background-color: #41046F;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    height: 4em;
+
+    &-unactive {
+      background-color: rgb(166, 166, 167);
+      pointer-events: none;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+}
