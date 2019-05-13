@@ -62,10 +62,6 @@ class Timer extends React.Component {
     clearInterval(this.state.timerId);
   }
 
-  componentWillUnmount() {
-    clearInterval(this.timerId);
-  }
-
   render() {
     return (
       <Group className={this.props.className}>
