@@ -11,6 +11,7 @@ import './Games.scss';
 
 import rocket1Icon from '../../images/icons/Player1Rocket.svg';
 import rocket2Icon from '../../images/icons/Player2Rocket.svg';
+import academicCapIcon from '../../images/icons/academicCap.svg';
 
 class Games extends React.Component {
   constructor(props) {
@@ -29,18 +30,18 @@ class Games extends React.Component {
   generateGamesPreview() {
     return (
       <>
-        <Group className="game">
-          <Header>Космические гонки</Header>
-          <Div className="game__rockets">
-            <img className="game__rocket1" src={rocket1Icon} alt="Ракета" />
-            <img className="game__rocket2" src={rocket2Icon} alt="Ракета" />
+        <Group className="game_preview">
+          <Header>Космо-гонки</Header>
+          <Div className="game_preview__icons">
+            <img className="game_preview__rocket1" src={rocket1Icon} alt="Ракета" />
+            <img className="game_preview__rocket2" src={rocket2Icon} alt="Ракета" />
           </Div>
-          <Div className="game__description">
-            Сразись в теоретической гонке с другими учениками в IT галактике и докажи, что ты
+          <Div className="game_preview__description">
+            Сразись в теоретической космо-гонке с другими учениками в IT галактике и докажи, что ты
             лучший!
           </Div>
           <Button
-            className="game__start_btn"
+            className="game_preview__start_btn"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -50,14 +51,23 @@ class Games extends React.Component {
             Начать игру
           </Button>
         </Group>
-        <Group className="game">
-          <Header>Викторина IT</Header>
-          <Div className="game__description">
+        <Group className="game_preview">
+          <Header>Своя IT-игра</Header>
+          <Div className="game_preview__icons">
+            <img
+              className="game_preview__academic_cap"
+              src={academicCapIcon}
+              alt="Квадратная академическая шапочка"
+            />
+          </Div>
+          <Div className="game_preview__description">
             Вам предстоит проверить свою эрудицию и смекалку, отвечая на интересные вопросы
             различной сложности и направленности. Противостоять в онлайн-битве будут другие знатоки
             нашей галактики.
           </Div>
-          <Button className="game__start_btn game__start_btn-unactive">В разработке...</Button>
+          <Button className="game_preview__start_btn game_preview__start_btn-unactive">
+            В разработке...
+          </Button>
         </Group>
       </>
     );
