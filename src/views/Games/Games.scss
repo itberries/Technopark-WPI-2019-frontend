@@ -6,23 +6,26 @@
   }
 
   @keyframes mover {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-10px); }
-  }
-
-  @keyframes mover-reverse {
-    0% { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
+    0% { transform: translateY(20px); }
+    100% { transform: translateY(-20px); }
   }
 
   .game__rocket1 {
+    width: 12vw;
+    margin: 10px 5vw;
     transform: rotate(-90deg);
-    animation: mover 1s infinite  alternate;
+    animation: mover 0.8s infinite;
+    animation-timing-function: linear;
+    animation-direction: alternate;
   }
 
   .game__rocket2 {
+    width: 13vw;
+    margin: 10px 5vw;
     transform: rotate(-90deg);
-    animation: mover-reverse 1s infinite  alternate;
+    animation: mover 0.8s infinite;
+    animation-timing-function: linear;
+    animation-direction: alternate-reverse;
   }
 
   .game__description {
@@ -30,8 +33,15 @@
   }
 
   .game__start_btn {
-    margin: 20px 0;
+    background-color: #41046F;
+    margin-top: 10px;
+    margin-bottom: 20px;
     height: 4em;
+
+    &-unactive {
+      background-color: rgb(166, 166, 167);
+      pointer-events: none;
+    }
 
     &:hover {
       cursor: pointer;
