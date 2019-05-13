@@ -1,10 +1,6 @@
 .game_preview {
   text-align: center;
 
-  &__icons {
-    width: 100%;
-  }
-
   @keyframes game_preview__rockets_anim {
     0% { transform: translateY(20px); }
     100% { transform: translateY(-20px); }
