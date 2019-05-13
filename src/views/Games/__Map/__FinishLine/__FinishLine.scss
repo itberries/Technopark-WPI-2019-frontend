@@ -3,7 +3,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-rows: repeat(10, 5vw);
+  grid-template-rows: repeat(9, 3vh);
 
   .finishLine__cube-white {
     background-color: white;
@@ -11,5 +11,12 @@
 
   .finishLine__cube-black {
     background-color: black;
+  }
+}
+
+
+@media screen and (min-width: 700px) {
+  .finishLine {
+    grid-template-rows: repeat(9, 4vh);
   }
 }

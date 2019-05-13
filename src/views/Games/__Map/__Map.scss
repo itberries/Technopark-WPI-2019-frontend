@@ -1,5 +1,16 @@
 .gameRoad {
   display: grid;
-  grid-template-columns: 90vw 10vw;
-  height: 50vw;
+  grid-template-columns: 90% 10%;
+  height: 27vh;
+
+  .progresses__separator {
+    margin: 0;
+    margin-top: 8px;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .gameRoad {
+    height: 36vh;
+  }
 }

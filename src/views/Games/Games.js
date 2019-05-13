@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import {
   Div, Group, View, Panel, PanelHeader,
@@ -57,7 +57,11 @@ class Games extends React.Component {
   }
 
   componentDidMount() {
-    console.log('openend this socket');
+   // setting up the popup message for the page leave action
+    this.unblock = this.props.history.block(
+      'Вы уверены, что хотите покинуть игру? Победа достанется Вашему противнику!',
+    );
+    console.log('opening games socket');
     this.props.websocketOpen();
     this.setState({ socketNotSet: true });
   }
@@ -68,8 +72,8 @@ class Games extends React.Component {
       if (this.state.socketNotSet) {
         nextProps.socket.onclose = (event) => {
           this.props.websocketClose();
-          this.state.socketNotSet = true; // TODO: VANYA, WE NEED TO FIX THIS! (setState)
-          this.state.actions = []; // TODO: VANYA, WE NEED TO FIX THIS! (setState)
+          this.state.socketNotSet = true;
+          this.state.actions = [];
           if (event.wasClean) {
             console.log('Соединение закрыто чисто');
           } else {
@@ -264,6 +268,10 @@ class Games extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.unblock();
+  }
+
   render() {
     return (
       <View key={this.props.id} id={this.props.id} activePanel={this.props.id}>
@@ -272,11 +280,17 @@ class Games extends React.Component {
           {this.state.isLoading ? (
             <SpinnerCentered />
           ) : (
-            <React.Fragment>
-              <Map />
-              <Timer />
-              {this.generateGame()}
-            </React.Fragment>
+            <div className="multiplayergame">
+              <Map
+                className="multiplayergame__map"
+                playerPosition={this.props.playerPosition}
+                opponentPosition={this.props.opponentPosition}
+              />
+              <Timer className="multiplayergame__timer" />
+              <Group className="multiplayergame__game">
+                <Div>{this.generateGame()}</Div>
+              </Group>
+            </div>
           )}
         </Panel>
       </View>
@@ -298,7 +312,9 @@ Games.defaultProps = {
   socket: null,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Games);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Games),
+);

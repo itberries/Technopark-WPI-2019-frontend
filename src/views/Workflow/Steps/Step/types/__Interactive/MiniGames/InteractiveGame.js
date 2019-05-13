@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Popup from 'react-skylight';
+import Popup from 'sweetalert2';
 
 import { websocketOpen, websocketOnMessage, websocketClose } from '../../../../../../../actions/ws';
 
@@ -14,7 +14,9 @@ import ChainGame from './InteractiveGames/types/InteractiveChain/InteractiveChai
 import QuestionGame from './InteractiveGames/types/InteractiveQuestion/InteractiveQuestion';
 
 import './MiniGame.scss';
-import popupStyles from '../../../../../../../common.blocks/Popup/Popup';
+
+import coinsImage from '../../../../../../../images/icons/coins.svg';
+import rocketImage from '../../../../../../../images/icons/rocket_launch.svg';
 
 const mapStateToProps = (state) => {
   const { socket } = state.ws;
@@ -132,7 +134,6 @@ class InteractiveGame extends MiniGame {
         this.props.websocketOnMessage(answer.payload.data);
         return;
       case 'GameCompleted':
-        // TODO: popup
         console.log('game completed, payoad:', answer.payload);
         this.props.socket.close();
         if (typeof answer.payload.reward !== 'undefined' && answer.payload.reward !== null) {
@@ -144,7 +145,7 @@ class InteractiveGame extends MiniGame {
           this.setState({ gainedCoins: answer.payload.result });
         }
         console.log('showing scores popup...');
-        this.scoresPopup.show();
+        this.showResultPopup();
         return;
       default:
         console.log('unknown message!');
@@ -183,43 +184,52 @@ class InteractiveGame extends MiniGame {
     return <QuestionGame gameData={data} doTurn={this.sendMsg} mode="singleplayer" />;
   }
 
-  gneratePopup() {
-    const minigamePopupStyles = Object.assign({}, popupStyles.bigHeightStyles);
-    minigamePopupStyles.textAlign = 'center';
-
-    let reward;
-    if (this.state.reward) {
-      reward = (
-        <React.Fragment>
-          Открыто новое достижение!
-          <br />
-          <img src={this.state.reward.imageUrl} alt={`Достижение ${this.state.reward.note}`} />
-          <br />
-          {this.state.reward.note}
-        </React.Fragment>
-      );
+  showResultPopup() {
+    if (this.state.gainedCoins !== 0) {
+      Popup.fire({
+        title: 'Задание выполнено!',
+        text: `Вы получили ${this.state.gainedCoins} монет! `,
+        confirmButtonColor: '#41046F',
+        imageUrl: coinsImage,
+        imageWidth: 150,
+        imageHeight: 150,
+        imageAlt: 'Монетки',
+      }).then(() => {
+        if (this.state.reward) {
+          Popup.fire({
+            title: 'Открыто новое достижение!',
+            text: `Достижение ${this.state.reward.note}`,
+            confirmButtonText: 'Дальше',
+            confirmButtonColor: '#41046F',
+            imageUrl: this.state.reward.imageUrl,
+            imageWidth: 200,
+            imageHeight: 200,
+            imageAlt: `Достижение ${this.state.reward.note}`,
+            animation: false,
+            customClass: {
+              popup: 'animated tada',
+            },
+          }).then(() => {
+            this.completeGame();
+          });
+        } else {
+          this.completeGame();
+        }
+      });
+    } else {
+      Popup.fire({
+        title: 'Задание выполнено!',
+        text: 'Закрепление пройденного материала - важная часть успешного обучения.',
+        confirmButtonText: 'Дальше',
+        confirmButtonColor: '#41046F',
+        imageUrl: rocketImage,
+        imageWidth: 150,
+        imageHeight: 150,
+        imageAlt: 'Ракета',
+      }).then(() => {
+        this.completeGame();
+      });
     }
-    return (
-      <Popup
-        dialogStyles={minigamePopupStyles}
-        hideOnOverlayClicked
-        ref={ref => (this.scoresPopup = ref)}
-        title="Поздравляем!"
-        afterClose={this.completeGame}
-      >
-        {`Вы получили ${this.state.gainedCoins} монет! `}
-        {this.state.reward && reward}
-      </Popup>
-    );
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        {this.generateGame()}
-        {this.gneratePopup()}
-      </React.Fragment>
-    );
   }
 }
 
