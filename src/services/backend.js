@@ -80,6 +80,21 @@ class BackendAPIService {
     console.log('BackendAPIService: getAchievements() res: ', res);
     return res.data;
   }
+
+  async getTopUsers(userId) {
+    const res = await axios.get(`/leaderboard/${userId}/`);
+    console.log('BackendAPIService: getTopUsers res: ', res);
+    return res.data;
+
+    // TODO: add error handling
+    /*
+    if (typeof error.response !== 'undefined' && error.response.status === 404) {
+      console.error('getSections not found!!!', error.response);
+    } else {
+      console.error('getSections error!!!', error.response);
+    }
+    */
+  }
 }
 
 const BackendAPI = types.DEBUG_API ? BackendAPIServiceMock : BackendAPIService;

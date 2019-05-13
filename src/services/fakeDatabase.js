@@ -253,6 +253,38 @@ const fakeDatabase = {
       imageUrl: 'https://it-berries.ru/rewards/reward9.png',
     },
   ],
+  topUsers: [
+    {
+      id: 2147483620,
+      score: 500,
+      rank: 3,
+    },
+    {
+      id: 2147483640,
+      score: 1500,
+      rank: 2,
+    },
+    {
+      id: 2147483623,
+      score: 0,
+      rank: 4,
+    },
+    {
+      id: 16605500,
+      score: 2000,
+      rank: 1,
+    },
+    {
+      id: 64559520,
+      score: 0,
+      rank: 4,
+    },
+    {
+      id: 37924905,
+      score: 1500,
+      rank: 2,
+    },
+  ],
 };
 
 export default fakeDatabase;
