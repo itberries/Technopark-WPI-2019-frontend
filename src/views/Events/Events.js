@@ -30,7 +30,7 @@ class Events extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
+      isLoading: false,
       activeTab: 'all',
     };
   }
@@ -48,20 +48,6 @@ class Events extends React.Component {
 
   componentWillUnmount() {
     localStorage.setItem('scroll', window.scrollY);
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (
-      prevState.isLoading === true
-      && typeof nextProps.topUsersList !== 'undefined'
-      && prevState.topUsersList !== nextProps.topUsersList
-    ) {
-      return {
-        ...prevState,
-        isLoading: false,
-      };
-    }
-    return null;
   }
 
   render() {
