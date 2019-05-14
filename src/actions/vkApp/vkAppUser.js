@@ -12,6 +12,10 @@ export function fetchCurrentUserInfo() {
       type: types.VK_GET_USER_INFO_REQUEST,
     });
     VKConnect.send('VKWebAppGetUserInfo', {});
+    VKConnect.send('VKWebAppGetAuthToken', {
+      app_id: 6881169,
+      scope: 'friends',
+    });
   };
 }
 
@@ -39,6 +43,34 @@ export function init() {
         case 'VKWebAppGetUserInfoFailed':
           dispatch({
             type: types.VK_GET_USER_INFO_FAILED,
+            payload: data,
+          });
+          break;
+        case 'VKWebAppCallAPIMethodResult':
+          dispatch({
+            type: types.LEADERBOARD_TOP_USERS_INFO_FETCHED,
+            payload: data,
+          });
+          dispatch({
+            type: types.VK_GET_API_METHOD_FETCHED,
+            payload: data,
+          });
+          break;
+        case 'VKWebAppCallAPIMethodFailed':
+          dispatch({
+            type: types.VK_GET_API_METHOD_FAILED,
+            payload: data,
+          });
+          break;
+        case 'VKWebAppAccessTokenReceived':
+          dispatch({
+            type: types.VK_GET_USER_ACCESS_TOKEN_FETCHED,
+            payload: data.access_token,
+          });
+          break;
+        case 'VKWebAppAccessTokenFailed':
+          dispatch({
+            type: types.VK_GET_USER_ACCESS_TOKEN_FAILED,
             payload: data,
           });
           break;

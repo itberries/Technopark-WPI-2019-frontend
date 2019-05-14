@@ -10,7 +10,6 @@ import {
   PanelHeader,
   Group,
   Div,
-  FixedLayout,
   Tabs,
   TabsItem,
   List,
@@ -23,9 +22,10 @@ import SpinnerCentered from '../../common.blocks/SpinnerCentered/SpinnerCentered
 import { fetchTopUsers } from '../../actions/leaderboard';
 
 const mapStateToProps = (state) => {
-  const { topUsersList } = state.leaderboard;
+  const { topUserScoresList, topUserInfoList } = state.leaderboard;
   return {
-    topUsersList,
+    topUserScoresList,
+    topUserInfoList,
   };
 };
 
@@ -53,7 +53,10 @@ class Leaderboard extends React.Component {
       window.scrollTo(0, 0);
     }
 
-    if (typeof this.props.topUsersList === 'undefined') {
+    if (
+      typeof this.props.topUserScoresList === 'undefined'
+      && typeof this.props.topUserInfoList === 'undefined'
+    ) {
       this.setState({
         isLoading: true,
       });
@@ -68,8 +71,9 @@ class Leaderboard extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (
       prevState.isLoading === true
-      && typeof nextProps.topUsersList !== 'undefined'
-      && prevState.topUsersList !== nextProps.topUsersList
+      && typeof nextProps.topUserScoresList !== 'undefined'
+      && typeof nextProps.topUserInfoList !== 'undefined'
+      && prevState.topUserScoresList !== nextProps.topUserScoresList
     ) {
       return {
         ...prevState,
@@ -80,6 +84,7 @@ class Leaderboard extends React.Component {
   }
 
   render() {
+    console.log('LEADERBOARD RENDER props: ', this.props);
     const topTabDesctiption = 'Топ-10 Лучших пользователей IT галактики Explority по количеству заработанных монеток!';
     const friendsTabDesctiption = 'Рейтинг среди ваших друзей по количеству заработанных монеток!';
     return (
