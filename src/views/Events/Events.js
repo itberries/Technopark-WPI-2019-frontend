@@ -1,17 +1,153 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Panel, PanelHeader } from '@vkontakte/vkui';
 
-const Events = ({ id }) => (
-  <View key={id} id={id} activePanel={id}>
-    <Panel id={id}>
-      <PanelHeader>События</PanelHeader>
-    </Panel>
-  </View>
-);
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import {
+  View,
+  Panel,
+  PanelHeader,
+  Group,
+  Div,
+  Tabs,
+  TabsItem,
+  List,
+  Cell,
+  Avatar,
+} from '@vkontakte/vkui';
+
+const mapStateToProps = (state) => {
+  const { topUsersList } = state.leaderboard;
+  return {
+    topUsersList,
+  };
+};
+
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+
+class Events extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      activeTab: 'all',
+    };
+  }
+
+  async componentDidMount() {
+    const scroll = localStorage.getItem('scroll');
+    if (scroll !== '' && scroll !== undefined && scroll !== 'undefined' && scroll !== null) {
+      window.scrollTo(0, scroll);
+    } else {
+      window.scrollTo(0, 0);
+    }
+
+    // TODO: load events using api
+  }
+
+  componentWillUnmount() {
+    localStorage.setItem('scroll', window.scrollY);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (
+      prevState.isLoading === true
+      && typeof nextProps.topUsersList !== 'undefined'
+      && prevState.topUsersList !== nextProps.topUsersList
+    ) {
+      return {
+        ...prevState,
+        isLoading: false,
+      };
+    }
+    return null;
+  }
+
+  render() {
+    return (
+      <View key={this.props.id} id={this.props.id} activePanel={this.props.id}>
+        <Panel id={this.props.id}>
+          <PanelHeader>События</PanelHeader>
+          <Div>
+            <Group>
+              <Tabs type="buttons">
+                <TabsItem
+                  onClick={() => this.setState({ activeTab: 'all' })}
+                  selected={this.state.activeTab === 'all'}
+                >
+                  Все мероприятия
+                </TabsItem>
+                <TabsItem
+                  onClick={() => this.setState({ activeTab: 'soon' })}
+                  selected={this.state.activeTab === 'soon'}
+                >
+                  Ближайшие
+                </TabsItem>
+              </Tabs>
+              <List>
+                <Cell
+                  description="21 июня 2019 в 09:00, Москва"
+                  bottomContent="Приходите узнать, как работает крупнейшая компания рунета, и как офисная среда помогает нам создавать креативные идеи!"
+                  before={(
+                    <Avatar
+                      src="https://files.startupranking.com/startup/thumb/46467_60b7bdd08d1b5ae1e87f4dc39e96a8c91653e1e7_mail-ru-group_m.png"
+                      size={80}
+                    />
+)}
+                  size="l"
+                  multiline
+                  expandable
+                  onClick={() => this.setState({ activePanel: 'event' })}
+                >
+                  Открытая экскурсия в Mail.Ru Group
+                </Cell>
+                <Cell
+                  description="7 июня 2019 в 09:00, Москва"
+                  bottomContent="Приходите узнать, как работает крупнейшая компания рунета, и как офисная среда помогает нам создавать креативные идеи!"
+                  before={(
+                    <Avatar
+                      src="https://files.startupranking.com/startup/thumb/46467_60b7bdd08d1b5ae1e87f4dc39e96a8c91653e1e7_mail-ru-group_m.png"
+                      size={80}
+                    />
+)}
+                  size="l"
+                  multiline
+                  expandable
+                  onClick={() => this.setState({ activePanel: 'event' })}
+                >
+                  Открытая экскурсия в Mail.Ru Group
+                </Cell>
+                <Cell
+                  description="лето 2019, Москва"
+                  bottomContent="В лагере Кодабры дети занимаются программированием, созданием видео, разработкой сайтов и дизайном, создают свой цифровой проект!"
+                  before={(
+                    <Avatar
+                      src="https://static.tildacdn.com/tild3661-3932-4565-b765-616332623730/Codabra_Logo_Codabr.png"
+                      size={80}
+                    />
+)}
+                  size="l"
+                  multiline
+                  expandable
+                  onClick={() => this.setState({ activePanel: 'event' })}
+                >
+                  Лагерь цифровых профессий Кодабра
+                </Cell>
+              </List>
+            </Group>
+          </Div>
+        </Panel>
+      </View>
+    );
+  }
+}
 
 Events.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-export default Events;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Events);
