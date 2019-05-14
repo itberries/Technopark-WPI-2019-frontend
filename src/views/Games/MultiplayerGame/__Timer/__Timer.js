@@ -34,6 +34,7 @@ class Timer extends React.Component {
     if (nextProps.timerNeedReset) {
       this.reseTimer(nextProps.timerResetValue);
     }
+    return true;
   }
 
   reseTimer(value) {
