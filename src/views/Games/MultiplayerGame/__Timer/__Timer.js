@@ -32,34 +32,31 @@ class Timer extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     if (nextProps.timerNeedReset) {
-      if (this.state.timerId !== null) {
-        clearInterval(this.state.timerId);
-      }
-      console.log('reseting!');
-      const className = 'timer__fullness';
-      const fullness = document.getElementsByClassName(className)[0];
-      fullness.style.animationDuration = `${nextProps.timerResetValue}s`;
-      fullness.style.webkitAnimation = 'none';
-      fullness.style.webkitAnimation = '';
-
-      this.props.timerWasReset();
-      const times = nextProps.timerResetValue;
-      document.getElementsByClassName('timer__title')[0].innerHTML = `${times} seconds`;
-      let i = 0;
-      const timerId = setInterval(() => {
-        i += 1;
-        document.getElementsByClassName('timer__title')[0].innerHTML = `${times - i} seconds`;
-        if (i === times) {
-          clearInterval(this.state.timerId);
-        }
-      }, 1000);
-      this.setState({ timerId });
+      this.reseTimer(nextProps.timerResetValue);
     }
-    return true;
   }
 
-  componentWillUnmount() {
-    clearInterval(this.state.timerId);
+  reseTimer(value) {
+    if (this.state.timerId !== null) {
+      clearInterval(this.state.timerId);
+    }
+    console.log('reseting!');
+    const title = document.getElementsByClassName('timer__title')[0];
+    const oldFullness = document.getElementsByClassName('timer__fullness')[0];
+    const newFullness = oldFullness.cloneNode(true);
+    newFullness.style.animationDuration = `${value}s`;
+    oldFullness.parentNode.replaceChild(newFullness, oldFullness);
+    title.innerHTML = `${value} seconds`;
+    let i = 0;
+    const timerId = setInterval(() => {
+      i += 1;
+      title.innerHTML = `${value - i} seconds`;
+      if (i === value) {
+        clearInterval(this.state.timerId);
+      }
+    }, 1000);
+    this.setState({ timerId });
+    this.props.timerWasReset();
   }
 
   render() {
@@ -69,7 +66,7 @@ class Timer extends React.Component {
           <img src={timer} alt="timer__icon" />
           <div className="timer_timeline">
             <div className="timer__fullness" />
-            <div className="timer__title">6 seconds</div>
+            <div className="timer__title" />
           </div>
         </div>
       </Group>
