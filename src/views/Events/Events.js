@@ -4,35 +4,36 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import vkconnect from '@vkontakte/vkui-connect';
+
 import {
-  View,
-  Panel,
-  PanelHeader,
-  Group,
-  Div,
-  Tabs,
-  TabsItem,
-  List,
-  Cell,
-  Avatar,
+  ConfigProvider, View, Panel, PanelHeader,
 } from '@vkontakte/vkui';
 
-const mapStateToProps = (state) => {
-  const { topUsersList } = state.leaderboard;
-  return {
-    topUsersList,
-  };
-};
+import Header from '../../common.blocks/Header/Header';
+import EventsList from './__List/EventsList';
+import Event from './Event/Event';
 
+// const { eventsList } = state.events;
+const mapStateToProps = state => ({
+  // eventsList,
+});
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 
 class Events extends React.Component {
   constructor(props) {
     super(props);
+    const historyMap = new Map();
+    historyMap.set('events', 1);
     this.state = {
-      isLoading: false,
+      // isLoading: false,
       activeTab: 'all',
+      activePanel: 'events',
+      history: historyMap,
     };
+    this.goBack = this.goBack.bind(this);
+    this.goForward = this.goForward.bind(this);
+    this.onSelectTab = this.onSelectTab.bind(this);
   }
 
   async componentDidMount() {
@@ -50,81 +51,69 @@ class Events extends React.Component {
     localStorage.setItem('scroll', window.scrollY);
   }
 
+  /**
+   * Change the active panel in Events view
+   * @param {string} id - event id to open panel with corresponding event description
+   * @param {Event} e
+   * @memberof Events
+   */
+  goBack(e) {
+    if (e !== undefined) {
+      e.preventDefault();
+    }
+    this.setState((prevState) => {
+      let history = [...prevState.history];
+      history.pop();
+      const activePanel = history[history.length - 1][0];
+      if (activePanel === 'events') {
+        vkconnect.send('VKWebAppDisableSwipeBack');
+      }
+      history = new Map(history);
+      return { history, activePanel };
+    });
+  }
+
+  goForward(activePanel, id, e) {
+    e.preventDefault();
+    this.setState((prevState) => {
+      let history = [...prevState.history];
+      history.push([activePanel, id]);
+      if (prevState.activePanel === 'events') {
+        vkconnect.send('VKWebAppEnableSwipeBack');
+      }
+      history = new Map(history);
+      return { history, activePanel };
+    });
+  }
+
+  onSelectTab(selectedTab) {
+    this.setState({ activeTab: selectedTab });
+  }
+
   render() {
     return (
-      <View key={this.props.id} id={this.props.id} activePanel={this.props.id}>
-        <Panel id={this.props.id}>
-          <PanelHeader>События</PanelHeader>
-          <Div>
-            <Group>
-              <Tabs type="buttons">
-                <TabsItem
-                  onClick={() => this.setState({ activeTab: 'all' })}
-                  selected={this.state.activeTab === 'all'}
-                >
-                  Все мероприятия
-                </TabsItem>
-                <TabsItem
-                  onClick={() => this.setState({ activeTab: 'soon' })}
-                  selected={this.state.activeTab === 'soon'}
-                >
-                  Ближайшие
-                </TabsItem>
-              </Tabs>
-              <List>
-                <Cell
-                  description="21 июня 2019 в 09:00, Москва"
-                  bottomContent="Приходите узнать, как работает крупнейшая компания рунета, и как офисная среда помогает нам создавать креативные идеи!"
-                  before={(
-                    <Avatar
-                      src="https://files.startupranking.com/startup/thumb/46467_60b7bdd08d1b5ae1e87f4dc39e96a8c91653e1e7_mail-ru-group_m.png"
-                      size={80}
-                    />
-)}
-                  size="l"
-                  multiline
-                  expandable
-                  onClick={() => this.setState({ activePanel: 'event' })}
-                >
-                  Открытая экскурсия в Mail.Ru Group
-                </Cell>
-                <Cell
-                  description="7 июня 2019 в 09:00, Москва"
-                  bottomContent="Приходите узнать, как работает крупнейшая компания рунета, и как офисная среда помогает нам создавать креативные идеи!"
-                  before={(
-                    <Avatar
-                      src="https://files.startupranking.com/startup/thumb/46467_60b7bdd08d1b5ae1e87f4dc39e96a8c91653e1e7_mail-ru-group_m.png"
-                      size={80}
-                    />
-)}
-                  size="l"
-                  multiline
-                  expandable
-                  onClick={() => this.setState({ activePanel: 'event' })}
-                >
-                  Открытая экскурсия в Mail.Ru Group
-                </Cell>
-                <Cell
-                  description="лето 2019, Москва"
-                  bottomContent="В лагере Кодабры дети занимаются программированием, созданием видео, разработкой сайтов и дизайном, создают свой цифровой проект!"
-                  before={(
-                    <Avatar
-                      src="https://static.tildacdn.com/tild3661-3932-4565-b765-616332623730/Codabra_Logo_Codabr.png"
-                      size={80}
-                    />
-)}
-                  size="l"
-                  multiline
-                  expandable
-                  onClick={() => this.setState({ activePanel: 'event' })}
-                >
-                  Лагерь цифровых профессий Кодабра
-                </Cell>
-              </List>
-            </Group>
-          </Div>
-        </Panel>
-      </View>
+      <ConfigProvider isWebView>
+        <View
+          key={this.props.id}
+          id={this.props.id}
+          activePanel={this.state.activePanel}
+          onSwipeBack={this.goBack}
+          history={this.state.history}
+        >
+          <Panel id="events" key="events">
+            <PanelHeader>События</PanelHeader>
+            <EventsList
+              activeTab={this.state.activeTab}
+              onSelectTab={this.onSelectTab}
+              onSelectEvent={this.goForward}
+            />
+          </Panel>
+          <Panel id="event" key="event">
+            <Header text="Событие" onBackClick={this.goBack} previousPanel="events" />
+            <Event />
+          </Panel>
+        </View>
+      </ConfigProvider>
     );
   }
 }

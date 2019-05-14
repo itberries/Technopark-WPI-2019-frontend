@@ -1,10 +1,11 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+
+import connect from '@vkontakte/vkui-connect';
+
 import {
   Panel, PanelHeader, View, ConfigProvider,
 } from '@vkontakte/vkui';
-// import * as UI from '@vkontakte/vkui';
-import connect from '@vkontakte/vkui-connect';
 
 import LearningMap from './LearningMap/LearningMap';
 import Subsection from './Subsection/Subsection';
