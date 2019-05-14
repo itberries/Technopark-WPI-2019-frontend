@@ -11,6 +11,7 @@ import {
   Group,
   Div,
   Tabs,
+  HorizontalScroll,
   TabsItem,
   List,
   Cell,
@@ -58,23 +59,24 @@ class Events extends React.Component {
           <Div>
             <Group>
               <Tabs type="buttons">
-                <TabsItem
-                  onClick={() => this.setState({ activeTab: 'all' })}
-                  selected={this.state.activeTab === 'all'}
-                >
-                  Все мероприятия
-                </TabsItem>
-                <TabsItem
-                  onClick={() => this.setState({ activeTab: 'soon' })}
-                  selected={this.state.activeTab === 'soon'}
-                >
-                  Ближайшие
-                </TabsItem>
+                <HorizontalScroll>
+                  <TabsItem
+                    onClick={() => this.setState({ activeTab: 'all' })}
+                    selected={this.state.activeTab === 'all'}
+                  >
+                    Все
+                  </TabsItem>
+                  <TabsItem
+                    onClick={() => this.setState({ activeTab: 'soon' })}
+                    selected={this.state.activeTab === 'soon'}
+                  >
+                    Ближайшие
+                  </TabsItem>
+                </HorizontalScroll>
               </Tabs>
               <List>
                 <Cell
                   description="21 июня 2019 в 09:00, Москва"
-                  bottomContent="Приходите узнать, как работает крупнейшая компания рунета, и как офисная среда помогает нам создавать креативные идеи!"
                   before={(
                     <Avatar
                       src="https://files.startupranking.com/startup/thumb/46467_60b7bdd08d1b5ae1e87f4dc39e96a8c91653e1e7_mail-ru-group_m.png"
@@ -90,7 +92,6 @@ class Events extends React.Component {
                 </Cell>
                 <Cell
                   description="7 июня 2019 в 09:00, Москва"
-                  bottomContent="Приходите узнать, как работает крупнейшая компания рунета, и как офисная среда помогает нам создавать креативные идеи!"
                   before={(
                     <Avatar
                       src="https://files.startupranking.com/startup/thumb/46467_60b7bdd08d1b5ae1e87f4dc39e96a8c91653e1e7_mail-ru-group_m.png"
@@ -106,7 +107,6 @@ class Events extends React.Component {
                 </Cell>
                 <Cell
                   description="лето 2019, Москва"
-                  bottomContent="В лагере Кодабры дети занимаются программированием, созданием видео, разработкой сайтов и дизайном, создают свой цифровой проект!"
                   before={(
                     <Avatar
                       src="https://static.tildacdn.com/tild3661-3932-4565-b765-616332623730/Codabra_Logo_Codabr.png"
