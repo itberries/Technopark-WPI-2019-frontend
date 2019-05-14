@@ -1,4 +1,4 @@
-import vkconnect from '@vkontakte/vkui-connect-mock';
+import vkconnect from '@vkontakte/vkui-connect';
 import * as types from '../constants/actionTypes';
 import backendAPIService from '../services/backend';
 import * as userSelectors from '../reducers/user';
