@@ -13,6 +13,7 @@ import Profile from './views/Profile/Profile';
 import LeaderBoard from './views/Leaderboard/Leaderboard';
 import Events from './views/Events/Events';
 
+import SpinnerCentered from './common.blocks/SpinnerCentered/SpinnerCentered';
 import Navigation from './common.blocks/Navigation/Navigation';
 
 import workflowIcon from './images/icons/workflow.svg';
@@ -62,37 +63,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeView: props.viewName,
-      showIntro: false,
+      showIntro: undefined,
     };
     this.onViewChange = this.onViewChange.bind(this);
     this.showMainNavigation = this.showMainNavigation.bind(this);
   }
-
-  /**
-   * Actions after the application is loaded
-   * @memberof App
-   */
-  componentDidMount() {
-    // this.props.init();
-    // this.props.fetchCurrentUserInfo();
-  }
-  /*
-  async componentDidUpdate(prevProps) {
-    if (this.props.vkUserInfo !== prevProps.vkUserInfo) {
-      const { id } = this.props.vkUserInfo;
-      try {
-        await this.props.getUserProfile(id);
-      } catch (error) {
-        if (typeof error.response !== 'undefined' && error.response.status === 404) {
-          await this.props.addUserProfile(id);
-        } else {
-          console.error('getProfile error!!!', error.response);
-        }
-      }
-    }
-  }
-  */
 
   /**
    * Change the active view after tabbar switched
@@ -149,16 +124,28 @@ class App extends React.Component {
         icon: profileIcon,
       },
     ];
-    const { showIntro } = this.state;
-    const result = showIntro ? (
-      <Introduction onStartClick={this.showMainNavigation} />
-    ) : (
-      <Navigation
-        activeView={this.state.activeView}
-        viewsData={viewsData}
-        onViewChange={this.onViewChange}
-      />
-    );
+
+    if (
+      typeof this.state.showIntro === 'undefined'
+      && typeof this.props.user.isFirstEntry !== 'undefined'
+    ) {
+      this.setState({ showIntro: this.props.user.isFirstEntry });
+    }
+
+    let result;
+    if (typeof this.state.showIntro === 'undefined') {
+      result = <SpinnerCentered />;
+    } else if (this.state.showIntro === true) {
+      result = <Introduction onStartClick={this.showMainNavigation} />;
+    } else {
+      result = (
+        <Navigation
+          activeView={this.props.viewName}
+          viewsData={viewsData}
+          onViewChange={this.onViewChange}
+        />
+      );
+    }
     return result;
   }
 }

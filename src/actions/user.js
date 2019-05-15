@@ -3,23 +3,23 @@ import backendAPIService from '../services/backend';
 
 export async function getUserProfile(store, id) {
   const [user, userState, userAchievements] = await backendAPIService.getProfile(id);
-  console.log('getUserProfile store', store);
   store.dispatch({
     type: types.USER_PROFILE_FETCHED,
     user,
     userState,
     userAchievements,
+    isFirstEntry: false,
   });
 }
 
 export async function addUserProfile(store, id) {
   const [user, userState, userAchievements] = await backendAPIService.addProfile(id);
-  console.log('addUserProfile store', store);
   store.dispatch({
     type: types.USER_PROFILE_FETCHED,
     user,
     userState,
     userAchievements,
+    isFirstEntry: true,
   });
 }
 

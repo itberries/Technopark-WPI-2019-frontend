@@ -30,7 +30,7 @@ ReactDOM.render(
       <Route
         path="/:viewName?"
         component={props => (
-          <App key={props.match.params.viewName} viewName={props.match.params.viewName} />
+          <App location={props.location} viewName={props.match.params.viewName} />
         )}
       />
     </Router>
