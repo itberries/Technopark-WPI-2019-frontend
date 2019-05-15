@@ -6,6 +6,8 @@ const initialState = Immutable({
   opponentPosition: 0,
   timerResetValue: 5,
   timerNeedReset: false,
+  playerTurns: [],
+  opponentTurns: [],
 });
 
 export default function reduce(state = initialState, action) {
@@ -17,11 +19,21 @@ export default function reduce(state = initialState, action) {
         ...state,
         playerPosition: action.position,
       });
+    case types.PLAYER_RIGHT_TURN:
+      console.log('action PLAYER_RIGHT_TURN');
+      const newPlayerTurns = state.playerTurns.concat([action.right]);
+      return Immutable.merge({
+        ...state,
+        playerTurns: newPlayerTurns,
+      });
     case types.OPPONENT_MOVE:
       console.log('action OPPONENT_MOVE');
+      const newOpponentTurns = state.opponentTurns.concat([action.right]);
+      console.log('opponentTurns:', newOpponentTurns);
       return Immutable.merge({
         ...state,
         opponentPosition: action.position,
+        opponentTurns: newOpponentTurns,
       });
     case types.TIMER_RESET:
       console.log('action TIMER_RESET');
@@ -36,6 +48,15 @@ export default function reduce(state = initialState, action) {
       return Immutable.merge({
         ...state,
         timerNeedReset: false,
+      });
+    case types.CLEAR_DATA:
+      console.log('action CLEAR_DATA');
+      return Immutable.merge({
+        ...state,
+        playerPosition: 0,
+        opponentPosition: 0,
+        playerTurns: [],
+        opponentTurns: [],
       });
     default:
       return state;

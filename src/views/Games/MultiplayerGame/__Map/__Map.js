@@ -12,14 +12,21 @@ import rocket2 from '../../../../images/icons/Player2Rocket.svg';
 import './__Map.scss';
 
 const mapStateToProps = (state) => {
-  const { playerPosition, opponentPosition } = state.multiplayer;
-  return { playerPosition, opponentPosition };
+  const {
+    playerPosition, opponentPosition, playerTurns, opponentTurns,
+  } = state.multiplayer;
+  return {
+    playerPosition,
+    opponentPosition,
+    playerTurns,
+    opponentTurns,
+  };
 };
 
 class Map extends React.Component {
   render() {
-    const player1Color = '#24B13B';
-    const player2Color = '#CC0303';
+    const rightColor = '#24B13B';
+    const wrongColor = '#CC0303';
     return (
       <Group className={this.props.className}>
         <div className="gameRoad">
@@ -27,15 +34,19 @@ class Map extends React.Component {
             <Progress
               header="Your progress"
               playerIcon={rocket1}
-              roadColor={player1Color}
+              rightColor={rightColor}
+              wrongColor={wrongColor}
               position={this.props.playerPosition}
+              turns={this.props.playerTurns}
             />
             <hr className="progresses__separator" />
             <Progress
               header="Opponent’s progress"
               playerIcon={rocket2}
-              roadColor={player2Color}
+              rightColor={rightColor}
+              wrongColor={wrongColor}
               position={this.props.opponentPosition}
+              turns={this.props.opponentTurns}
             />
           </div>
           <FinishLine />

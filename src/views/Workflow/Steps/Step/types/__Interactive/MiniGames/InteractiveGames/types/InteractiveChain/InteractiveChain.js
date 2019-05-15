@@ -31,6 +31,10 @@ class InteractiveChain extends Chain {
     }
   }
 
+  componentWillUnmount() {
+    this.props.answerReceived();
+  }
+
   checkChain(chain) {
     console.log('checkChain: ', chain);
     const msg = {

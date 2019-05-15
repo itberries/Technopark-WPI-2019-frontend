@@ -37,6 +37,10 @@ class InteractiveMatch extends Match {
     return true;
   }
 
+  componentWillUnmount() {
+    this.props.answerReceived();
+  }
+
   sendFrames(frames) {
     const msg = {
       type: 'turnMatch',

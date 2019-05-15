@@ -10,11 +10,29 @@ export function movePlayer(position) {
   };
 }
 
-export function moveOpponent(position) {
+export function rightTurn(right) {
+  return async (dispatch) => {
+    dispatch({
+      type: types.PLAYER_RIGHT_TURN,
+      right,
+    });
+  };
+}
+
+export function clearGameData() {
+  return async (dispatch) => {
+    dispatch({
+      type: types.CLEAR_DATA,
+    });
+  };
+}
+
+export function moveOpponent(position, right) {
   return async (dispatch) => {
     dispatch({
       type: types.OPPONENT_MOVE,
       position,
+      right,
     });
   };
 }

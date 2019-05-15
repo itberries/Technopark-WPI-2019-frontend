@@ -33,6 +33,10 @@ class InteractiveQuestion extends Question {
     }
   }
 
+  componentWillUnmount() {
+    this.props.answerReceived();
+  }
+
   checkQuestion() {
     console.log('this.state.selectedFrameId: ', this.state.selectedFrameId);
     if (this.state.selectedFrameId !== null) {

@@ -7,7 +7,13 @@ import { withRouter } from 'react-router-dom';
 import { Group, Div } from '@vkontakte/vkui';
 import Popup from 'sweetalert2';
 
-import { movePlayer, moveOpponent, resetTimer } from '../../../actions/multiplayer';
+import {
+  movePlayer,
+  moveOpponent,
+  resetTimer,
+  clearGameData,
+  rightTurn,
+} from '../../../actions/multiplayer';
 
 import { websocketOpen, websocketOnMessage, websocketClose } from '../../../actions/ws';
 
@@ -40,6 +46,8 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     websocketOpen,
     websocketClose,
     websocketOnMessage,
+    clearGameData,
+    rightTurn,
   },
   dispatch,
 );
@@ -131,6 +139,7 @@ class MultiplayerGame extends React.Component {
       console.log('MG Unmount END GAME');
       this.props.onEndGame();
     }
+    this.props.clearGameData();
     this.unblock();
   }
 
@@ -191,6 +200,8 @@ class MultiplayerGame extends React.Component {
         }
         return;
       case 'DeliveryStatus':
+      case 'deliveryStatus':
+      case 'deliveryStepStatus':
         // TODO: сделать обработчик
         switch (answer.payload.result) {
           case 'WAIT':
@@ -220,7 +231,7 @@ class MultiplayerGame extends React.Component {
             });
             break;
           case 'OPPONENT_HAS_STEPPED':
-            this.props.moveOpponent(this.props.opponentPosition + 1);
+            this.props.moveOpponent(this.props.opponentPosition + 1, answer.payload.right);
             break;
           case 'OPPONENT_HAS_WIN':
             this.onLostGame();
@@ -235,6 +246,10 @@ class MultiplayerGame extends React.Component {
           console.log('right turn');
         } else {
           console.log('wrong turn');
+        }
+        const { type } = this.state.tasks[this.state.currentTask];
+        if (type === 'question' || type === 'chain') {
+          this.props.rightTurn(answer.payload.data);
         }
         this.props.websocketOnMessage(answer.payload.data);
         break;
@@ -270,7 +285,7 @@ class MultiplayerGame extends React.Component {
           return (
             <React.Fragment>
               <Group>
-                <Div>Построй цепочку</Div>
+                <Div>{task.note}</Div>
               </Group>
               <Chain gameData={task.data} doTurn={this.sendMsg} mode="multiplayer" />
             </React.Fragment>
@@ -279,7 +294,7 @@ class MultiplayerGame extends React.Component {
           return (
             <React.Fragment>
               <Group>
-                <Div>Найди пары</Div>
+                <Div>{task.note}</Div>
               </Group>
               <Match gameData={task.data} doTurn={this.sendMsg} mode="multiplayer" />
             </React.Fragment>
@@ -288,7 +303,7 @@ class MultiplayerGame extends React.Component {
           return (
             <React.Fragment>
               <Group>
-                <Div>Ответь на вопрос</Div>
+                <Div>{task.note}</Div>
               </Group>
               <Question gameData={task.data} doTurn={this.sendMsg} mode="multiplayer" />
             </React.Fragment>

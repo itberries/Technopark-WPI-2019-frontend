@@ -4,20 +4,30 @@ import './__Progress.scss';
 
 class Progress extends React.Component {
   render() {
-    const cells = [];
     const cellsNumber = 3;
-    const doneCells = this.props.position < cellsNumber ? this.props.position : 8;
-    for (const x of Array(doneCells).keys()) {
-      cells.push(<div className="Map__cell" style={{ backgroundColor: this.props.roadColor }} />);
-    }
-    cells.push(
-      <div className="Map__cell rocket">
-        <img src={this.props.playerIcon} alt="player rocket icon" />
-      </div>,
-    );
-    const noteDoneCells = this.props.position < cellsNumber ? cellsNumber - this.props.position - 1 : 0;
-    for (const x of Array(noteDoneCells).keys()) {
-      cells.push(<div className="Map__cell" />);
+    const cells = [];
+    const { turns } = this.props;
+    console.log('turns: ', turns);
+    for (let index = 0; index < cellsNumber; index++) {
+      if (index === this.props.position) {
+        cells.push(
+          <div className="Map__cell rocket">
+            <img src={this.props.playerIcon} alt="player rocket icon" />
+          </div>,
+        );
+      } else if (turns.length > index) {
+        if (turns[index] === 'true') {
+          cells.push(
+            <div className="Map__cell" style={{ backgroundColor: this.props.rightColor }} />,
+          );
+        } else {
+          cells.push(
+            <div className="Map__cell" style={{ backgroundColor: this.props.wrongColor }} />,
+          );
+        }
+      } else {
+        cells.push(<div className="Map__cell" />);
+      }
     }
     return (
       <div className="Progress__container">
