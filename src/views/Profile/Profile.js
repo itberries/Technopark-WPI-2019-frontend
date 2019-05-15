@@ -10,7 +10,7 @@ import SpinnerCentered from '../../common.blocks/SpinnerCentered/SpinnerCentered
 import User from '../../common.blocks/User/User';
 import Achievements from '../../common.blocks/Achievements/Achievements';
 
-import { getUserProfile, getAchievements } from '../../actions/user';
+import { getAchievements } from '../../actions/user';
 
 const mapStateToProps = (state) => {
   const { user, activeAchievements, achievements } = state.user;
@@ -32,7 +32,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    getUserProfile,
     getAchievements,
   },
   dispatch,
@@ -44,6 +43,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 class Profile extends React.Component {
   constructor(props) {
     super(props);
+    console.log('PROFILE store', this.props);
     this.state = {
       isLoading: false,
       user: props.user,
@@ -61,8 +61,8 @@ class Profile extends React.Component {
 
     if (typeof this.props.user !== 'undefined') {
       console.log('BEFORE GET');
-      await this.props.getUserProfile(this.props.user.id);
-      console.log('AFTER GET USER PROFILE');
+      // await this.props.getUserProfile(this.props.user.id);
+      // console.log('AFTER GET USER PROFILE');
       await this.props.getAchievements();
       console.log('AFTER GET ACHIEVEMENTS');
       this.setState({
