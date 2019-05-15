@@ -42,6 +42,8 @@ class Leaderboard extends React.Component {
     this.state = {
       isLoading: true,
       activeTab: 'top',
+      topUserScoresList: undefined,
+      topUserInfoList: undefined,
     };
   }
 
@@ -69,17 +71,20 @@ class Leaderboard extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    console.log('LEADERBOARD getDerivedStateFromProps prevState, nextProps:', prevState, nextProps);
     if (
       prevState.isLoading === true
-      && typeof nextProps.topUserScoresList !== 'undefined'
-      && typeof nextProps.topUserInfoList !== 'undefined'
+      && (typeof nextProps.topUserScoresList !== 'undefined'
+        || typeof nextProps.topUserInfoList !== 'undefined')
       && prevState.topUserScoresList !== nextProps.topUserScoresList
     ) {
+      console.log('LEADERBOARD getDerivedStateFromProps in IF');
       return {
         ...prevState,
         isLoading: false,
       };
     }
+    console.log('LEADERBOARD getDerivedStateFromProps in ELSE');
     return null;
   }
 

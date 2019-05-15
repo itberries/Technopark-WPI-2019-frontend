@@ -3,8 +3,7 @@ import React from 'react';
 import {
   Panel, PanelHeader, View, ConfigProvider,
 } from '@vkontakte/vkui';
-// import * as UI from '@vkontakte/vkui';
-import connect from '@vkontakte/vkui-connect';
+import VKConnect from '../../vkconnect';
 
 import LearningMap from './LearningMap/LearningMap';
 import Subsection from './Subsection/Subsection';
@@ -47,7 +46,7 @@ class Workflow extends React.Component {
       history.pop();
       const activePanel = history[history.length - 1][0];
       if (activePanel === 'learningmap') {
-        connect.send('VKWebAppDisableSwipeBack');
+        // VKConnect.send('VKWebAppDisableSwipeBack');
       }
       history = new Map(history);
       return { history, activePanel };
@@ -60,7 +59,7 @@ class Workflow extends React.Component {
       let history = [...prevState.history];
       history.push([activePanel, id]);
       if (prevState.activePanel === 'learningmap') {
-        connect.send('VKWebAppEnableSwipeBack');
+        // VKConnect.send('VKWebAppEnableSwipeBack');
       }
       history = new Map(history);
       return { history, activePanel };

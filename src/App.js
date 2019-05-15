@@ -74,10 +74,10 @@ class App extends React.Component {
    * @memberof App
    */
   componentDidMount() {
-    this.props.init();
-    this.props.fetchCurrentUserInfo();
+    // this.props.init();
+    // this.props.fetchCurrentUserInfo();
   }
-
+  /*
   async componentDidUpdate(prevProps) {
     if (this.props.vkUserInfo !== prevProps.vkUserInfo) {
       const { id } = this.props.vkUserInfo;
@@ -92,6 +92,7 @@ class App extends React.Component {
       }
     }
   }
+  */
 
   /**
    * Change the active view after tabbar switched

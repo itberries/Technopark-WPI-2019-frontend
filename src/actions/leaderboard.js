@@ -1,4 +1,4 @@
-import vkconnect from '@vkontakte/vkui-connect';
+import VKConnect from '../vkconnect';
 import * as types from '../constants/actionTypes';
 import backendAPIService from '../services/backend';
 import * as userSelectors from '../reducers/user';
@@ -16,7 +16,11 @@ export function fetchTopUsers() {
         '',
       );
       console.log('LEADERBOARD topUsersArray, topUsersIds: ', topUsersArray, topUsersIds);
-      vkconnect.send('VKWebAppCallAPIMethod', {
+      dispatch({
+        type: types.LEADERBOARD_TOP_USERS_SCORES_FETCHED,
+        topUsersArray,
+      });
+      VKConnect.send('VKWebAppCallAPIMethod', {
         method: 'users.get',
         params: {
           user_ids: '37924905,16605500',
@@ -25,11 +29,8 @@ export function fetchTopUsers() {
         },
         request_id: 'getTopUsersInfo',
       });
-      dispatch({
-        type: types.LEADERBOARD_TOP_USERS_SCORES_FETCHED,
-        topUsersArray,
-      });
     } catch (error) {
+      console.log('FETCH TOP CATCH');
       console.error(error);
     }
   };
