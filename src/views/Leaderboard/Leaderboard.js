@@ -40,10 +40,8 @@ class Leaderboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
+      isLoading: false,
       activeTab: 'top',
-      topUserScoresList: undefined,
-      topUserInfoList: undefined,
     };
   }
 
@@ -54,41 +52,10 @@ class Leaderboard extends React.Component {
     } else {
       window.scrollTo(0, 0);
     }
-
-    console.log('LEADERBOARD did mount state, props:', this.state, this.props);
-    if (
-      typeof this.props.topUserScoresList === 'undefined'
-      && typeof this.props.topUserInfoList === 'undefined'
-    ) {
-      this.setState({
-        isLoading: true,
-      });
-      await this.props.fetchTopUsers();
-    }
   }
 
   componentWillUnmount() {
     localStorage.setItem('scroll', window.scrollY);
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    console.log('LEADERBOARD getDerivedStateFromProps prevState, nextProps:', prevState, nextProps);
-    if (
-      prevState.isLoading === true
-      && typeof nextProps.topUserScoresList !== 'undefined'
-      && typeof nextProps.topUserInfoList !== 'undefined'
-      && prevState.topUserScoresList !== nextProps.topUserScoresList
-    ) {
-      console.log('LEADERBOARD getDerivedStateFromProps in IF');
-      return {
-        ...prevState,
-        topUserInfoList: nextProps.topUserInfoList,
-        topUserScoresList: nextProps.topUserScoresList,
-        isLoading: false,
-      };
-    }
-    console.log('LEADERBOARD getDerivedStateFromProps in ELSE');
-    return null;
   }
 
   render() {
