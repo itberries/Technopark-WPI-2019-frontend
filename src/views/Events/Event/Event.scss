@@ -1,0 +1,19 @@
+.event {
+  text-align: center;
+
+  &__image {
+    width: 100%;
+    max-height: 400px;
+  }
+
+  &__description {
+    text-align: left;
+  }
+
+  &__btn {
+    background-color: var(--accent);
+    margin-top: 10px;
+    margin-bottom: 20px;
+    height: 4em;
+  }
+}
