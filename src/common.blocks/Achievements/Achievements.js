@@ -21,12 +21,13 @@ class Achievements extends React.Component {
 
     if (Array.isArray(allAchievements)) {
       allAchievements.forEach((achievement) => {
+        const isActiveAchievement = typeof activeAchievements !== 'undefined' && activeAchievements.includes(achievement.id);
         items.push(
           <AchievementsItem
             key={achievement.id}
             imageUrl={achievement.imageUrl}
             note={achievement.note}
-            isActive={activeAchievements.includes(achievement.id)}
+            isActive={isActiveAchievement}
           />,
         );
       });

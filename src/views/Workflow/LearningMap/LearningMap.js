@@ -157,6 +157,7 @@ class LearningMap extends React.Component {
         <LearningMapRow key={`LearningMapRow_subsection_${subsection.id}_${new Date().getTime()}`}>
           <LearningMapSubsection
             id={subsection.id}
+            key={subsection.id}
             name={subsection.name}
             start={start}
             end={end}

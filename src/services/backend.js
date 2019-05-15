@@ -84,6 +84,7 @@ class BackendAPIService {
   async getTopUsers(userId) {
     const res = await axios.get(`/leaderboard/${userId}/`);
     console.log('BackendAPIService: getTopUsers res: ', res);
+    console.log('GET TOP USERS DATA', res.data);
     return res.data;
 
     // TODO: add error handling
