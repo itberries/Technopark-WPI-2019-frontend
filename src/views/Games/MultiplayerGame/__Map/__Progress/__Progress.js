@@ -16,7 +16,7 @@ class Progress extends React.Component {
           </div>,
         );
       } else if (turns.length > index) {
-        if (turns[index] === 'true') {
+        if (turns[index] === 'true' || turns[index] === true) {
           cells.push(
             <div className="Map__cell" style={{ backgroundColor: this.props.rightColor }} />,
           );
