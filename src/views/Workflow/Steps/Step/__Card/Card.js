@@ -4,16 +4,31 @@ import { Div } from '@vkontakte/vkui';
 
 import './Card.scss';
 
-const Card = ({ note, image }) => (
-  <Div className="card__container">
-    <Div className="card__note">{note}</Div>
-    {image !== null && (
-      <Div className="card__image">
-        <img src={image} alt="Card icon" />
+const Card = ({ note, image }) => {
+  console.log('render card: ', note, image);
+  console.log('image: ', image);
+  if (
+    image !== null
+    && image !== undefined
+    && image !== null
+    && image !== 'undefined'
+    && image !== ''
+  ) {
+    return (
+      <Div className="card__container">
+        <Div className="card__note">{note}</Div>
+        <Div className="card__image">
+          <img src={image} alt="Card icon" />
+        </Div>
       </Div>
-    )}
-  </Div>
-);
+    );
+  }
+  return (
+    <Div className="card__container">
+      <Div className="card__note">{note}</Div>
+    </Div>
+  );
+};
 
 Card.propTypes = {
   note: PropTypes.string,
