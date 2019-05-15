@@ -99,159 +99,155 @@ class Leaderboard extends React.Component {
       <View key={this.props.id} id={this.props.id} activePanel={this.props.id}>
         <Panel id={this.props.id}>
           <PanelHeader>Таблицы лидеров</PanelHeader>
-          {this.state.isLoading ? (
-            <SpinnerCentered />
-          ) : (
-            <Div>
-              <Group
-                description={
-                  this.state.activeTab === 'top' ? topTabDesctiption : friendsTabDesctiption
-                }
-              >
-                <Tabs>
-                  <TabsItem
-                    onClick={() => this.setState({ activeTab: 'top' })}
-                    selected={this.state.activeTab === 'top'}
+          <Div>
+            <Group
+              description={
+                this.state.activeTab === 'top' ? topTabDesctiption : friendsTabDesctiption
+              }
+            >
+              <Tabs>
+                <TabsItem
+                  onClick={() => this.setState({ activeTab: 'top' })}
+                  selected={this.state.activeTab === 'top'}
+                >
+                  ТОП-10
+                </TabsItem>
+                <TabsItem
+                  onClick={() => this.setState({ activeTab: 'friends' })}
+                  selected={this.state.activeTab === 'friends'}
+                >
+                  Среди друзей
+                </TabsItem>
+              </Tabs>
+              {this.state.activeTab === 'top' ? (
+                <List>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
+                    }
+                    indicator="100500"
                   >
-                    ТОП-10
-                  </TabsItem>
-                  <TabsItem
-                    onClick={() => this.setState({ activeTab: 'friends' })}
-                    selected={this.state.activeTab === 'friends'}
+                    Евгений Авсиевич
+                  </Cell>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
+                    }
+                    indicator="100300"
                   >
-                    Среди друзей
-                  </TabsItem>
-                </Tabs>
-                {this.state.activeTab === 'top' ? (
-                  <List>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                      }
-                      indicator="100500"
-                    >
-                      Евгений Авсиевич
-                    </Cell>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                      }
-                      indicator="100300"
-                    >
-                      Татьяна Плуталова
-                    </Cell>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
-                      }
-                      indicator="100000"
-                    >
-                      Олег Илларианов
-                    </Cell>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                      }
-                      indicator="80500"
-                    >
-                      Евгений Авсиевич
-                    </Cell>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                      }
-                      indicator="70000"
-                    >
-                      Татьяна Плуталова
-                    </Cell>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
-                      }
-                      indicator="55000"
-                    >
-                      Олег Илларианов
-                    </Cell>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                      }
-                      indicator="30000"
-                    >
-                      Евгений Авсиевич
-                    </Cell>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                      }
-                      indicator="26000"
-                    >
-                      Татьяна Плуталова
-                    </Cell>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
-                      }
-                      indicator="10000"
-                    >
-                      Олег Илларианов
-                    </Cell>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                      }
-                      indicator="7000"
-                    >
-                      Евгений Авсиевич
-                    </Cell>
-                  </List>
-                ) : (
-                  <List>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                      }
-                      indicator="1000"
-                    >
-                      Евгений Авсиевич
-                    </Cell>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                      }
-                      indicator="900"
-                    >
-                      Татьяна Плуталова
-                    </Cell>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
-                      }
-                      indicator="700"
-                    >
-                      Олег Илларианов
-                    </Cell>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                      }
-                      indicator="600"
-                    >
-                      Евгений Авсиевич
-                    </Cell>
-                    <Cell
-                      before={
-                        <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                      }
-                      indicator="500"
-                    >
-                      Татьяна Плуталова
-                    </Cell>
-                  </List>
-                )}
-              </Group>
-            </Div>
-          )}
+                    Татьяна Плуталова
+                  </Cell>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
+                    }
+                    indicator="100000"
+                  >
+                    Олег Илларианов
+                  </Cell>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
+                    }
+                    indicator="80500"
+                  >
+                    Евгений Авсиевич
+                  </Cell>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
+                    }
+                    indicator="70000"
+                  >
+                    Татьяна Плуталова
+                  </Cell>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
+                    }
+                    indicator="55000"
+                  >
+                    Олег Илларианов
+                  </Cell>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
+                    }
+                    indicator="30000"
+                  >
+                    Евгений Авсиевич
+                  </Cell>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
+                    }
+                    indicator="26000"
+                  >
+                    Татьяна Плуталова
+                  </Cell>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
+                    }
+                    indicator="10000"
+                  >
+                    Олег Илларианов
+                  </Cell>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
+                    }
+                    indicator="7000"
+                  >
+                    Евгений Авсиевич
+                  </Cell>
+                </List>
+              ) : (
+                <List>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
+                    }
+                    indicator="1000"
+                  >
+                    Евгений Авсиевич
+                  </Cell>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
+                    }
+                    indicator="900"
+                  >
+                    Татьяна Плуталова
+                  </Cell>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
+                    }
+                    indicator="700"
+                  >
+                    Олег Илларианов
+                  </Cell>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
+                    }
+                    indicator="600"
+                  >
+                    Евгений Авсиевич
+                  </Cell>
+                  <Cell
+                    before={
+                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
+                    }
+                    indicator="500"
+                  >
+                    Татьяна Плуталова
+                  </Cell>
+                </List>
+              )}
+            </Group>
+          </Div>
         </Panel>
       </View>
     );
