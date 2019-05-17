@@ -14,11 +14,26 @@ import Header from '../../common.blocks/Header/Header';
 import EventsList from './__List/EventsList';
 import Event from './Event/Event';
 
-// const { eventsList } = state.events;
-const mapStateToProps = state => ({
-  // eventsList,
-});
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+import SpinnerCentered from '../../common.blocks/SpinnerCentered/SpinnerCentered';
+
+import { fetchEvents, fetchEventById } from '../../actions/events';
+
+const mapStateToProps = (state) => {
+  const { eventsList, selectedEventId, selectedEventDetail } = state.events;
+  return {
+    eventsList,
+    selectedEventId,
+    selectedEventDetail,
+  };
+};
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    fetchEvents,
+    fetchEventById,
+  },
+  dispatch,
+);
 
 class Events extends React.Component {
   constructor(props) {
@@ -26,7 +41,7 @@ class Events extends React.Component {
     const historyMap = new Map();
     historyMap.set('events', 1);
     this.state = {
-      // isLoading: false,
+      isLoading: false,
       activeTab: 'all',
       activePanel: 'events',
       history: historyMap,
@@ -44,11 +59,30 @@ class Events extends React.Component {
       window.scrollTo(0, 0);
     }
 
-    // TODO: load events using api
+    if (typeof this.props.eventsList === 'undefined') {
+      this.setState({
+        isLoading: true,
+      });
+      await this.props.fetchEvents();
+    }
   }
 
   componentWillUnmount() {
     localStorage.setItem('scroll', window.scrollY);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (
+      prevState.isLoading === true
+      && typeof nextProps.eventsList !== 'undefined'
+      && prevState.eventsList !== nextProps.eventsList
+    ) {
+      return {
+        ...prevState,
+        isLoading: false,
+      };
+    }
+    return null;
   }
 
   /**
@@ -91,6 +125,7 @@ class Events extends React.Component {
   }
 
   render() {
+    console.log('EVENTS render state, props:', this.state, this.props);
     return (
       <ConfigProvider isWebView>
         <View
@@ -106,6 +141,7 @@ class Events extends React.Component {
               activeTab={this.state.activeTab}
               onSelectTab={this.onSelectTab}
               onSelectEvent={this.goForward}
+              events={this.props.eventsList}
             />
           </Panel>
           <Panel id="event" key="event">

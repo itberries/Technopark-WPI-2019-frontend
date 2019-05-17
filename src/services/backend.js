@@ -84,8 +84,22 @@ class BackendAPIService {
   async getTopUsers(userId) {
     const res = await axios.get(`/leaderboard/${userId}/`);
     console.log('BackendAPIService: getTopUsers res: ', res);
-    console.log('GET TOP USERS DATA', res.data);
     return res.data;
+
+    // TODO: add error handling
+    /*
+    if (typeof error.response !== 'undefined' && error.response.status === 404) {
+      console.error('getSections not found!!!', error.response);
+    } else {
+      console.error('getSections error!!!', error.response);
+    }
+    */
+  }
+
+  async getEvents() {
+    const res = await axios.get('/events/');
+    console.log('BackendAPIService: getEvents res: ', res);
+    return res.data.events;
 
     // TODO: add error handling
     /*
