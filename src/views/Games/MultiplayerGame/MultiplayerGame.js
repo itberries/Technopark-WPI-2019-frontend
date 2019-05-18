@@ -30,6 +30,7 @@ import './MultiplayerGame.scss';
 
 import cupImage from '../../../images/icons/cup.svg';
 import sadSmileImage from '../../../images/icons/sad_smile.svg';
+import handshakeImage from '../../../images/icons/handshake.svg';
 
 const mapStateToProps = (state) => {
   const { socket } = state.ws;
@@ -163,13 +164,26 @@ class MultiplayerGame extends React.Component {
     Popup.fire({
       title: 'Вы повержены!',
       text:
-        'Ваш противник оказался сильнее. Не расстраивайтесь, повторите материал в разделе "Путешествие" и попробуйте еще раз! ',
+        'Ваш противник оказался сильнее. Не расстраивайтесь, повторите материал в разделе "Путешествие" и попробуйте еще раз!',
       confirmButtonColor: '#41046F',
       confirmButtonText: 'Завершить игру',
       imageUrl: sadSmileImage,
       imageWidth: 150,
       imageHeight: 150,
       imageAlt: 'Грустный',
+    });
+  }
+
+  onDrawGame(result) {
+    Popup.fire({
+      title: 'Ничья!',
+      text: `Ваши силы оказались равны! Вы заработали ${result} монет! `,
+      confirmButtonColor: '#41046F',
+      confirmButtonText: 'Завершить игру',
+      imageUrl: handshakeImage,
+      imageWidth: 150,
+      imageHeight: 150,
+      imageAlt: 'Ничья',
     });
   }
 
@@ -304,6 +318,7 @@ class MultiplayerGame extends React.Component {
               this.onLostGame();
               break;
             case 'draw':
+              this.onDrawGame(answer.payload.coins);
               break;
             default:
               break;
