@@ -30,6 +30,7 @@ import './MultiplayerGame.scss';
 
 import cupImage from '../../../images/icons/cup.svg';
 import sadSmileImage from '../../../images/icons/sad_smile.svg';
+import handshakeImage from '../../../images/icons/handshake.svg';
 
 const mapStateToProps = (state) => {
   const { socket } = state.ws;
@@ -93,6 +94,11 @@ class MultiplayerGame extends React.Component {
             if (!this.state.finished && !nextState.finished) {
               this.props.websocketOpen('match');
             }
+            Popup.fire({
+              title: 'Обрыв соединения',
+              confirmButtonColor: '#41046F',
+              confirmButtonText: 'Завершить игру',
+            });
           }
           console.log('we are close this socket!');
           console.log('Код: ', event.code, ' причина: ', event.reason);
@@ -135,6 +141,10 @@ class MultiplayerGame extends React.Component {
   }
 
   componentWillUnmount() {
+    this.onExitMultiplayerGame();
+  }
+
+  onExitMultiplayerGame() {
     if (this.props.socket !== null) {
       this.props.socket.close();
     }
@@ -156,6 +166,9 @@ class MultiplayerGame extends React.Component {
       imageWidth: 150,
       imageHeight: 150,
       imageAlt: 'Кубок',
+      onClose: () => {
+        this.onExitMultiplayerGame();
+      },
     });
   }
 
@@ -163,13 +176,32 @@ class MultiplayerGame extends React.Component {
     Popup.fire({
       title: 'Вы повержены!',
       text:
-        'Ваш противник оказался сильнее. Не расстраивайтесь, повторите материал в разделе "Путешествие" и попробуйте еще раз! ',
+        'Ваш противник оказался сильнее. Не расстраивайтесь, повторите материал в разделе "Путешествие" и попробуйте еще раз!',
       confirmButtonColor: '#41046F',
       confirmButtonText: 'Завершить игру',
       imageUrl: sadSmileImage,
       imageWidth: 150,
       imageHeight: 150,
       imageAlt: 'Грустный',
+      onClose: () => {
+        this.onExitMultiplayerGame();
+      },
+    });
+  }
+
+  onDrawGame(result) {
+    Popup.fire({
+      title: 'Ничья!',
+      text: `Ваши силы оказались равны! Вы заработали ${result} монет! `,
+      confirmButtonColor: '#41046F',
+      confirmButtonText: 'Завершить игру',
+      imageUrl: handshakeImage,
+      imageWidth: 150,
+      imageHeight: 150,
+      imageAlt: 'Ничья',
+      onClose: () => {
+        this.onExitMultiplayerGame();
+      },
     });
   }
 
@@ -203,6 +235,7 @@ class MultiplayerGame extends React.Component {
         }
         await this.sendMsg(
           JSON.stringify({
+            type: 'deliveryStatus',
             payload: {
               result: 'READY_TO_START_MP_GAME',
             },
@@ -304,6 +337,7 @@ class MultiplayerGame extends React.Component {
               this.onLostGame();
               break;
             case 'draw':
+              this.onDrawGame(answer.payload.coins);
               break;
             default:
               break;
