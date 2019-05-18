@@ -274,9 +274,10 @@ class MultiplayerGame extends React.Component {
             currentTask += 1;
             if (currentTask < prevState.tasks.length) {
               this.props.movePlayer(this.props.playerPosition + 1);
-              const { newType } = prevState.tasks[currentTask];
+              const newType = prevState.tasks[currentTask].type;
               switch (newType) {
                 case 'question':
+                  console.log('websocketOnMessage: reset timer');
                   this.props.resetTimer(30);
                   break;
                 case 'match':
