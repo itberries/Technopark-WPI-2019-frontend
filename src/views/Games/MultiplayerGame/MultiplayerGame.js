@@ -141,6 +141,10 @@ class MultiplayerGame extends React.Component {
   }
 
   componentWillUnmount() {
+    this.onExitMultiplayerGame();
+  }
+
+  onExitMultiplayerGame() {
     if (this.props.socket !== null) {
       this.props.socket.close();
     }
@@ -162,6 +166,9 @@ class MultiplayerGame extends React.Component {
       imageWidth: 150,
       imageHeight: 150,
       imageAlt: 'Кубок',
+      onClose: () => {
+        this.onExitMultiplayerGame();
+      },
     });
   }
 
@@ -176,6 +183,9 @@ class MultiplayerGame extends React.Component {
       imageWidth: 150,
       imageHeight: 150,
       imageAlt: 'Грустный',
+      onClose: () => {
+        this.onExitMultiplayerGame();
+      },
     });
   }
 
@@ -189,6 +199,9 @@ class MultiplayerGame extends React.Component {
       imageWidth: 150,
       imageHeight: 150,
       imageAlt: 'Ничья',
+      onClose: () => {
+        this.onExitMultiplayerGame();
+      },
     });
   }
 
