@@ -16,10 +16,10 @@ class InteractiveChain extends Chain {
   }
 
   // TODO: This is a bad decision. If we have time, we need to think better
-  shouldComponentUpdate(nextProps, nextState) {
+  async shouldComponentUpdate(nextProps, nextState) {
     super.shouldComponentUpdate(nextProps, nextState);
     if (nextProps.answer !== null) {
-      this.props.answerReceived();
+      await this.props.answerReceived();
       nextState.notSend = true;
     }
     return true;
@@ -36,6 +36,7 @@ class InteractiveChain extends Chain {
   }
 
   checkChain(chain) {
+    this.setState({ notSend: false });
     console.log('checkChain: ', chain);
     const msg = {
       type: 'turnChain',
@@ -44,7 +45,6 @@ class InteractiveChain extends Chain {
       },
       mode: this.props.mode,
     };
-    this.setState({ notSend: false });
     this.props.doTurn(JSON.stringify(msg));
   }
 }

@@ -62,6 +62,7 @@ class MultiplayerGame extends React.Component {
       isLoading: true,
       tasks: [],
       currentTask: 0,
+      finished: false,
     };
 
     this.sendMsg = this.sendMsg.bind(this);
@@ -89,7 +90,9 @@ class MultiplayerGame extends React.Component {
             console.log('Соединение закрыто чисто');
           } else {
             console.log('Обрыв соединения'); // например, "убит" процесс сервера
-            this.props.websocketOpen('match');
+            if (!this.state.finished && !nextState.finished) {
+              this.props.websocketOpen('match');
+            }
           }
           console.log('we are close this socket!');
           console.log('Код: ', event.code, ' причина: ', event.reason);
@@ -170,7 +173,7 @@ class MultiplayerGame extends React.Component {
     });
   }
 
-  processAnswr(data) {
+  async processAnswr(data) {
     const answer = JSON.parse(data);
     console.log('answer: ', answer);
     switch (answer.type) {
@@ -198,6 +201,18 @@ class MultiplayerGame extends React.Component {
           default:
             console.log('unknown game');
         }
+        await this.sendMsg(
+          JSON.stringify({
+            payload: {
+              result: 'READY_TO_START_MP_GAME',
+            },
+          }),
+        );
+        this.setState((prevState) => {
+          const msgs = prevState.actions;
+          msgs.shift();
+          return { actions: msgs };
+        });
         return;
       case 'DeliveryStatus':
       case 'deliveryStatus':
@@ -207,41 +222,41 @@ class MultiplayerGame extends React.Component {
           case 'WAIT':
             console.log('waiting for another player');
             return;
-          case 'MINI_GAME_COMPLETED':
-            console.log('game completed, payoad:', answer.payload);
-            this.setState((prevState) => {
-              let { currentTask } = prevState;
-              currentTask += 1;
-              if (currentTask < prevState.tasks.length) {
-                this.props.movePlayer(this.props.playerPosition + 1);
-                const { type } = prevState.tasks[currentTask];
-                switch (type) {
-                  case 'question':
-                    this.props.resetTimer(30);
-                    break;
-                  case 'match':
-                  case 'chain':
-                    this.props.resetTimer(120);
-                    break;
-                  default:
-                    console.log('unknown game');
-                }
-              }
-              return { currentTask };
-            });
-            break;
+          // case 'MINI_GAME_COMPLETED':
+          //   console.log('game completed, payoad:', answer.payload);
+          //   this.setState((prevState) => {
+          //     let { currentTask } = prevState;
+          //     currentTask += 1;
+          //     if (currentTask < prevState.tasks.length) {
+          //       this.props.movePlayer(this.props.playerPosition + 1);
+          //       const { type } = prevState.tasks[currentTask];
+          //       switch (type) {
+          //         case 'question':
+          //           this.props.resetTimer(30);
+          //           break;
+          //         case 'match':
+          //         case 'chain':
+          //           this.props.resetTimer(120);
+          //           break;
+          //         default:
+          //           console.log('unknown game');
+          //       }
+          //     }
+          //     return { currentTask };
+          //   });
+          //   break;
           case 'OPPONENT_HAS_STEPPED':
-            this.props.moveOpponent(this.props.opponentPosition + 1, answer.payload.right);
+            this.props.moveOpponent(this.props.opponentPosition + 1, answer.payload.data);
             break;
-          case 'OPPONENT_HAS_WIN':
-            this.onLostGame();
-            break;
+          // case 'OPPONENT_HAS_WIN':
+          //   this.onLostGame();
+          //   break;
           default:
             console.log('unknown message!');
             break;
         }
         break;
-      case 'TurnResult':
+      case 'turnResultMP':
         if (answer.payload.data) {
           console.log('right turn');
         } else {
@@ -252,10 +267,47 @@ class MultiplayerGame extends React.Component {
           this.props.rightTurn(answer.payload.data);
         }
         this.props.websocketOnMessage(answer.payload.data);
+        if (answer.payload.completed === 'true') {
+          console.log('game completed, payoad completed:', answer.payload.completed);
+          this.setState((prevState) => {
+            let { currentTask } = prevState;
+            currentTask += 1;
+            if (currentTask < prevState.tasks.length) {
+              this.props.movePlayer(this.props.playerPosition + 1);
+              const { newType } = prevState.tasks[currentTask];
+              switch (newType) {
+                case 'question':
+                  this.props.resetTimer(30);
+                  break;
+                case 'match':
+                case 'chain':
+                  this.props.resetTimer(120);
+                  break;
+                default:
+                  console.log('unknown game');
+              }
+            }
+            return { currentTask };
+          });
+        }
         break;
-      case 'GameCompleted':
+      case 'GameCompletedMP':
         console.log('game completed, payoad:', answer.payload);
-        this.onWonGame(answer.payload.result);
+        if (!this.state.finished) {
+          this.setState({ finished: true });
+          switch (answer.payload.gameStatus) {
+            case 'win':
+              this.onWonGame(answer.payload.coins);
+              break;
+            case 'lose':
+              this.onLostGame();
+              break;
+            case 'draw':
+              break;
+            default:
+              break;
+          }
+        }
         break;
       default:
         console.log('unknown message!');
@@ -263,6 +315,7 @@ class MultiplayerGame extends React.Component {
   }
 
   sendMsg(msg) {
+    console.log(msg);
     this.setState((prevState) => {
       const msgs = prevState.actions;
       msgs.push(msg);
