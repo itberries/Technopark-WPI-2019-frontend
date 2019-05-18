@@ -94,6 +94,11 @@ class MultiplayerGame extends React.Component {
             if (!this.state.finished && !nextState.finished) {
               this.props.websocketOpen('match');
             }
+            Popup.fire({
+              title: 'Обрыв соединения',
+              confirmButtonColor: '#41046F',
+              confirmButtonText: 'Завершить игру',
+            });
           }
           console.log('we are close this socket!');
           console.log('Код: ', event.code, ' причина: ', event.reason);
@@ -217,6 +222,7 @@ class MultiplayerGame extends React.Component {
         }
         await this.sendMsg(
           JSON.stringify({
+            type: 'deliveryStatus',
             payload: {
               result: 'READY_TO_START_MP_GAME',
             },
