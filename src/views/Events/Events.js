@@ -13,8 +13,6 @@ import Header from '../../common.blocks/Header/Header';
 import EventsList from './__List/EventsList';
 import Event from './Event/Event';
 
-import SpinnerCentered from '../../common.blocks/SpinnerCentered/SpinnerCentered';
-
 import {
   fetchEvents, selectEvent, unselectEvent, fetchEventById,
 } from '../../actions/events';
@@ -154,7 +152,7 @@ class Events extends React.Component {
           </Panel>
           <Panel id="event" key="event">
             <Header text="Событие" onBackClick={this.goBack} previousPanel="events" />
-            <Event eventId={this.props.selectedEventId} />
+            <Event id={this.props.selectedEventId} key={this.props.selectedEventId} />
           </Panel>
         </View>
       </ConfigProvider>
