@@ -11,11 +11,13 @@ class TrainingGame extends MiniGame {
   }
 
   generateChain() {
-    return <TraningChain onComplete={this.props.onCompleted} />;
+    const { data } = JSON.parse(this.props.gameData[0].note);
+    return <TraningChain onComplete={this.props.onCompleted} gameData={data} />;
   }
 
   generateQuestion() {
-    return <TraningQuestion onComplete={this.props.onCompleted} />;
+    const { data } = JSON.parse(this.props.gameData[0].note);
+    return <TraningQuestion onComplete={this.props.onCompleted} gameData={data} />;
   }
 }
 

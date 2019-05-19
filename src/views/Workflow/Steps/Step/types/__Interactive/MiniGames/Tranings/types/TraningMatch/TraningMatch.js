@@ -1,21 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Frame from '../../../../../../../../../../common.blocks/Frame/Frame';
 import Match from '../../../Base/types/Match/Match';
 
 class TraningMatch extends Match {
   constructor(props) {
     super(props);
-
     const stateFrames = new Map();
-    stateFrames.set(1, 'Дискретный');
-    stateFrames.set(2, 'Нотный стан');
-    stateFrames.set(3, 'Луч');
-    stateFrames.set(4, 'Непрерывный');
+    stateFrames.set(1, 'N');
+    stateFrames.set(2, 'мощность алфавита');
+    stateFrames.set(3, 'i');
+    stateFrames.set(4, 'информационный вес символа');
 
     const secondFrames = new Map();
-    secondFrames.set('Дискретный');
-    secondFrames.set('Непрерывный');
+    secondFrames.set('мощность алфавита');
+    secondFrames.set('информационный вес символа');
 
     this.state.frames = stateFrames;
     this.state.secondFrames = secondFrames;

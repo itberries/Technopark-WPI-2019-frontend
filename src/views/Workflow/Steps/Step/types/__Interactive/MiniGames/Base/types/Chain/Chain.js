@@ -57,6 +57,7 @@ class Chain extends React.Component {
       completed = true;
       return { completed };
     });
+    this.props.onComplete();
     console.log('right answer!');
   }
 
