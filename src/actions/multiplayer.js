@@ -1,4 +1,6 @@
 import * as types from '../constants/actionTypes';
+import VKConnect from '../vkconnect';
+import * as vkUserSelectors from '../reducers/vkApp/vkAppUser';
 
 export function movePlayer(position) {
   console.log('action movePlayer ', types.PLAYER_MOVE);
@@ -57,5 +59,24 @@ export function timerWasReset() {
     dispatch({
       type: types.TIMER_WAS_RESET,
     });
+  };
+}
+
+export function fetchOpponentInfo(userId) {
+  return async (dispatch, getState) => {
+    try {
+      const authToken = vkUserSelectors.getVkUserAuthToken(getState());
+      VKConnect.send('VKWebAppCallAPIMethod', {
+        method: 'users.get',
+        params: {
+          user_ids: `${userId}`,
+          v: '5.95',
+          access_token: authToken,
+        },
+        request_id: 'getOpponentInfo',
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 }

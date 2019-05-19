@@ -58,6 +58,12 @@ export default function reduce(state = initialState, action) {
         playerTurns: [],
         opponentTurns: [],
       });
+    case types.MULTIPLAYER_GET_OPPONENT_INFO:
+      console.log('action MULTIPLAYER_GET_OPPONENT_INFO', action);
+      return Immutable.merge({
+        ...state,
+        opponentInfo: action.payload,
+      });
     default:
       return state;
   }

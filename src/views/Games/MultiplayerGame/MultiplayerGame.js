@@ -13,6 +13,7 @@ import {
   resetTimer,
   clearGameData,
   rightTurn,
+  fetchOpponentInfo,
 } from '../../../actions/multiplayer';
 
 import { websocketOpen, websocketOnMessage, websocketClose } from '../../../actions/ws';
@@ -43,6 +44,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     movePlayer,
     moveOpponent,
     resetTimer,
+    fetchOpponentInfo,
 
     websocketOpen,
     websocketClose,
@@ -61,6 +63,7 @@ class MultiplayerGame extends React.Component {
       socketReadyToSend: false,
       actions: [],
       isLoading: true,
+      opponentId: undefined,
       tasks: [],
       currentTask: 0,
       finished: false,
@@ -98,6 +101,9 @@ class MultiplayerGame extends React.Component {
               title: 'Обрыв соединения',
               confirmButtonColor: '#41046F',
               confirmButtonText: 'Завершить игру',
+              onClose: () => {
+                this.onExitMultiplayerGame();
+              },
             });
           }
           console.log('we are close this socket!');
@@ -205,47 +211,75 @@ class MultiplayerGame extends React.Component {
     });
   }
 
+  async onStartGame(payload) {
+    const { tasks, id } = payload;
+    tasks.forEach((task) => {
+      task.data = JSON.parse(task.task).data;
+    });
+    this.setState({
+      tasks,
+      opponentId: id,
+    });
+    // this.props.fetchOpponentInfo(answer.payload.id);
+    // TODO: реализовать отправку READY_TO_START_MP_GAME после того, как получу инфо об оппоненте
+    await this.sendMsg(
+      JSON.stringify({
+        type: 'deliveryStatus',
+        payload: {
+          result: 'READY_TO_START_MP_GAME',
+        },
+      }),
+    );
+    this.setState((prevState) => {
+      const msgs = prevState.actions;
+      msgs.shift();
+      return { actions: msgs };
+    });
+  }
+
+  onOpponentReady() {
+    return Popup.fire({
+      title: 'Противник найден!',
+      text: `Вы играете против пользователя с id ${this.state.opponentId}.`,
+      confirmButtonColor: '#41046F',
+      confirmButtonText: 'Начать игру!',
+      timer: 2000,
+      onBeforeOpen: () => {
+        Popup.showLoading();
+      },
+    });
+  }
+
+  startGame() {
+    this.onOpponentReady().then(() => {
+      this.setState({
+        isLoading: false,
+      });
+      const { tasks } = this.state;
+      const task = tasks[0];
+      switch (task.type) {
+        case 'question':
+          console.log('reset timer 30');
+          this.props.resetTimer(30);
+          break;
+        case 'match':
+        case 'chain':
+          console.log('reset timer 120');
+          this.props.resetTimer(120);
+          break;
+        default:
+          console.log('unknown game');
+      }
+    });
+  }
+
   async processAnswr(data) {
     const answer = JSON.parse(data);
     console.log('answer: ', answer);
     switch (answer.type) {
       case 'MPStartGameMessage':
-        console.log('Success start  multiplayer sessiong');
-        const tasks = answer.payload.tasks;
-        tasks.forEach((task) => {
-          task.data = JSON.parse(task.task).data;
-        });
-        this.setState({
-          isLoading: false,
-          tasks,
-        });
-        const task = tasks[0];
-        switch (task.type) {
-          case 'question':
-            console.log('reset timer 30');
-            this.props.resetTimer(30);
-            break;
-          case 'match':
-          case 'chain':
-            console.log('reset timer 120');
-            this.props.resetTimer(120);
-            break;
-          default:
-            console.log('unknown game');
-        }
-        await this.sendMsg(
-          JSON.stringify({
-            type: 'deliveryStatus',
-            payload: {
-              result: 'READY_TO_START_MP_GAME',
-            },
-          }),
-        );
-        this.setState((prevState) => {
-          const msgs = prevState.actions;
-          msgs.shift();
-          return { actions: msgs };
-        });
+        console.log('Success start  multiplayer session, msg: ', answer);
+        await this.onStartGame(answer.payload);
         return;
       case 'DeliveryStatus':
       case 'deliveryStatus':
@@ -255,35 +289,12 @@ class MultiplayerGame extends React.Component {
           case 'WAIT':
             console.log('waiting for another player');
             return;
-          // case 'MINI_GAME_COMPLETED':
-          //   console.log('game completed, payoad:', answer.payload);
-          //   this.setState((prevState) => {
-          //     let { currentTask } = prevState;
-          //     currentTask += 1;
-          //     if (currentTask < prevState.tasks.length) {
-          //       this.props.movePlayer(this.props.playerPosition + 1);
-          //       const { type } = prevState.tasks[currentTask];
-          //       switch (type) {
-          //         case 'question':
-          //           this.props.resetTimer(30);
-          //           break;
-          //         case 'match':
-          //         case 'chain':
-          //           this.props.resetTimer(120);
-          //           break;
-          //         default:
-          //           console.log('unknown game');
-          //       }
-          //     }
-          //     return { currentTask };
-          //   });
-          //   break;
           case 'OPPONENT_HAS_STEPPED':
             this.props.moveOpponent(this.props.opponentPosition + 1, answer.payload.data);
             break;
-          // case 'OPPONENT_HAS_WIN':
-          //   this.onLostGame();
-          //   break;
+          case 'OPPONENT_IS_READY':
+            this.startGame(answer.payload);
+            break;
           default:
             console.log('unknown message!');
             break;
