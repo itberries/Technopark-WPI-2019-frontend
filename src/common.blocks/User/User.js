@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Group, Avatar, Div } from '@vkontakte/vkui';
 import './User.scss';
 
+import coinsIcon from '../../images/icons/coins.svg';
+
 const User = ({ user }) => (
   <Group className="user">
     {typeof user.firstName !== 'undefined' ? (
@@ -11,8 +13,11 @@ const User = ({ user }) => (
           {user.photo ? <Avatar src={user.photo} /> : null}
         </div>
         <div className="user__item user_name">{`${user.firstName} ${user.lastName}`}</div>
-        <div className="user__item user_score_title">Очки:</div>
-        <div className="user__item user_score_value">{user.score}</div>
+        <div className="user__item user_score_title">Монетки:</div>
+        <div className="user__item user_score_value">
+          {user.score}
+          <img className="user_score_image" src={coinsIcon} alt="Монетки" />
+        </div>
         <div className="user__item user_level_title">Уровень:</div>
         <div className="user__item user_level_value">Basic</div>
       </Div>
