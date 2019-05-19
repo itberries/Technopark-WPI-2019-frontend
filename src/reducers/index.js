@@ -7,6 +7,7 @@ import subsectionReducer from './subsection';
 import wsReducer from './ws';
 import multiplayerReducer from './multiplayer';
 import leaderboardReducer from './leaderboard';
+import eventsReducer from './events';
 
 const rootReducer = combineReducers({
   vk: vkReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   ws: wsReducer,
   multiplayer: multiplayerReducer,
   leaderboard: leaderboardReducer,
+  events: eventsReducer,
 });
 
 export default rootReducer;
