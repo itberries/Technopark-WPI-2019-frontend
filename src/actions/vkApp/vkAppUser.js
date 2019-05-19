@@ -55,10 +55,17 @@ export function init(store) {
         break;
       case 'VKWebAppCallAPIMethodResult':
         console.log('VK VKWebAppCallAPIMethodResult data:', data);
-        store.dispatch({
-          type: types.LEADERBOARD_TOP_USERS_INFO_FETCHED,
-          payload: data.response,
-        });
+        if (data.request_id === 'getOpponentInfo') {
+          store.dispatch({
+            type: types.MULTIPLAYER_GET_OPPONENT_INFO,
+            payload: data.response,
+          });
+        } else if (data.request_id === 'getTopUsersInfo') {
+          store.dispatch({
+            type: types.LEADERBOARD_TOP_USERS_INFO_FETCHED,
+            payload: data.response,
+          });
+        }
         break;
       case 'VKWebAppCallAPIMethodFailed':
         store.dispatch({
