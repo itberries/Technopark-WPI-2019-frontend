@@ -110,6 +110,21 @@ class BackendAPIService {
     }
     */
   }
+
+  async getEvent(eventId) {
+    const res = await axios.get(`/events/${eventId}/`);
+    console.log('BackendAPIService: getEvent res: ', res);
+    return res.data;
+
+    // TODO: add error handling
+    /*
+    if (typeof error.response !== 'undefined' && error.response.status === 404) {
+      console.error('getSections not found!!!', error.response);
+    } else {
+      console.error('getSections error!!!', error.response);
+    }
+    */
+  }
 }
 
 const BackendAPI = types.DEBUG_API ? BackendAPIServiceMock : BackendAPIService;

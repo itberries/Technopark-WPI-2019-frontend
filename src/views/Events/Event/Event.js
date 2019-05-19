@@ -2,15 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Group, Header, Div, Button, Gallery,
+  Group, Header, Div, Button,
 } from '@vkontakte/vkui';
 
 import './Event.scss';
 
-const Event = () => (
+const Event = ({ eventId }) => (
   <>
     <Group className="event">
-      <Header>Открытая экскурсия в Mail.Ru Group</Header>
+      <Header>
+        Событие
+        {eventId}
+      </Header>
       <img
         className="event__image"
         src="https://corp.imgsmail.ru/media/images/ekskjuptpyy_uYura7f.jpg.640x400_q95_box-96,0,1827,1080_crop_detail.jpg"

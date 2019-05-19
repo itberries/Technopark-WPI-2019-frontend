@@ -16,11 +16,25 @@ export function fetchEvents() {
   };
 }
 
+export function selectEvent(eventId) {
+  return {
+    type: types.EVENTS_EVENT_SELECTED,
+    eventId,
+  };
+}
+
+export function unselectEvent() {
+  return {
+    type: types.EVENTS_EVENT_SELECTED,
+    eventId: undefined,
+  };
+}
+
 export function fetchEventById() {
   return async (dispatch, getState) => {
     try {
       const eventId = eventsSelectors.getSelectedEventId(getState());
-      const eventDetail = await backendAPIService.getSubsectionSteps(eventId);
+      const eventDetail = await backendAPIService.getEvent(eventId);
       dispatch({
         type: types.EVENTS_DETAIL_FETCHED,
         eventDetail,

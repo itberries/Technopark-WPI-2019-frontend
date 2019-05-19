@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import vkconnect from '@vkontakte/vkui-connect';
-
 import {
   ConfigProvider, View, Panel, PanelHeader,
 } from '@vkontakte/vkui';
+import VKConnect from '../../vkconnect';
 
 import Header from '../../common.blocks/Header/Header';
 import EventsList from './__List/EventsList';
@@ -16,7 +15,9 @@ import Event from './Event/Event';
 
 import SpinnerCentered from '../../common.blocks/SpinnerCentered/SpinnerCentered';
 
-import { fetchEvents, fetchEventById } from '../../actions/events';
+import {
+  fetchEvents, selectEvent, unselectEvent, fetchEventById,
+} from '../../actions/events';
 
 const mapStateToProps = (state) => {
   const { eventsList, selectedEventId, selectedEventDetail } = state.events;
@@ -30,6 +31,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     fetchEvents,
+    selectEvent,
+    unselectEvent,
     fetchEventById,
   },
   dispatch,
@@ -100,7 +103,9 @@ class Events extends React.Component {
       history.pop();
       const activePanel = history[history.length - 1][0];
       if (activePanel === 'events') {
-        vkconnect.send('VKWebAppDisableSwipeBack');
+        // VKConnect.send('VKWebAppDisableSwipeBack');
+      } else {
+        this.props.unselectEvent();
       }
       history = new Map(history);
       return { history, activePanel };
@@ -113,7 +118,7 @@ class Events extends React.Component {
       let history = [...prevState.history];
       history.push([activePanel, id]);
       if (prevState.activePanel === 'events') {
-        vkconnect.send('VKWebAppEnableSwipeBack');
+        // VKConnect.send('VKWebAppEnableSwipeBack');
       }
       history = new Map(history);
       return { history, activePanel };
@@ -140,13 +145,16 @@ class Events extends React.Component {
             <EventsList
               activeTab={this.state.activeTab}
               onSelectTab={this.onSelectTab}
-              onSelectEvent={this.goForward}
+              onSelectEvent={(eventId, e) => {
+                this.props.selectEvent(eventId);
+                this.goForward('event', eventId, e);
+              }}
               events={this.props.eventsList}
             />
           </Panel>
           <Panel id="event" key="event">
             <Header text="Событие" onBackClick={this.goBack} previousPanel="events" />
-            <Event />
+            <Event eventId={this.props.selectedEventId} />
           </Panel>
         </View>
       </ConfigProvider>

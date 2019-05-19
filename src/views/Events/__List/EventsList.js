@@ -23,7 +23,7 @@ class EventsList extends React.Component {
             expandable
             onClick={(e) => {
               console.log(onSelectEvent);
-              onSelectEvent('event', event.id, e);
+              onSelectEvent(event.id, e);
             }}
           >
             {event.title}
