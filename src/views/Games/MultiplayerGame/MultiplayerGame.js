@@ -415,7 +415,10 @@ class MultiplayerGame extends React.Component {
 
   render() {
     return this.state.isLoading ? (
-      <SpinnerCentered />
+      <>
+        <div className="multiplayerwait">Поиск оппонента...</div>
+        <SpinnerCentered />
+      </>
     ) : (
       <div className="multiplayergame">
         <Map
