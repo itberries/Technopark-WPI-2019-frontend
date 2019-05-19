@@ -4,21 +4,37 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import vkconnect from '@vkontakte/vkui-connect';
-
 import {
   ConfigProvider, View, Panel, PanelHeader,
 } from '@vkontakte/vkui';
+import VKConnect from '../../vkconnect';
 
 import Header from '../../common.blocks/Header/Header';
 import EventsList from './__List/EventsList';
 import Event from './Event/Event';
 
-// const { eventsList } = state.events;
-const mapStateToProps = state => ({
-  // eventsList,
-});
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+import {
+  fetchEvents, selectEvent, unselectEvent, fetchEventById,
+} from '../../actions/events';
+
+const mapStateToProps = (state) => {
+  const { eventsList, selectedEventId, selectedEventDetail } = state.events;
+  return {
+    eventsList,
+    selectedEventId,
+    selectedEventDetail,
+  };
+};
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    fetchEvents,
+    selectEvent,
+    unselectEvent,
+    fetchEventById,
+  },
+  dispatch,
+);
 
 class Events extends React.Component {
   constructor(props) {
@@ -26,7 +42,7 @@ class Events extends React.Component {
     const historyMap = new Map();
     historyMap.set('events', 1);
     this.state = {
-      // isLoading: false,
+      isLoading: false,
       activeTab: 'all',
       activePanel: 'events',
       history: historyMap,
@@ -44,11 +60,30 @@ class Events extends React.Component {
       window.scrollTo(0, 0);
     }
 
-    // TODO: load events using api
+    if (typeof this.props.eventsList === 'undefined') {
+      this.setState({
+        isLoading: true,
+      });
+      await this.props.fetchEvents();
+    }
   }
 
   componentWillUnmount() {
     localStorage.setItem('scroll', window.scrollY);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (
+      prevState.isLoading === true
+      && typeof nextProps.eventsList !== 'undefined'
+      && prevState.eventsList !== nextProps.eventsList
+    ) {
+      return {
+        ...prevState,
+        isLoading: false,
+      };
+    }
+    return null;
   }
 
   /**
@@ -66,7 +101,9 @@ class Events extends React.Component {
       history.pop();
       const activePanel = history[history.length - 1][0];
       if (activePanel === 'events') {
-        vkconnect.send('VKWebAppDisableSwipeBack');
+        // VKConnect.send('VKWebAppDisableSwipeBack');
+      } else {
+        this.props.unselectEvent();
       }
       history = new Map(history);
       return { history, activePanel };
@@ -79,7 +116,7 @@ class Events extends React.Component {
       let history = [...prevState.history];
       history.push([activePanel, id]);
       if (prevState.activePanel === 'events') {
-        vkconnect.send('VKWebAppEnableSwipeBack');
+        // VKConnect.send('VKWebAppEnableSwipeBack');
       }
       history = new Map(history);
       return { history, activePanel };
@@ -91,6 +128,7 @@ class Events extends React.Component {
   }
 
   render() {
+    console.log('EVENTS render state, props:', this.state, this.props);
     return (
       <ConfigProvider isWebView>
         <View
@@ -105,12 +143,16 @@ class Events extends React.Component {
             <EventsList
               activeTab={this.state.activeTab}
               onSelectTab={this.onSelectTab}
-              onSelectEvent={this.goForward}
+              onSelectEvent={(eventId, e) => {
+                this.props.selectEvent(eventId);
+                this.goForward('event', eventId, e);
+              }}
+              events={this.props.eventsList}
             />
           </Panel>
           <Panel id="event" key="event">
             <Header text="Событие" onBackClick={this.goBack} previousPanel="events" />
-            <Event />
+            <Event id={this.props.selectedEventId} key={this.props.selectedEventId} />
           </Panel>
         </View>
       </ConfigProvider>
