@@ -30,6 +30,7 @@ import Question from '../../Workflow/Steps/Step/types/__Interactive/MiniGames/In
 import './MultiplayerGame.scss';
 
 import cupImage from '../../../images/icons/cup.svg';
+import escapeImage from '../../../images/icons/escape.svg';
 import sadSmileImage from '../../../images/icons/sad_smile.svg';
 import handshakeImage from '../../../images/icons/handshake.svg';
 
@@ -172,6 +173,22 @@ class MultiplayerGame extends React.Component {
       imageWidth: 150,
       imageHeight: 150,
       imageAlt: 'Кубок',
+      onClose: () => {
+        this.onExitMultiplayerGame();
+      },
+    });
+  }
+
+  onWonGameBecauseOfLeft(result) {
+    Popup.fire({
+      title: 'Противник сбежал!',
+      text: `Ваш противник стремительно покинул космо-гонку. Вы заработали ${result} монет! `,
+      confirmButtonColor: '#41046F',
+      confirmButtonText: 'Завершить игру',
+      imageUrl: escapeImage,
+      imageWidth: 150,
+      imageHeight: 150,
+      imageAlt: 'Побег',
       onClose: () => {
         this.onExitMultiplayerGame();
       },
@@ -342,7 +359,11 @@ class MultiplayerGame extends React.Component {
           this.setState({ finished: true });
           switch (answer.payload.gameStatus) {
             case 'win':
-              this.onWonGame(answer.payload.coins);
+              if (answer.payload.note === 'opponnet_has_left') {
+                this.onWonGameBecauseOfLeft(answer.payload.coins);
+              } else {
+                this.onWonGame(answer.payload.coins);
+              }
               break;
             case 'lose':
               this.onLostGame();
