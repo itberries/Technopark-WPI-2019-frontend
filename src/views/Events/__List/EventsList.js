@@ -54,7 +54,11 @@ class EventsList extends React.Component {
               </TabsItem>
             </HorizontalScroll>
           </Tabs>
-          <List>{eventsItemsList}</List>
+          {activeTab === 'all' ? (
+            <List>{eventsItemsList}</List>
+          ) : (
+            <Div style={{ color: 'gray' }}>Скоро появится в IT-галактике...</Div>
+          )}
         </Group>
       </Div>
     );
