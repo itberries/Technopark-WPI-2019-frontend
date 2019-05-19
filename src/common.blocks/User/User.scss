@@ -37,6 +37,15 @@
 .user_score_value {
   grid-row: 2;
   grid-column: 3;
+  align-self: center;
+  justify-self: center;
+}
+
+.user_score_image {
+  width: 20px;
+  height: 20px;
+  margin: auto;
+  margin-left: 10px;
 }
 
 .user_level_title {
@@ -49,4 +58,7 @@
 .user_level_value {
   grid-row: 3;
   grid-column: 3;
+  margin-right: 10px;
+  align-self: center;
+  justify-self: center;
 }
