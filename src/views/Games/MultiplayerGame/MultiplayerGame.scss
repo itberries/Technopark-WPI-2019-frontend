@@ -6,7 +6,7 @@
 
   text-align: center;
   color: var(--accent);
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: var(--game-font);
   font-size: 2em;
 
   @keyframes multiplayerwait__text_anim {

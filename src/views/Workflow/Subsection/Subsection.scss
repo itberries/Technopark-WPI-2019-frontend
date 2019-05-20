@@ -6,7 +6,10 @@ $subsection-height: calc( 100vh - 92px );
   margin: 0;
   min-height: $subsection-height;
   max-height: auto;
+
   background-color: $primary-subsection-color;
+
+  font-family: var(--game-font);
 }
 
 .subsection__container {
