@@ -22,9 +22,9 @@ import SpinnerCentered from '../../common.blocks/SpinnerCentered/SpinnerCentered
 import { fetchTopUsers } from '../../actions/leaderboard';
 
 const mapStateToProps = (state) => {
-  const { topUserScoresList, topUsersInfoList } = state.leaderboard;
+  const { topUsersScoresList, topUsersInfoList } = state.leaderboard;
   return {
-    topUserScoresList,
+    topUsersScoresList,
     topUsersInfoList,
   };
 };
@@ -62,7 +62,7 @@ class Leaderboard extends React.Component {
     console.log('LB SHOULD UPDATE?', nextProps, nextState);
     console.log('LB SHOULD UPDATE current', this.props, this.state);
 
-    if (this.state.isLoading === true && typeof nextProps.topUserInfoList !== 'undefined') {
+    if (this.state.isLoading === true && typeof nextProps.topUsersInfoList !== 'undefined') {
       console.log('LB onOpponentInfoReceived');
       this.onOpponentInfoReceived();
       this.setState({ isLoading: false });
