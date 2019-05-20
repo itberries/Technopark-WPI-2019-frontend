@@ -93,7 +93,7 @@ class MultiplayerGame extends React.Component {
     console.log('MP SHOULD UPDATE?', nextProps, nextState);
 
     if (
-      typeof this.props.opponentInfo !== 'undefined'
+      typeof nextProps.opponentInfo !== 'undefined'
       && this.state.isSentMsgReadyToStart === false
     ) {
       console.log('MP onOpponentInfoReceived');
