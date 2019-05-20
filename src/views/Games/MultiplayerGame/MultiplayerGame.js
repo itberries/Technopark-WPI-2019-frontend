@@ -237,7 +237,7 @@ class MultiplayerGame extends React.Component {
       tasks,
       opponentId: id,
     });
-    // this.props.fetchOpponentInfo(answer.payload.id);
+    this.props.fetchOpponentInfo(payload.id);
     // TODO: реализовать отправку READY_TO_START_MP_GAME после того, как получу инфо об оппоненте
     await this.sendMsg(
       JSON.stringify({
