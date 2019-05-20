@@ -8,6 +8,7 @@ const initialState = Immutable({
   timerNeedReset: false,
   playerTurns: [],
   opponentTurns: [],
+  opponentInfo: undefined,
 });
 
 export default function reduce(state = initialState, action) {
@@ -63,6 +64,12 @@ export default function reduce(state = initialState, action) {
       return Immutable.merge({
         ...state,
         opponentInfo: action.payload,
+      });
+    case types.MULTIPLAYER_CLEAR_OPPONENT_INFO:
+      console.log('action MULTIPLAYER_CLEAR_OPPONENT_INFO', action);
+      return Immutable.merge({
+        ...state,
+        opponentInfo: undefined,
       });
     default:
       return state;

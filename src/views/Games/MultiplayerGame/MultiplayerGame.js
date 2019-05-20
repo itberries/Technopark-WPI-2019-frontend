@@ -14,6 +14,7 @@ import {
   clearGameData,
   rightTurn,
   fetchOpponentInfo,
+  clearOpponentInfo,
 } from '../../../actions/multiplayer';
 
 import { websocketOpen, websocketOnMessage, websocketClose } from '../../../actions/ws';
@@ -36,8 +37,13 @@ import handshakeImage from '../../../images/icons/handshake.svg';
 
 const mapStateToProps = (state) => {
   const { socket } = state.ws;
-  const { playerPosition, opponentPosition } = state.multiplayer;
-  return { socket, playerPosition, opponentPosition };
+  const { playerPosition, opponentPosition, opponentInfo } = state.multiplayer;
+  return {
+    socket,
+    playerPosition,
+    opponentPosition,
+    opponentInfo,
+  };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(
@@ -46,6 +52,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     moveOpponent,
     resetTimer,
     fetchOpponentInfo,
+    clearOpponentInfo,
 
     websocketOpen,
     websocketClose,
@@ -64,7 +71,7 @@ class MultiplayerGame extends React.Component {
       socketReadyToSend: false,
       actions: [],
       isLoading: true,
-      opponentId: undefined,
+      isSentMsgReadyToStart: false,
       tasks: [],
       currentTask: 0,
       finished: false,
@@ -84,6 +91,18 @@ class MultiplayerGame extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    console.log('MP SHOULD UPDATE?', nextProps, nextState);
+
+    if (
+      typeof nextProps.opponentInfo !== 'undefined'
+      && this.state.isSentMsgReadyToStart === false
+    ) {
+      console.log('MP onOpponentInfoReceived');
+      this.onOpponentInfoReceived();
+      this.setState({ isSentMsgReadyToStart: true });
+      console.log('MP isSentMsgReadyToStart set true');
+    }
+
     console.log('this.state.socketNotSet: ', this.state.socketNotSet);
     if (nextProps.socket !== null && nextProps.gameType !== null) {
       if (this.state.socketNotSet) {
@@ -136,6 +155,7 @@ class MultiplayerGame extends React.Component {
   }
 
   componentDidUpdate() {
+    console.log('MP DID UPDATE');
     if (this.state.socketReadyToSend) {
       console.log('start send msgs!');
       this.sendMsg(
@@ -151,14 +171,33 @@ class MultiplayerGame extends React.Component {
     this.onExitMultiplayerGame();
   }
 
+  async onOpponentInfoReceived() {
+    console.log('MP OPPONENT INFO UPDATE');
+    await this.sendMsg(
+      JSON.stringify({
+        type: 'deliveryStatus',
+        payload: {
+          result: 'READY_TO_START_MP_GAME',
+        },
+      }),
+    );
+    this.setState((prevState) => {
+      const msgs = prevState.actions;
+      msgs.shift();
+      return { actions: msgs };
+    });
+  }
+
   onExitMultiplayerGame() {
     if (this.props.socket !== null) {
       this.props.socket.close();
     }
     if (typeof this.props.onEndGame === 'function') {
-      console.log('MG Unmount END GAME');
+      console.log('MP Unmount END GAME');
       this.props.onEndGame();
     }
+    this.setState({ isSentMsgReadyToStart: false });
+    this.props.clearOpponentInfo();
     this.props.clearGameData();
     this.unblock();
   }
@@ -235,31 +274,21 @@ class MultiplayerGame extends React.Component {
     });
     this.setState({
       tasks,
-      opponentId: id,
     });
-    // this.props.fetchOpponentInfo(answer.payload.id);
-    // TODO: реализовать отправку READY_TO_START_MP_GAME после того, как получу инфо об оппоненте
-    await this.sendMsg(
-      JSON.stringify({
-        type: 'deliveryStatus',
-        payload: {
-          result: 'READY_TO_START_MP_GAME',
-        },
-      }),
-    );
-    this.setState((prevState) => {
-      const msgs = prevState.actions;
-      msgs.shift();
-      return { actions: msgs };
-    });
+    this.props.fetchOpponentInfo(payload.id);
   }
 
   onOpponentReady() {
+    console.log('MP OPP READY props:', this.props);
     return Popup.fire({
       title: 'Противник найден!',
-      text: `Вы играете против пользователя с id ${this.state.opponentId}.`,
+      text: `Вы играете против пользователя ${this.props.opponentInfo.first_name}`,
       confirmButtonColor: '#41046F',
       confirmButtonText: 'Начать игру!',
+      imageUrl: this.props.opponentInfo.photo_100,
+      imageWidth: 150,
+      imageHeight: 150,
+      imageAlt: 'Аватар пользователя',
       timer: 2000,
       onBeforeOpen: () => {
         Popup.showLoading();

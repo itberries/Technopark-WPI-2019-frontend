@@ -47,3 +47,4 @@ export const TIMER_WAS_RESET = 'multiplayer.TIMER_WAS_RESET';
 export const CLEAR_DATA = 'multiplayer.CLEAR_DATA';
 export const PLAYER_RIGHT_TURN = 'multiplayer.PLAYER_RIGHT_TURN';
 export const MULTIPLAYER_GET_OPPONENT_INFO = 'multiplayer.MULTIPLAYER_GET_OPPONENT_INFO';
+export const MULTIPLAYER_CLEAR_OPPONENT_INFO = 'multiplayer.MULTIPLAYER_CLEAR_OPPONENT_INFO';

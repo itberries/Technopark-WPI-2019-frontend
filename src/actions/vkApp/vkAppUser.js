@@ -58,7 +58,7 @@ export function init(store) {
         if (data.request_id === 'getOpponentInfo') {
           store.dispatch({
             type: types.MULTIPLAYER_GET_OPPONENT_INFO,
-            payload: data.response,
+            payload: data.response[0],
           });
         } else if (data.request_id === 'getTopUsersInfo') {
           store.dispatch({

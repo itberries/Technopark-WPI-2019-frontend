@@ -70,6 +70,7 @@ export function fetchOpponentInfo(userId) {
         method: 'users.get',
         params: {
           user_ids: `${userId}`,
+          fields: 'photo_100',
           v: '5.95',
           access_token: authToken,
         },
@@ -78,5 +79,14 @@ export function fetchOpponentInfo(userId) {
     } catch (error) {
       console.error(error);
     }
+  };
+}
+
+export function clearOpponentInfo() {
+  console.log('action clearOpponentInfo ', types.MULTIPLAYER_CLEAR_OPPONENT_INFO);
+  return async (dispatch) => {
+    dispatch({
+      type: types.MULTIPLAYER_CLEAR_OPPONENT_INFO,
+    });
   };
 }
