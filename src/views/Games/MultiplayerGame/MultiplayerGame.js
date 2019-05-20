@@ -274,30 +274,18 @@ class MultiplayerGame extends React.Component {
       opponentId: id,
     });
     this.props.fetchOpponentInfo(payload.id);
-    // TODO: реализовать отправку READY_TO_START_MP_GAME после того, как получу инфо об оппоненте
-    /*
-    await this.sendMsg(
-      JSON.stringify({
-        type: 'deliveryStatus',
-        payload: {
-          result: 'READY_TO_START_MP_GAME',
-        },
-      }),
-    );
-    this.setState((prevState) => {
-      const msgs = prevState.actions;
-      msgs.shift();
-      return { actions: msgs };
-    });
-    */
   }
 
   onOpponentReady() {
     return Popup.fire({
       title: 'Противник найден!',
-      text: `Вы играете против пользователя с id ${this.state.opponentId}.`,
+      text: `Вы играете против пользователя ${this.props.opponentInfo.first_name}`,
       confirmButtonColor: '#41046F',
       confirmButtonText: 'Начать игру!',
+      imageUrl: this.props.opponentInfo.photo_100,
+      imageWidth: 150,
+      imageHeight: 150,
+      imageAlt: 'Аватар пользователя',
       timer: 2000,
       onBeforeOpen: () => {
         Popup.showLoading();

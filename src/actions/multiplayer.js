@@ -70,6 +70,7 @@ export function fetchOpponentInfo(userId) {
         method: 'users.get',
         params: {
           user_ids: `${userId}`,
+          fields: 'photo_100',
           v: '5.95',
           access_token: authToken,
         },
