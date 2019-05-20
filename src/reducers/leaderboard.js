@@ -4,6 +4,8 @@ import * as types from '../constants/actionTypes';
 const initialState = Immutable({
   topUsersScoresList: undefined,
   topUsersInfoList: undefined,
+  topFriendsUsersScoresList: undefined,
+  topFriendsUsersInfoList: undefined,
 });
 
 export default function reduce(state = initialState, action = {}) {
@@ -19,6 +21,18 @@ export default function reduce(state = initialState, action = {}) {
       return Immutable.merge({
         ...state,
         topUsersInfoList: action.payload,
+      });
+    case types.LEADERBOARD_TOP_FRIENDS_USERS_SCORES_FETCHED:
+      console.log('action LEADERBOARD_TOP_FRIENDS_USERS_SCORES_FETCHED', action);
+      return Immutable.merge({
+        ...state,
+        topFriendsUsersScoresList: action.topFriendsUsersArray,
+      });
+    case types.LEADERBOARD_TOP_FRIENDS_USERS_INFO_FETCHED:
+      console.log('action LEADERBOARD_TOP_FRIENDS_USERS_INFO_FETCHED', action);
+      return Immutable.merge({
+        ...state,
+        topFriendsUsersInfoList: action.payload,
       });
     default:
       return state;

@@ -19,19 +19,27 @@ import {
 
 import SpinnerCentered from '../../common.blocks/SpinnerCentered/SpinnerCentered';
 
-import { fetchTopUsers } from '../../actions/leaderboard';
+import { fetchTopUsers, fetchTopFriendsUsers } from '../../actions/leaderboard';
 
 const mapStateToProps = (state) => {
-  const { topUsersScoresList, topUsersInfoList } = state.leaderboard;
+  const {
+    topUsersScoresList,
+    topUsersInfoList,
+    topFriendsScoresList,
+    topFriendsInfoList,
+  } = state.leaderboard;
   return {
     topUsersScoresList,
     topUsersInfoList,
+    topFriendsScoresList,
+    topFriendsInfoList,
   };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     fetchTopUsers,
+    fetchTopFriendsUsers,
   },
   dispatch,
 );
@@ -55,6 +63,7 @@ class Leaderboard extends React.Component {
 
     console.log('LB DID MOUNT BEFORE FETCH TOP');
     await this.props.fetchTopUsers();
+    await this.props.fetchTopFriendsUsers();
     console.log('LB DID MOUNT AFTER FETCH TOP');
   }
 
@@ -62,7 +71,11 @@ class Leaderboard extends React.Component {
     console.log('LB SHOULD UPDATE?', nextProps, nextState);
     console.log('LB SHOULD UPDATE current', this.props, this.state);
 
-    if (this.state.isLoading === true && typeof nextProps.topUsersInfoList !== 'undefined') {
+    if (
+      this.state.isLoading === true
+      && typeof nextProps.topUsersInfoList !== 'undefined'
+      && typeof nextProps.topFriendsInfoList !== 'undefined'
+    ) {
       this.setState({ isLoading: false });
       console.log('LB isLoading set false');
       return true;
@@ -74,24 +87,20 @@ class Leaderboard extends React.Component {
     localStorage.setItem('scroll', window.scrollY);
   }
 
-  generateLeaderboardCells() {
-    const { topUsersScoresList, topUsersInfoList } = this.props;
+  generateLeaderboardCells(topScoresList, topInfoList) {
     console.log('LB Cells generate props:', this.props);
 
     let resultItems = [];
     if (
-      Array.isArray(topUsersScoresList)
-      && Array.isArray(topUsersInfoList)
-      && topUsersScoresList.length === topUsersInfoList.length
+      Array.isArray(topScoresList)
+      && Array.isArray(topInfoList)
+      && topScoresList.length === topInfoList.length
     ) {
-      resultItems = topUsersScoresList.reduce((items, topUser, index) => {
+      resultItems = topScoresList.reduce((items, topUser, index) => {
         console.log('LB Cells generate items, topUser, index:', items, topUser, index);
-        const name = `${topUsersInfoList[index].first_name} ${topUsersInfoList[index].last_name}`;
+        const name = `${topInfoList[index].first_name} ${topInfoList[index].last_name}`;
         items.push(
-          <Cell
-            before={<Avatar src={topUsersInfoList[index].photo_100} />}
-            indicator={topUser.score}
-          >
+          <Cell before={<Avatar src={topInfoList[index].photo_100} />} indicator={topUser.score}>
             {name}
           </Cell>,
         );
@@ -104,28 +113,12 @@ class Leaderboard extends React.Component {
 
   generateLeaderboard() {
     console.log('LB generateLeaderboard');
-    return this.state.activeTab === 'top' ? (
-      <List>{this.generateLeaderboardCells()}</List>
-    ) : (
-      <List>
-        <Cell
-          before={
-            <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-          }
-          indicator="1000"
-        >
-          Евгений Авсиевич
-        </Cell>
-        <Cell
-          before={
-            <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-          }
-          indicator="900"
-        >
-          Татьяна Плуталова
-        </Cell>
-      </List>
-    );
+    if (this.state.activeTab === 'friends') {
+      const { topFriendsScoresList, topFriendsInfoList } = this.props;
+      return <List>{this.generateLeaderboardCells(topFriendsScoresList, topFriendsInfoList)}</List>;
+    }
+    const { topUsersScoresList, topUsersInfoList } = this.props;
+    return <List>{this.generateLeaderboardCells(topUsersScoresList, topUsersInfoList)}</List>;
   }
 
   render() {
@@ -168,6 +161,7 @@ class Leaderboard extends React.Component {
 Leaderboard.propTypes = {
   id: PropTypes.string.isRequired,
   fetchTopUsers: PropTypes.func.isRequired,
+  fetchTopFriendsUsers: PropTypes.func.isRequired,
 };
 
 export default connect(

@@ -65,6 +65,11 @@ export function init(store) {
             type: types.LEADERBOARD_TOP_USERS_INFO_FETCHED,
             payload: data.response,
           });
+        } else if (data.request_id === 'getTopFriendsUsersInfo') {
+          store.dispatch({
+            type: types.LEADERBOARD_TOP_FRIENDS_USERS_INFO_FETCHED,
+            payload: data.response,
+          });
         }
         break;
       case 'VKWebAppCallAPIMethodFailed':

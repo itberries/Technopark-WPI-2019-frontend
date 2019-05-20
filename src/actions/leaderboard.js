@@ -36,3 +36,40 @@ export function fetchTopUsers() {
     }
   };
 }
+
+export function fetchTopFriendsUsers() {
+  return async (dispatch, getState) => {
+    try {
+      const user = userSelectors.getUser(getState());
+      const authToken = vkUserSelectors.getVkUserAuthToken(getState());
+      console.log('LEADERBOARD fetchTopFriendsUsers user, authToken: ', user, authToken);
+      const topFriendsUsersArray = await backendAPIService.getTopFriendsUsers(user.id);
+      const topFriendsUsersIds = topFriendsUsersArray.reduce(
+        (acc, cur) => (acc ? `${acc},${cur.id}` : `${cur.id}`),
+        '',
+      );
+      console.log(
+        'LEADERBOARD topFriendsUsersArray, topFriendsUsersIds: ',
+        topFriendsUsersArray,
+        topFriendsUsersIds,
+      );
+      dispatch({
+        type: types.LEADERBOARD_TOP_FRIENDS_USERS_SCORES_FETCHED,
+        topFriendsUsersArray,
+      });
+      VKConnect.send('VKWebAppCallAPIMethod', {
+        method: 'users.get',
+        params: {
+          user_ids: topFriendsUsersIds,
+          fields: 'photo_100',
+          v: '5.95',
+          access_token: authToken,
+        },
+        request_id: 'getTopFriendsUsersInfo',
+      });
+    } catch (error) {
+      console.log('FETCH TOP FRIENDS CATCH');
+      console.error(error);
+    }
+  };
+}
