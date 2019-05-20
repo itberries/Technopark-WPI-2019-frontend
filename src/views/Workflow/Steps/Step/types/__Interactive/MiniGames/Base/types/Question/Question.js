@@ -31,13 +31,15 @@ class Question extends React.Component {
   }
 
   onFrameClick(id) {
-    console.log('onFrameClick: ', id);
-    this.setState((prevState) => {
-      let { selectedFrameId } = prevState;
-      selectedFrameId = id;
-      console.log('selectedFrameId: ', selectedFrameId);
-      return { selectedFrameId, choosed: true };
-    });
+    if (!this.state.wrong) {
+      console.log('onFrameClick: ', id);
+      this.setState((prevState) => {
+        let { selectedFrameId } = prevState;
+        selectedFrameId = id;
+        console.log('selectedFrameId: ', selectedFrameId);
+        return { selectedFrameId, choosed: true };
+      });
+    }
   }
 
   checkQuestion() {

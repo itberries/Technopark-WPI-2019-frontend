@@ -8,8 +8,8 @@ class Match extends React.Component {
     super(props);
     console.log('Match state: ', this.state);
     this.state = {
-      secondFrames: new Map(),
       frames: new Map(),
+      secondFrames: new Map(),
       activeFrames: [],
       selectedFrames: new Map(),
       answer: null,
@@ -40,19 +40,24 @@ class Match extends React.Component {
   onFrameClick(id) {
     this.setState((prevState) => {
       const { activeFrames, selectedFrames } = prevState;
-      activeFrames.push(id);
-      selectedFrames.set(id, prevState.frames.get(id));
-      console.log('activeFrames: ', activeFrames);
-      if (activeFrames.length === 2) {
-        console.log('prepeare for sending');
-        const { framesOnCheck } = prevState;
-        const sendingFrames = [activeFrames.shift(), activeFrames.shift()];
-        framesOnCheck.push(sendingFrames);
-        this.sendFrames([
-          prevState.frames.get(sendingFrames[0]),
-          prevState.frames.get(sendingFrames[1]),
-        ]);
-        return { activeFrames, framesOnCheck, selectedFrames };
+      if (selectedFrames.has(id)) {
+        selectedFrames.delete(id);
+        activeFrames.shift();
+      } else {
+        activeFrames.push(id);
+        selectedFrames.set(id, prevState.frames.get(id));
+        console.log('activeFrames: ', activeFrames);
+        if (activeFrames.length === 2) {
+          console.log('prepeare for sending');
+          const { framesOnCheck } = prevState;
+          const sendingFrames = [activeFrames.shift(), activeFrames.shift()];
+          framesOnCheck.push(sendingFrames);
+          this.sendFrames([
+            prevState.frames.get(sendingFrames[0]),
+            prevState.frames.get(sendingFrames[1]),
+          ]);
+          return { activeFrames, framesOnCheck, selectedFrames };
+        }
       }
       return { activeFrames, selectedFrames };
     });
@@ -123,7 +128,7 @@ class Match extends React.Component {
         onFrameClick={this.onFrameClick}
         value={frame}
         isActive={this.state.selectedFrames.has(id)}
-        isSecond={this.state.secondFrames.has(frame)}
+        isSecond={this.state.secondFrames.has(id)}
         isWrong={isWrongFrame}
         onWrongAnimationEnds={isWrongFrame && this.removeFromWrongFrames}
       />
@@ -132,6 +137,7 @@ class Match extends React.Component {
   }
 
   render() {
+    console.log('this.state.secondFrames: ', this.state.secondFrames);
     const newFrames = [];
     this.state.rightFrames.forEach((frame) => {
       newFrames.push(<Frame onFrameClick={this.onFrameClick} value={frame} isRight />);

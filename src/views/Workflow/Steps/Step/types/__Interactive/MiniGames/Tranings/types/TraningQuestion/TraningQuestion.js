@@ -17,6 +17,7 @@ class TraningQuestion extends Question {
   onFrameClick(id) {
     if (id === 1) {
       super.onFrameClick(id);
+      this.rightAnswer();
       this.props.onComplete();
     }
     this.tipSwitch();
@@ -38,20 +39,22 @@ class TraningQuestion extends Question {
         frames.push(
           <Frame
             // TODO: fix this dirty hack
-            key={`selectedFrame_${id}_${new Date().getTime()}`}
+            key={`selectedFrame_${id}}`}
             id={id}
             onFrameClick={this.onFrameClick}
             value={frame}
             isSecond
-            isActive
-            isRight={this.props.completed}
+            isRight={this.state.completed}
+            isActive={!this.state.wrong}
+            isWrong={this.state.wrong}
+            onWrongAnimationEnds={this.removeFromWrongFrames}
           />,
         );
       } else {
         frames.push(
           <Frame
             // TODO: fix this dirty hack
-            key={`frame_${id}_${new Date().getTime()}`}
+            key={`frame_${id}}`}
             id={id}
             onFrameClick={this.onFrameClick}
             value={frame}

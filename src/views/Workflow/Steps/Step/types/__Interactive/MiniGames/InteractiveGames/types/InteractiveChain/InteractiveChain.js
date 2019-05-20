@@ -20,12 +20,13 @@ class InteractiveChain extends Chain {
     super.shouldComponentUpdate(nextProps, nextState);
     if (nextProps.answer !== null) {
       await this.props.answerReceived();
-      nextState.notSend = true;
+      this.state.notSend = true;
     }
     return true;
   }
 
   componentDidUpdate() {
+    console.log('this.state.notSend: ', this.state.notSend);
     if (this.state.notSend) {
       super.componentDidUpdate();
     }

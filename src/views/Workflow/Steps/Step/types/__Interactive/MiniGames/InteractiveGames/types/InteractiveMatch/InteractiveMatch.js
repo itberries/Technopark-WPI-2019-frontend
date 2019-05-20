@@ -8,23 +8,17 @@ class InteractiveMatch extends Match {
     super(props);
 
     const cardForMatch = props.gameData;
-    let frames = [];
+    let frames = new Map();
     const secondFrames = new Map();
-    cardForMatch.forEach((element) => {
-      frames.push(Object.keys(element)[0]);
-      frames.push(element[Object.keys(element)[0]]);
-      secondFrames.set(element[Object.keys(element)[0]]);
+    cardForMatch.forEach((element, id) => {
+      frames.set(id * 2, Object.keys(element)[0]);
+      frames.set(id * 2 + 1, element[Object.keys(element)[0]]);
+      secondFrames.set(id * 2 + 1, element[Object.keys(element)[0]]);
     });
 
-    frames = frames.sort(() => Math.random() - 0.5);
-
-    const stateFrames = new Map();
-    frames.forEach((element, index) => {
-      stateFrames.set(index, element);
-    });
-
-    console.log('InteractiveMatch state: ', this.state);
-    this.state.frames = stateFrames;
+    frames = new Map([...frames.entries()].sort(() => Math.random() - 0.5));
+    console.log('frames: ', frames);
+    this.state.frames = frames;
     this.state.secondFrames = secondFrames;
   }
 

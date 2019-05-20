@@ -12,8 +12,8 @@ class TraningMatch extends Match {
     stateFrames.set(4, 'информационный вес символа');
 
     const secondFrames = new Map();
-    secondFrames.set('мощность алфавита');
-    secondFrames.set('информационный вес символа');
+    secondFrames.set(2);
+    secondFrames.set(4);
 
     this.state.frames = stateFrames;
     this.state.secondFrames = secondFrames;
@@ -31,7 +31,7 @@ class TraningMatch extends Match {
         onFrameClick={this.onFrameClick}
         value={frame}
         isActive={!!this.state.selectedFrames.has(id)}
-        isSecond={this.state.secondFrames.has(frame)}
+        isSecond={this.state.secondFrames.has(id)}
         tip={id === this.state.currentFrame && this.state.showTip}
         tipText="Нажми меня!"
         onTipClick={this.onTipClick}
