@@ -74,35 +74,38 @@ class Leaderboard extends React.Component {
     localStorage.setItem('scroll', window.scrollY);
   }
 
+  generateLeaderboardCells() {
+    const { topUsersScoresList, topUsersInfoList } = this.props;
+    console.log('LB Cells generate props:', this.props);
+
+    let resultItems = [];
+    if (
+      Array.isArray(topUsersScoresList)
+      && Array.isArray(topUsersInfoList)
+      && topUsersScoresList.length === topUsersInfoList.length
+    ) {
+      resultItems = topUsersScoresList.reduce((items, topUser, index) => {
+        console.log('LB Cells generate items, topUser, index:', items, topUser, index);
+        const name = `${topUsersInfoList[index].first_name} ${topUsersInfoList[index].last_name}`;
+        items.push(
+          <Cell
+            before={<Avatar src={topUsersInfoList[index].photo_100} />}
+            indicator={topUser.score}
+          >
+            {name}
+          </Cell>,
+        );
+        return items;
+      }, resultItems);
+    }
+    console.log('LB Cells generate before return items: ', resultItems);
+    return resultItems;
+  }
+
   generateLeaderboard() {
     console.log('LB generateLeaderboard');
     return this.state.activeTab === 'top' ? (
-      <List>
-        <Cell
-          before={
-            <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-          }
-          indicator="100500"
-        >
-          Евгений Авсиевич
-        </Cell>
-        <Cell
-          before={
-            <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-          }
-          indicator="100300"
-        >
-          Татьяна Плуталова
-        </Cell>
-        <Cell
-          before={
-            <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
-          }
-          indicator="100000"
-        >
-          Олег Илларианов
-        </Cell>
-      </List>
+      <List>{this.generateLeaderboardCells()}</List>
     ) : (
       <List>
         <Cell
