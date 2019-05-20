@@ -25,14 +25,14 @@ const mapStateToProps = (state) => {
   const {
     topUsersScoresList,
     topUsersInfoList,
-    topFriendsScoresList,
-    topFriendsInfoList,
+    topFriendsUsersScoresList,
+    topFriendsUsersInfoList,
   } = state.leaderboard;
   return {
     topUsersScoresList,
     topUsersInfoList,
-    topFriendsScoresList,
-    topFriendsInfoList,
+    topFriendsUsersScoresList,
+    topFriendsUsersInfoList,
   };
 };
 
@@ -48,7 +48,8 @@ class Leaderboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
+      isLoadingTop: true,
+      isLoadingFriends: true,
       activeTab: 'top',
     };
   }
@@ -71,15 +72,21 @@ class Leaderboard extends React.Component {
     console.log('LB SHOULD UPDATE?', nextProps, nextState);
     console.log('LB SHOULD UPDATE current', this.props, this.state);
 
-    if (
-      this.state.isLoading === true
-      && typeof nextProps.topUsersInfoList !== 'undefined'
-      && typeof nextProps.topFriendsInfoList !== 'undefined'
-    ) {
-      this.setState({ isLoading: false });
-      console.log('LB isLoading set false');
+    if (this.state.isLoadingTop === true && typeof nextProps.topUsersInfoList !== 'undefined') {
+      this.setState({ isLoadingTop: false });
+      console.log('LB isLoadingTop set false');
       return true;
     }
+
+    if (
+      this.state.isLoadingFriends === true
+      && typeof nextProps.topFriendsUsersInfoList !== 'undefined'
+    ) {
+      this.setState({ isLoadingFriends: false });
+      console.log('LB isLoadingFriends set false');
+      return true;
+    }
+
     return true;
   }
 
@@ -114,10 +121,20 @@ class Leaderboard extends React.Component {
   generateLeaderboard() {
     console.log('LB generateLeaderboard');
     if (this.state.activeTab === 'friends') {
-      const { topFriendsScoresList, topFriendsInfoList } = this.props;
-      return <List>{this.generateLeaderboardCells(topFriendsScoresList, topFriendsInfoList)}</List>;
+      const { topFriendsUsersScoresList, topFriendsUsersInfoList } = this.props;
+      if (this.state.isLoadingFriends) {
+        return <SpinnerCentered />;
+      }
+      return (
+        <List>
+          {this.generateLeaderboardCells(topFriendsUsersScoresList, topFriendsUsersInfoList)}
+        </List>
+      );
     }
     const { topUsersScoresList, topUsersInfoList } = this.props;
+    if (this.state.isLoadingTop) {
+      return <SpinnerCentered />;
+    }
     return <List>{this.generateLeaderboardCells(topUsersScoresList, topUsersInfoList)}</List>;
   }
 
@@ -149,7 +166,7 @@ class Leaderboard extends React.Component {
                   Среди друзей
                 </TabsItem>
               </Tabs>
-              {this.state.isLoading === true ? <SpinnerCentered /> : this.generateLeaderboard()}
+              {this.generateLeaderboard()}
             </Group>
           </Div>
         </Panel>
