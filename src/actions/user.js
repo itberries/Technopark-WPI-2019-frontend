@@ -33,3 +33,16 @@ export function getAchievements() {
     });
   };
 }
+
+export function updateUserProfile(id) {
+  return async (dispatch) => {
+    const [user, userState, userAchievements] = await backendAPIService.getProfile(id);
+    console.log('updateUserProfile userAchievements: ', userAchievements);
+    dispatch({
+      type: types.USER_UPDATE_PROFILE,
+      user,
+      userState,
+      userAchievements,
+    });
+  };
+}

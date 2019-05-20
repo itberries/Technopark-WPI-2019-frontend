@@ -1,11 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Header, Div, Button } from '@vkontakte/vkui';
 
 import Theory from './types/__Theory/Theory';
 import Interact from './types/__Interactive/Interactive';
 
+import { updateUserProfile } from '../../../../actions/user';
+
 import './Step.scss';
+
+const mapStateToProps = (state) => {
+  const { user } = state.user;
+  if (
+    typeof user !== 'undefined'
+    && typeof state.vk.vkAppUser.vkUserInfo !== 'undefined'
+    && state.vk.vkAppUser.vkUserInfo !== null
+  ) {
+    user.firstName = state.vk.vkAppUser.vkUserInfo.first_name;
+    user.lastName = state.vk.vkAppUser.vkUserInfo.last_name;
+    user.photo = state.vk.vkAppUser.vkUserInfo.photo_200;
+  }
+  return {
+    user,
+  };
+};
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    updateUserProfile,
+  },
+  dispatch,
+);
 
 class Step extends React.Component {
   componentWillUpdate() {
@@ -27,6 +54,8 @@ class Step extends React.Component {
           onCompleted: () => {
             setTimeout(() => {
               console.log('onCompleted');
+              console.log('this.props.user: ', this.props.user);
+              this.props.updateUserProfile(this.props.user.id);
               this.props.goForward();
               this.setContent();
             }, 500);
@@ -104,6 +133,11 @@ Step.propTypes = {
   previous: PropTypes.number.isRequired,
   /* Description of prop "previous". */
   next: PropTypes.number.isRequired,
+  /* Description of prop "getUserProfile". */
+  updateUserProfile: PropTypes.func.isRequired,
 };
 
-export default Step;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Step);
