@@ -145,7 +145,7 @@ class InteractiveGame extends MiniGame {
           this.setState({ gainedCoins: answer.payload.result });
         }
         console.log('showing scores popup...');
-        this.showResultPopup();
+        setTimeout(this.showResultPopup.bind(this), 1000);
         return;
       default:
         console.log('unknown message!');

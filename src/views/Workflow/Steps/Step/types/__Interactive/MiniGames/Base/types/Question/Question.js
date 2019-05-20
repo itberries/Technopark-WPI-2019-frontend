@@ -16,9 +16,11 @@ class Question extends React.Component {
       completed: false,
       selectedFrameId: null,
       choosed: false,
+      wrong: false,
     };
 
     this.onFrameClick = this.onFrameClick.bind(this);
+    this.removeFromWrongFrames = this.removeFromWrongFrames.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -56,10 +58,20 @@ class Question extends React.Component {
   }
 
   wrongAnswer() {
+    this.setState(() => {
+      this.setState(() => ({ wrong: true }));
+    });
+  }
+
+  removeFromWrongFrames(id) {
     this.setState((prevState) => {
-      let { selectedFrameId } = prevState;
-      selectedFrameId = null;
-      return { selectedFrameId };
+      console.log('removeFromWrongFrames ', prevState.wrong);
+      if (prevState.wrong) {
+        let { selectedFrameId } = prevState;
+        selectedFrameId = null;
+        return { selectedFrameId, wrong: false };
+      }
+      return {};
     });
   }
 
@@ -70,20 +82,22 @@ class Question extends React.Component {
         frames.push(
           <Frame
             // TODO: fix this dirty hack
-            key={`selectedFrame_${id}_${new Date().getTime()}`}
+            key={`selectedFrame_${id}}`}
             id={id}
             onFrameClick={this.onFrameClick}
             value={frame}
             isSecond
-            isActive
-            isRight={this.props.completed}
+            isRight={this.state.completed}
+            isActive={!this.state.wrong}
+            isWrong={this.state.wrong}
+            onWrongAnimationEnds={this.removeFromWrongFrames}
           />,
         );
       } else {
         frames.push(
           <Frame
             // TODO: fix this dirty hack
-            key={`frame_${id}_${new Date().getTime()}`}
+            key={`frame_${id}}`}
             id={id}
             onFrameClick={this.onFrameClick}
             value={frame}

@@ -37,7 +37,6 @@ class InteractiveChain extends Chain {
 
   checkChain(chain) {
     this.setState({ notSend: false });
-    console.log('checkChain: ', chain);
     const msg = {
       type: 'turnChain',
       payload: {

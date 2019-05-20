@@ -31,6 +31,11 @@ class TraningChain extends Chain {
     });
   }
 
+  rightAnswer() {
+    super.rightAnswer();
+    this.props.onComplete();
+  }
+
   tipSwitch() {
     this.setState((prevState) => {
       console.log('tipSwitch');

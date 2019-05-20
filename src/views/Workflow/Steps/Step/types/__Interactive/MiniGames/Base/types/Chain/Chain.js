@@ -10,9 +10,11 @@ class Chain extends React.Component {
       frames: ['this', 'is', 'test', 'my', 'test', 'string'],
       selectedFrames: new Map(),
       completed: false,
+      wrong: false,
     };
 
     this.onFrameClick = this.onFrameClick.bind(this);
+    this.removeFromWrongFrames = this.removeFromWrongFrames.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -57,15 +59,22 @@ class Chain extends React.Component {
       completed = true;
       return { completed };
     });
-    this.props.onComplete();
     console.log('right answer!');
   }
 
   wrongAnswer() {
+    this.setState(() => ({ wrong: true }));
+  }
+
+  removeFromWrongFrames(id) {
     this.setState((prevState) => {
-      const { selectedFrames } = prevState;
-      selectedFrames.clear();
-      return { selectedFrames };
+      console.log('removeFromWrongFrames ', prevState.wrong);
+      if (prevState.wrong) {
+        const { selectedFrames } = prevState;
+        selectedFrames.clear();
+        return { selectedFrames, wrong: false };
+      }
+      return {};
     });
   }
 
@@ -83,7 +92,7 @@ class Chain extends React.Component {
         // TODO: think about fix this
         selectedFrames.push(
           <Frame
-            key={`SelectedFrame_${id}_${new Date().getTime()}`}
+            key={`SelectedFrame_${id}}`}
             id={id}
             onFrameClick={() => {}}
             value={frame}
@@ -93,7 +102,7 @@ class Chain extends React.Component {
         // TODO: think about fix this
         frames.push(
           <Frame
-            key={`Frame${id}_${new Date().getTime()}`}
+            key={`Frame${id}}`}
             id={id}
             onFrameClick={this.onFrameClick}
             value={frame}
@@ -106,10 +115,12 @@ class Chain extends React.Component {
         // TODO: think about fix this
         selectedFrames.push(
           <Frame
-            key={`SelectedFrame_${id}_${new Date().getTime()}`}
+            key={`SelectedFrame_${id}}`}
             id={id}
             onFrameClick={this.onFrameClick}
             value={frame}
+            isWrong={this.state.wrong}
+            onWrongAnimationEnds={this.removeFromWrongFrames}
           />,
         );
       });
@@ -118,7 +129,7 @@ class Chain extends React.Component {
           // TODO: think about fix this
           frames.push(
             <Frame
-              key={`Frame${id}_${new Date().getTime()}`}
+              key={`Frame${id}}`}
               id={id}
               onFrameClick={this.onFrameClick}
               value={frame}
@@ -129,7 +140,7 @@ class Chain extends React.Component {
           // TODO: think about fix this
           frames.push(
             <Frame
-              key={`Frame${id}_${new Date().getTime()}`}
+              key={`Frame${id}}`}
               id={id}
               onFrameClick={this.onFrameClick}
               value={frame}
@@ -139,7 +150,7 @@ class Chain extends React.Component {
           // TODO: think about fix this
           selectedFrames.push(
             <Frame
-              key={`SelectedFrame__${id}_${new Date().getTime()}`}
+              key={`SelectedFrame__${id}}`}
               id={id}
               onFrameClick={this.onFrameClick}
               value={frame}

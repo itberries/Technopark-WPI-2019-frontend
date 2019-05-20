@@ -222,13 +222,11 @@ class MultiplayerGame extends React.Component {
         const task = tasks[0];
         switch (task.type) {
           case 'question':
-            console.log('reset timer 30');
             this.props.resetTimer(30);
             break;
           case 'match':
           case 'chain':
-            console.log('reset timer 120');
-            this.props.resetTimer(120);
+            this.props.resetTimer(119);
             break;
           default:
             console.log('unknown game');
@@ -295,54 +293,58 @@ class MultiplayerGame extends React.Component {
         } else {
           console.log('wrong turn');
         }
-        const { type } = this.state.tasks[this.state.currentTask];
-        if (type === 'question' || type === 'chain') {
-          this.props.rightTurn(answer.payload.data);
-        }
         this.props.websocketOnMessage(answer.payload.data);
-        if (answer.payload.completed === 'true') {
-          console.log('game completed, payoad completed:', answer.payload.completed);
-          this.setState((prevState) => {
-            let { currentTask } = prevState;
-            currentTask += 1;
-            if (currentTask < prevState.tasks.length) {
-              this.props.movePlayer(this.props.playerPosition + 1);
-              const newType = prevState.tasks[currentTask].type;
-              switch (newType) {
-                case 'question':
-                  console.log('websocketOnMessage: reset timer');
-                  this.props.resetTimer(30);
-                  break;
-                case 'match':
-                case 'chain':
-                  this.props.resetTimer(120);
-                  break;
-                default:
-                  console.log('unknown game');
+        setTimeout(() => {
+          const { type } = this.state.tasks[this.state.currentTask];
+          if (type === 'question' || type === 'chain') {
+            this.props.rightTurn(answer.payload.data);
+          }
+          if (answer.payload.completed === 'true') {
+            console.log('game completed, payoad completed:', answer.payload.completed);
+            this.setState((prevState) => {
+              let { currentTask } = prevState;
+              currentTask += 1;
+              if (currentTask < prevState.tasks.length) {
+                this.props.movePlayer(this.props.playerPosition + 1);
+                const newType = prevState.tasks[currentTask].type;
+                switch (newType) {
+                  case 'question':
+                    console.log('websocketOnMessage: reset timer');
+                    this.props.resetTimer(29);
+                    break;
+                  case 'match':
+                  case 'chain':
+                    this.props.resetTimer(119);
+                    break;
+                  default:
+                    console.log('unknown game');
+                }
               }
-            }
-            return { currentTask };
-          });
-        }
+              return { currentTask };
+            });
+          }
+        }, 1000);
         break;
       case 'GameCompletedMP':
-        console.log('game completed, payoad:', answer.payload);
-        if (!this.state.finished) {
-          this.setState({ finished: true });
-          switch (answer.payload.gameStatus) {
-            case 'win':
-              this.onWonGame(answer.payload.coins);
-              break;
-            case 'lose':
-              this.onLostGame();
-              break;
-            case 'draw':
-              this.onDrawGame(answer.payload.coins);
-              break;
-            default:
-              break;
+        setTimeout(() => {
+          console.log('game completed, payoad:', answer.payload);
+          if (!this.state.finished) {
+            this.setState({ finished: true });
+            switch (answer.payload.gameStatus) {
+              case 'win':
+                this.onWonGame(answer.payload.coins);
+                break;
+              case 'lose':
+                this.onLostGame();
+                break;
+              case 'draw':
+                this.onDrawGame(answer.payload.coins);
+                break;
+              default:
+                break;
+            }
           }
-        }
+        }, 1000);
         break;
       default:
         console.log('unknown message!');

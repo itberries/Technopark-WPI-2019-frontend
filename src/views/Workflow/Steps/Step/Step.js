@@ -25,9 +25,11 @@ class Step extends React.Component {
           id: this.props.id,
           key: this.props.id,
           onCompleted: () => {
-            console.log('onCompleted');
-            this.props.goForward();
-            this.setContent();
+            setTimeout(() => {
+              console.log('onCompleted');
+              this.props.goForward();
+              this.setContent();
+            }, 500);
           },
           type: this.props.type,
         });
