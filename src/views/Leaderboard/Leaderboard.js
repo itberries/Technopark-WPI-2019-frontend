@@ -22,10 +22,10 @@ import SpinnerCentered from '../../common.blocks/SpinnerCentered/SpinnerCentered
 import { fetchTopUsers } from '../../actions/leaderboard';
 
 const mapStateToProps = (state) => {
-  const { topUserScoresList, topUserInfoList } = state.leaderboard;
+  const { topUserScoresList, topUsersInfoList } = state.leaderboard;
   return {
     topUserScoresList,
-    topUserInfoList,
+    topUsersInfoList,
   };
 };
 
