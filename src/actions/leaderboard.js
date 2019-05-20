@@ -23,7 +23,8 @@ export function fetchTopUsers() {
       VKConnect.send('VKWebAppCallAPIMethod', {
         method: 'users.get',
         params: {
-          user_ids: '37924905,16605500',
+          user_ids: topUsersIds,
+          fields: 'photo_100',
           v: '5.95',
           access_token: authToken,
         },

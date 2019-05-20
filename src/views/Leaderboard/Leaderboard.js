@@ -40,7 +40,7 @@ class Leaderboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: true,
       activeTab: 'top',
     };
   }
@@ -52,14 +52,83 @@ class Leaderboard extends React.Component {
     } else {
       window.scrollTo(0, 0);
     }
+
+    console.log('LB DID MOUNT BEFORE FETCH TOP');
+    await this.props.fetchTopUsers();
+    console.log('LB DID MOUNT AFTER FETCH TOP');
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('LB SHOULD UPDATE?', nextProps, nextState);
+    console.log('LB SHOULD UPDATE current', this.props, this.state);
+
+    if (this.state.isLoading === true && typeof nextProps.topUserInfoList !== 'undefined') {
+      console.log('LB onOpponentInfoReceived');
+      this.onOpponentInfoReceived();
+      this.setState({ isLoading: false });
+      console.log('LB isSentMsgReadyToStart set true');
+      return true;
+    }
+    return true;
   }
 
   componentWillUnmount() {
     localStorage.setItem('scroll', window.scrollY);
   }
 
+  generateLeaderboard() {
+    console.log('LB generateLeaderboard');
+    return this.state.activeTab === 'top' ? (
+      <List>
+        <Cell
+          before={
+            <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
+          }
+          indicator="100500"
+        >
+          Евгений Авсиевич
+        </Cell>
+        <Cell
+          before={
+            <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
+          }
+          indicator="100300"
+        >
+          Татьяна Плуталова
+        </Cell>
+        <Cell
+          before={
+            <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
+          }
+          indicator="100000"
+        >
+          Олег Илларианов
+        </Cell>
+      </List>
+    ) : (
+      <List>
+        <Cell
+          before={
+            <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
+          }
+          indicator="1000"
+        >
+          Евгений Авсиевич
+        </Cell>
+        <Cell
+          before={
+            <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
+          }
+          indicator="900"
+        >
+          Татьяна Плуталова
+        </Cell>
+      </List>
+    );
+  }
+
   render() {
-    console.log('LEADERBOARD RENDER props: ', this.props);
+    console.log('LEADERBOARD RENDER state props: ', this.state, this.props);
     const topTabDesctiption = 'Топ-10 Лучших пользователей IT галактики Explority по количеству заработанных монеток!';
     const friendsTabDesctiption = 'Рейтинг среди ваших друзей по количеству заработанных монеток!';
     return (
@@ -86,133 +155,7 @@ class Leaderboard extends React.Component {
                   Среди друзей
                 </TabsItem>
               </Tabs>
-              {this.state.activeTab === 'top' ? (
-                <List>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                    }
-                    indicator="100500"
-                  >
-                    Евгений Авсиевич
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                    }
-                    indicator="100300"
-                  >
-                    Татьяна Плуталова
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
-                    }
-                    indicator="100000"
-                  >
-                    Олег Илларианов
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                    }
-                    indicator="80500"
-                  >
-                    Евгений Авсиевич
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                    }
-                    indicator="70000"
-                  >
-                    Татьяна Плуталова
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
-                    }
-                    indicator="55000"
-                  >
-                    Олег Илларианов
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                    }
-                    indicator="30000"
-                  >
-                    Евгений Авсиевич
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                    }
-                    indicator="26000"
-                  >
-                    Татьяна Плуталова
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
-                    }
-                    indicator="10000"
-                  >
-                    Олег Илларианов
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                    }
-                    indicator="7000"
-                  >
-                    Евгений Авсиевич
-                  </Cell>
-                </List>
-              ) : (
-                <List>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                    }
-                    indicator="1000"
-                  >
-                    Евгений Авсиевич
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                    }
-                    indicator="900"
-                  >
-                    Татьяна Плуталова
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
-                    }
-                    indicator="700"
-                  >
-                    Олег Илларианов
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                    }
-                    indicator="600"
-                  >
-                    Евгений Авсиевич
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                    }
-                    indicator="500"
-                  >
-                    Татьяна Плуталова
-                  </Cell>
-                </List>
-              )}
+              {this.state.isLoading === true ? <SpinnerCentered /> : this.generateLeaderboard()}
             </Group>
           </Div>
         </Panel>
