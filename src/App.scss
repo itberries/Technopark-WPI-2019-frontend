@@ -4,9 +4,13 @@
 @import "~animate.css/source/bouncing_entrances/bounceIn.css";
 
 :root {
+  /* colors */
   --accent: #41046F;
   --header_background: #260C3B;
   --tabbar_active_icon: #41046F;
+
+
+  --game-font: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 body::-webkit-scrollbar {

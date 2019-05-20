@@ -35,9 +35,14 @@ export const USER_ACHIEVEMENTS_FETCHED = 'user.USER_ACHIEVEMENTS_FETCHED';
 export const LEADERBOARD_TOP_USERS_SCORES_FETCHED = 'leaderboard.LEADERBOARD_TOP_USERS_SCORES_FETCHED';
 export const LEADERBOARD_TOP_USERS_INFO_FETCHED = 'leaderboard.LEADERBOARD_TOP_USERS_INFO_FETCHED';
 
+export const EVENTS_ALL_FETCHED = 'events.EVENTS_ALL_FETCHED';
+export const EVENTS_EVENT_SELECTED = 'events.EVENTS_EVENT_SELECTED';
+export const EVENTS_DETAIL_FETCHED = 'events.EVENTS_DETAIL_FETCHED';
+
 export const PLAYER_MOVE = 'multiplayer.PLAYER_MOVE';
 export const OPPONENT_MOVE = 'multiplayer.OPPONENT_MOVE';
 export const TIMER_RESET = 'multiplayer.TIMER_RESET';
 export const TIMER_WAS_RESET = 'multiplayer.TIMER_WAS_RESET';
 export const CLEAR_DATA = 'multiplayer.CLEAR_DATA';
 export const PLAYER_RIGHT_TURN = 'multiplayer.PLAYER_RIGHT_TURN';
+export const MULTIPLAYER_GET_OPPONENT_INFO = 'multiplayer.MULTIPLAYER_GET_OPPONENT_INFO';

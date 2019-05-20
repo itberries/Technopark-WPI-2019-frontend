@@ -32,7 +32,7 @@ class Map extends React.Component {
         <div className="gameRoad">
           <div className="progresses">
             <Progress
-              header="Your progress"
+              header="Ваш прогресс"
               playerIcon={rocket1}
               rightColor={rightColor}
               wrongColor={wrongColor}
@@ -41,7 +41,7 @@ class Map extends React.Component {
             />
             <hr className="progresses__separator" />
             <Progress
-              header="Opponent’s progress"
+              header="Прогресс противника"
               playerIcon={rocket2}
               rightColor={rightColor}
               wrongColor={wrongColor}
