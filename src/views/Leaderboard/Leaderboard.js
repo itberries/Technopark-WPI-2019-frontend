@@ -63,10 +63,8 @@ class Leaderboard extends React.Component {
     console.log('LB SHOULD UPDATE current', this.props, this.state);
 
     if (this.state.isLoading === true && typeof nextProps.topUsersInfoList !== 'undefined') {
-      console.log('LB onOpponentInfoReceived');
-      this.onOpponentInfoReceived();
       this.setState({ isLoading: false });
-      console.log('LB isSentMsgReadyToStart set true');
+      console.log('LB isLoading set false');
       return true;
     }
     return true;
