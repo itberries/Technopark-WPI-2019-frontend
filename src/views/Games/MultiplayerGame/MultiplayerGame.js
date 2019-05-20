@@ -277,6 +277,7 @@ class MultiplayerGame extends React.Component {
   }
 
   onOpponentReady() {
+    console.log('MP OPP READY props:', this.props);
     return Popup.fire({
       title: 'Противник найден!',
       text: `Вы играете против пользователя ${this.props.opponentInfo.first_name}`,
