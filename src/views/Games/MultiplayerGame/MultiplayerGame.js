@@ -36,8 +36,13 @@ import handshakeImage from '../../../images/icons/handshake.svg';
 
 const mapStateToProps = (state) => {
   const { socket } = state.ws;
-  const { playerPosition, opponentPosition } = state.multiplayer;
-  return { socket, playerPosition, opponentPosition };
+  const { playerPosition, opponentPosition, opponentInfo } = state.multiplayer;
+  return {
+    socket,
+    playerPosition,
+    opponentPosition,
+    opponentInfo,
+  };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(
@@ -65,6 +70,7 @@ class MultiplayerGame extends React.Component {
       actions: [],
       isLoading: true,
       opponentId: undefined,
+      isSentMsgReadyToStart: false,
       tasks: [],
       currentTask: 0,
       finished: false,
@@ -84,6 +90,18 @@ class MultiplayerGame extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    console.log('MP SHOULD UPDATE?', nextProps, nextState);
+
+    if (
+      typeof this.props.opponentInfo !== 'undefined'
+      && this.state.isSentMsgReadyToStart === false
+    ) {
+      console.log('MP onOpponentInfoReceived');
+      this.onOpponentInfoReceived();
+      this.setState({ isSentMsgReadyToStart: true });
+      console.log('MP isSentMsgReadyToStart set true');
+    }
+
     console.log('this.state.socketNotSet: ', this.state.socketNotSet);
     if (nextProps.socket !== null && nextProps.gameType !== null) {
       if (this.state.socketNotSet) {
@@ -136,6 +154,7 @@ class MultiplayerGame extends React.Component {
   }
 
   componentDidUpdate() {
+    console.log('MP DID UPDATE');
     if (this.state.socketReadyToSend) {
       console.log('start send msgs!');
       this.sendMsg(
@@ -149,6 +168,23 @@ class MultiplayerGame extends React.Component {
 
   componentWillUnmount() {
     this.onExitMultiplayerGame();
+  }
+
+  async onOpponentInfoReceived() {
+    console.log('MP OPPONENT INFO UPDATE');
+    await this.sendMsg(
+      JSON.stringify({
+        type: 'deliveryStatus',
+        payload: {
+          result: 'READY_TO_START_MP_GAME',
+        },
+      }),
+    );
+    this.setState((prevState) => {
+      const msgs = prevState.actions;
+      msgs.shift();
+      return { actions: msgs };
+    });
   }
 
   onExitMultiplayerGame() {
@@ -239,6 +275,7 @@ class MultiplayerGame extends React.Component {
     });
     this.props.fetchOpponentInfo(payload.id);
     // TODO: реализовать отправку READY_TO_START_MP_GAME после того, как получу инфо об оппоненте
+    /*
     await this.sendMsg(
       JSON.stringify({
         type: 'deliveryStatus',
@@ -252,6 +289,7 @@ class MultiplayerGame extends React.Component {
       msgs.shift();
       return { actions: msgs };
     });
+    */
   }
 
   onOpponentReady() {

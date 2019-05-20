@@ -8,6 +8,7 @@ const initialState = Immutable({
   timerNeedReset: false,
   playerTurns: [],
   opponentTurns: [],
+  opponentInfo: undefined,
 });
 
 export default function reduce(state = initialState, action) {
