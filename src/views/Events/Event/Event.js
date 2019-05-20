@@ -36,30 +36,18 @@ class Event extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    if (typeof this.props.selectedEventDetail === 'undefined') {
-      this.setState({
-        isLoading: true,
-      });
-      await this.props.fetchEventById(this.props.id);
-    }
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (
-      prevState.isLoading === true
-      && typeof nextProps.selectedEventDetail !== 'undefined'
-      && prevState.selectedEventDetail !== nextProps.selectedEventDetail
-    ) {
-      return {
-        ...prevState,
-        isLoading: false,
-      };
-    }
-    return null;
+  async componentWillMount() {
+    this.setState({
+      isLoading: true,
+    });
+    await this.props.fetchEventById(this.props.id);
+    this.setState({
+      isLoading: false,
+    });
   }
 
   render() {
+    console.log('Event render state, props: ', this.state, this.props);
     return this.state.isLoading ? (
       <SpinnerCentered />
     ) : (
