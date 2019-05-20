@@ -81,3 +81,12 @@ export function fetchOpponentInfo(userId) {
     }
   };
 }
+
+export function clearOpponentInfo() {
+  console.log('action clearOpponentInfo ', types.MULTIPLAYER_CLEAR_OPPONENT_INFO);
+  return async (dispatch) => {
+    dispatch({
+      type: types.MULTIPLAYER_CLEAR_OPPONENT_INFO,
+    });
+  };
+}

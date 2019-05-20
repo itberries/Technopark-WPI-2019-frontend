@@ -14,6 +14,7 @@ import {
   clearGameData,
   rightTurn,
   fetchOpponentInfo,
+  clearOpponentInfo,
 } from '../../../actions/multiplayer';
 
 import { websocketOpen, websocketOnMessage, websocketClose } from '../../../actions/ws';
@@ -51,6 +52,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     moveOpponent,
     resetTimer,
     fetchOpponentInfo,
+    clearOpponentInfo,
 
     websocketOpen,
     websocketClose,
@@ -69,7 +71,6 @@ class MultiplayerGame extends React.Component {
       socketReadyToSend: false,
       actions: [],
       isLoading: true,
-      opponentId: undefined,
       isSentMsgReadyToStart: false,
       tasks: [],
       currentTask: 0,
@@ -192,9 +193,11 @@ class MultiplayerGame extends React.Component {
       this.props.socket.close();
     }
     if (typeof this.props.onEndGame === 'function') {
-      console.log('MG Unmount END GAME');
+      console.log('MP Unmount END GAME');
       this.props.onEndGame();
     }
+    this.setState({ isSentMsgReadyToStart: false });
+    this.props.clearOpponentInfo();
     this.props.clearGameData();
     this.unblock();
   }
@@ -271,7 +274,6 @@ class MultiplayerGame extends React.Component {
     });
     this.setState({
       tasks,
-      opponentId: id,
     });
     this.props.fetchOpponentInfo(payload.id);
   }
