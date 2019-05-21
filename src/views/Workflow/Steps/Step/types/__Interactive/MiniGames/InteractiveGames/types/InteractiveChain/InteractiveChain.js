@@ -26,7 +26,6 @@ class InteractiveChain extends Chain {
   }
 
   componentDidUpdate() {
-    console.log('this.state.notSend: ', this.state.notSend);
     if (this.state.notSend) {
       super.componentDidUpdate();
     }

@@ -6,7 +6,6 @@ import Frame from '../../../../../../../../../../common.blocks/Frame/Frame';
 class TraningQuestion extends Question {
   constructor(props) {
     super(props);
-    console.log(this.props.gameData);
     const questionFrames = props.gameData;
     this.state.frames = questionFrames;
     this.state.showTip = true;
@@ -25,7 +24,6 @@ class TraningQuestion extends Question {
 
   tipSwitch() {
     this.setState((prevState) => {
-      console.log('tipSwitch');
       let { showTip } = prevState;
       showTip = !showTip;
       return { showTip };

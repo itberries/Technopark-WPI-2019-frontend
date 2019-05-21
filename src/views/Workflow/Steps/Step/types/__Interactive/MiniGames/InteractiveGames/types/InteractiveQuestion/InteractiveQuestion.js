@@ -12,14 +12,10 @@ class InteractiveQuestion extends Question {
 
   shouldComponentUpdate(nextProps, nextState) {
     super.shouldComponentUpdate(nextProps, nextState);
-    console.log('nextState: ', nextState);
     if (nextProps.answer !== null && !nextState.completed) {
-      console.log('nextProps.answer: ', nextProps.answer);
       if (nextProps.answer === true) {
-        console.log('right answer');
         this.rightAnswer();
       } else {
-        console.log('wrong answer');
         this.wrongAnswer();
       }
       this.props.answerReceived();
@@ -38,7 +34,6 @@ class InteractiveQuestion extends Question {
   }
 
   checkQuestion() {
-    console.log('this.state.selectedFrameId: ', this.state.selectedFrameId);
     if (this.state.selectedFrameId !== null) {
       const msg = {
         type: 'turnQuestion',

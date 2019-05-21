@@ -10,7 +10,6 @@ const initialState = Immutable({
 });
 
 export default function reduce(state = initialState, action = {}) {
-  console.log('vk app reduce state, action:', state, action);
   switch (action.type) {
     case types.VK_GET_USER_INFO_REQUEST:
       return Immutable.merge({
@@ -68,6 +67,5 @@ export default function reduce(state = initialState, action = {}) {
 // Selectors
 
 export function getVkUserAuthToken(state) {
-  console.log('getVkUserAuthToken SELECTOR state:', state);
   return state.vk.vkAppUser.vkAuthToken;
 }

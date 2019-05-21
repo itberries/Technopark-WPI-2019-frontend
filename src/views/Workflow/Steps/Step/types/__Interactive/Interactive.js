@@ -23,7 +23,6 @@ class Interactive extends React.Component {
       .get(`/${this.props.id}/minigames/`)
       .then((response) => {
         this.setState(() => {
-          console.log('getGameDate response.data: ', response.data);
           const type = response.data.type;
           const interactiveCards = response.data.interactiveCards;
           return { type, interactiveCards };
@@ -62,7 +61,6 @@ class Interactive extends React.Component {
         />
       );
     }
-    console.log('this.state.type :', this.state.type);
     return (
       <React.Fragment>
         <Theory id={this.props.id} />

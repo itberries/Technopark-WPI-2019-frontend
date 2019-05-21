@@ -128,7 +128,6 @@ class Events extends React.Component {
   }
 
   render() {
-    console.log('EVENTS render state, props:', this.state, this.props);
     return (
       <ConfigProvider isWebView>
         <View

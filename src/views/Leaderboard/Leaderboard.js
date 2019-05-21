@@ -62,19 +62,13 @@ class Leaderboard extends React.Component {
       window.scrollTo(0, 0);
     }
 
-    console.log('LB DID MOUNT BEFORE FETCH TOP');
     await this.props.fetchTopUsers();
     await this.props.fetchTopFriendsUsers();
-    console.log('LB DID MOUNT AFTER FETCH TOP');
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('LB SHOULD UPDATE?', nextProps, nextState);
-    console.log('LB SHOULD UPDATE current', this.props, this.state);
-
     if (this.state.isLoadingTop === true && typeof nextProps.topUsersInfoList !== 'undefined') {
       this.setState({ isLoadingTop: false });
-      console.log('LB isLoadingTop set false');
       return true;
     }
 
@@ -83,7 +77,6 @@ class Leaderboard extends React.Component {
       && typeof nextProps.topFriendsUsersInfoList !== 'undefined'
     ) {
       this.setState({ isLoadingFriends: false });
-      console.log('LB isLoadingFriends set false');
       return true;
     }
 
@@ -95,8 +88,6 @@ class Leaderboard extends React.Component {
   }
 
   generateLeaderboardCells(topScoresList, topInfoList) {
-    console.log('LB Cells generate props:', this.props);
-
     let resultItems = [];
     if (
       Array.isArray(topScoresList)
@@ -104,7 +95,6 @@ class Leaderboard extends React.Component {
       && topScoresList.length === topInfoList.length
     ) {
       resultItems = topScoresList.reduce((items, topUser, index) => {
-        console.log('LB Cells generate items, topUser, index:', items, topUser, index);
         const name = `${topInfoList[index].first_name} ${topInfoList[index].last_name}`;
         items.push(
           <Cell before={<Avatar src={topInfoList[index].photo_100} />} indicator={topUser.score}>
@@ -114,12 +104,10 @@ class Leaderboard extends React.Component {
         return items;
       }, resultItems);
     }
-    console.log('LB Cells generate before return items: ', resultItems);
     return resultItems;
   }
 
   generateLeaderboard() {
-    console.log('LB generateLeaderboard');
     if (this.state.activeTab === 'friends') {
       const { topFriendsUsersScoresList, topFriendsUsersInfoList } = this.props;
       if (this.state.isLoadingFriends) {
@@ -139,7 +127,6 @@ class Leaderboard extends React.Component {
   }
 
   render() {
-    console.log('LEADERBOARD RENDER state props: ', this.state, this.props);
     const topTabDesctiption = 'Топ-10 Лучших пользователей IT галактики Explority по количеству заработанных монеток!';
     const friendsTabDesctiption = 'Рейтинг среди ваших друзей по количеству заработанных монеток!';
     return (

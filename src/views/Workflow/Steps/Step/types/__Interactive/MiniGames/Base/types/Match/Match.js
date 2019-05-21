@@ -6,7 +6,6 @@ import Frame from '../../../../../../../../../../common.blocks/Frame/Frame';
 class Match extends React.Component {
   constructor(props) {
     super(props);
-    console.log('Match state: ', this.state);
     this.state = {
       frames: new Map(),
       secondFrames: new Map(),
@@ -17,20 +16,15 @@ class Match extends React.Component {
       rightFrames: [],
       wrongFrames: new Map(),
     };
-    console.log('Match state: ', this.state);
     this.onFrameClick = this.onFrameClick.bind(this);
     this.removeFromWrongFrames = this.removeFromWrongFrames.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
-    console.log('nextProps.answer: ', nextProps.answer);
     if (nextProps.answer !== null) {
-      console.log('nextProps.answer: ', nextProps.answer);
       if (nextProps.answer === true) {
-        console.log('right pair');
         this.rightAnswer();
       } else {
-        console.log('wrong pair');
         this.wrongAnswer();
       }
     }
@@ -46,9 +40,7 @@ class Match extends React.Component {
       } else {
         activeFrames.push(id);
         selectedFrames.set(id, prevState.frames.get(id));
-        console.log('activeFrames: ', activeFrames);
         if (activeFrames.length === 2) {
-          console.log('prepeare for sending');
           const { framesOnCheck } = prevState;
           const sendingFrames = [activeFrames.shift(), activeFrames.shift()];
           framesOnCheck.push(sendingFrames);
@@ -107,7 +99,6 @@ class Match extends React.Component {
   }
 
   removeFromWrongFrames(id) {
-    console.log('MATCH removeFromWrongFrames');
     this.setState((prevState) => {
       const { wrongFrames } = prevState;
       wrongFrames.delete(id);
@@ -137,7 +128,6 @@ class Match extends React.Component {
   }
 
   render() {
-    console.log('this.state.secondFrames: ', this.state.secondFrames);
     const newFrames = [];
     this.state.rightFrames.forEach((frame) => {
       newFrames.push(<Frame onFrameClick={this.onFrameClick} value={frame} isRight />);

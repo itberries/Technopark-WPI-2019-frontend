@@ -16,12 +16,10 @@ export function fetchCurrentUserInfo(store) {
 }
 
 export function init(store) {
-  console.log('init before dispatch.');
   store.dispatch({
     type: types.VK_INIT,
   });
   VKConnect.subscribe(async (event) => {
-    console.log('event: ', event);
     const vkEvent = event.detail;
     if (!vkEvent) {
       return;
@@ -34,18 +32,15 @@ export function init(store) {
           type: types.VK_GET_USER_INFO_FETCHED,
           payload: data,
         });
-        console.log('VK VKWebAppGetUserInfoResult before getUserProfile');
         try {
           await getUserProfile(store, data.id);
         } catch (error) {
           if (typeof error.response !== 'undefined' && error.response.status === 404) {
-            console.log('REGISTRATION');
             await addUserProfile(store, data.id);
           } else {
             console.error('getProfile error!!!', error.response);
           }
         }
-        console.log('VK VKWebAppGetUserInfoResult after getUserProfile, ');
         break;
       case 'VKWebAppGetUserInfoFailed':
         store.dispatch({
@@ -54,7 +49,6 @@ export function init(store) {
         });
         break;
       case 'VKWebAppCallAPIMethodResult':
-        console.log('VK VKWebAppCallAPIMethodResult data:', data);
         if (data.request_id === 'getOpponentInfo') {
           store.dispatch({
             type: types.MULTIPLAYER_GET_OPPONENT_INFO,
