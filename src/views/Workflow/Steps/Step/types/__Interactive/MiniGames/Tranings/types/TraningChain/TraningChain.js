@@ -38,7 +38,6 @@ class TraningChain extends Chain {
 
   tipSwitch() {
     this.setState((prevState) => {
-      console.log('tipSwitch');
       let { showTip } = prevState;
       showTip = !showTip;
       return { showTip };

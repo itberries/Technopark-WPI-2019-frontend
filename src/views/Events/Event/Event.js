@@ -47,7 +47,6 @@ class Event extends React.Component {
   }
 
   render() {
-    console.log('Event render state, props: ', this.state, this.props);
     return this.state.isLoading ? (
       <SpinnerCentered />
     ) : (

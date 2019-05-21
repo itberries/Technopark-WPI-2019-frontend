@@ -43,7 +43,6 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 class Profile extends React.Component {
   constructor(props) {
     super(props);
-    console.log('PROFILE store', this.props);
     this.state = {
       isLoading: false,
       user: props.user,
@@ -52,7 +51,7 @@ class Profile extends React.Component {
   }
 
   async componentDidMount() {
-    const scroll = localStorage.getItem('scroll');
+    const scroll = localStorage.getItem('scroll_profile');
     if (scroll !== '' && scroll !== undefined && scroll !== 'undefined' && scroll !== null) {
       window.scrollTo(0, scroll);
     } else {
@@ -60,11 +59,7 @@ class Profile extends React.Component {
     }
 
     if (typeof this.props.user !== 'undefined') {
-      console.log('BEFORE GET');
-      // await this.props.getUserProfile(this.props.user.id);
-      // console.log('AFTER GET USER PROFILE');
       await this.props.getAchievements();
-      console.log('AFTER GET ACHIEVEMENTS');
       this.setState({
         isLoading: false,
       });
@@ -72,9 +67,7 @@ class Profile extends React.Component {
       this.setState({
         isLoading: true,
       });
-      console.log('ELSE BEFORE GET ACHIEVEMENTS');
       await this.props.getAchievements();
-      console.log('ELSE AFTER GET ACHIEVEMENTS');
     }
   }
 
@@ -97,7 +90,7 @@ class Profile extends React.Component {
   }
 
   componentWillUnmount() {
-    localStorage.setItem('scroll', window.scrollY);
+    localStorage.setItem('scroll_profile', window.scrollY);
   }
 
   render() {
@@ -105,7 +98,6 @@ class Profile extends React.Component {
     const {
       id, user, achievements, activeAchievements,
     } = this.props;
-    console.log('RENDER PROPS', this.props);
     return (
       <View key={id} id={id} activePanel={id}>
         <Panel id={id} key={id}>

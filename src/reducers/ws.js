@@ -16,13 +16,11 @@ const initialState = Immutable({
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case WEBSOCKET_OPENED:
-      console.log(action);
       return Immutable.merge({
         ...state,
         socket: action.socket,
       });
     case WEBSOCKET_MESSAGE:
-      console.log('action.msg: ', action.msg);
       return Immutable.merge({
         ...state,
         answer: action.msg === 'true',
@@ -33,7 +31,6 @@ export default function reduce(state = initialState, action) {
         answer: null,
       });
     case WEBSOCKET_CLOSED:
-      console.log('action: socket closed!');
       return Immutable.merge({
         ...state,
         socket: null,

@@ -8,12 +8,10 @@ import {
 class EventsList extends React.Component {
   generateListItems() {
     const { events, onSelectEvent } = this.props;
-    console.log('EVENTS_LIST generate props:', this.props);
 
     let resultItems = [];
     if (typeof events !== 'undefined') {
       resultItems = events.reduce((items, event) => {
-        console.log('EVENTS_LIST generate items, event:', items, event);
         items.push(
           <Cell
             description={`${event.date}, ${event.city}`}
@@ -22,7 +20,6 @@ class EventsList extends React.Component {
             multiline
             expandable
             onClick={(e) => {
-              console.log(onSelectEvent);
               onSelectEvent(event.id, e);
             }}
           >
@@ -32,15 +29,12 @@ class EventsList extends React.Component {
         return items;
       }, resultItems);
     }
-    console.log('EVENTS_LIST generate before return items: ', resultItems);
     return resultItems;
   }
 
   render() {
-    console.log('EVENTS_LIST props:', this.props);
     const { activeTab, onSelectTab } = this.props;
     const eventsItemsList = this.generateListItems();
-    console.log('EVENTS_LIST items:', eventsItemsList);
     return (
       <Div>
         <Group>

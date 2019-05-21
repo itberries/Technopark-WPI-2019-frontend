@@ -16,6 +16,19 @@ class Games extends React.Component {
     this.onStartGame = this.onStartGame.bind(this);
   }
 
+  componentDidMount() {
+    const scroll = localStorage.getItem('scroll_games');
+    if (scroll !== '' && scroll !== undefined && scroll !== 'undefined' && scroll !== null) {
+      window.scrollTo(0, scroll);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  componentWillUnmount() {
+    localStorage.setItem('scroll_games', window.scrollY);
+  }
+
   onStopGame() {
     this.setState({ isGameStarted: false });
   }

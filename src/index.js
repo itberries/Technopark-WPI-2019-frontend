@@ -19,7 +19,6 @@ import App from './App';
 const store = configureStore();
 
 // Init VK App
-console.log('Init VK App VKConnect:', VKConnect);
 VKConnect.send('VKWebAppInit', {});
 init(store);
 fetchCurrentUserInfo(store);

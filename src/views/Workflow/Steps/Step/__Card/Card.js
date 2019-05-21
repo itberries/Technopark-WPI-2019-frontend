@@ -5,8 +5,6 @@ import { Div } from '@vkontakte/vkui';
 import './Card.scss';
 
 const Card = ({ note, image }) => {
-  console.log('render card: ', note, image);
-  console.log('image: ', image);
   if (
     image !== null
     && image !== undefined

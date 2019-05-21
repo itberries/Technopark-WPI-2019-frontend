@@ -18,14 +18,10 @@ class Chain extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('nextState: ', nextState);
     if (nextProps.answer !== null && !nextState.completed) {
-      console.log('nextProps.answer: ', nextProps.answer);
       if (nextProps.answer === true) {
-        console.log('right pair');
         this.rightAnswer();
       } else {
-        console.log('wrong pair');
         this.wrongAnswer();
       }
     }
@@ -34,26 +30,20 @@ class Chain extends React.Component {
 
   componentDidUpdate() {
     // check that all chain's frames used and game not done yet
-    console.log('this.state.completed: ', this.state.completed);
-    console.log('this.state.selectedFrames.size: ', this.state.selectedFrames.size);
-    console.log('this.state.frames.length: ', this.state.frames.length);
     if (!this.state.completed && this.state.selectedFrames.size === this.state.frames.length) {
       this.checkChain(this.state.selectedFrames.values());
     }
   }
 
   onFrameClick(id) {
-    console.log('id: ', id);
     if (id !== undefined) {
       this.setState((prevState) => {
         const { selectedFrames } = prevState;
-        console.log('selectedFrames: ', selectedFrames);
         if (prevState.selectedFrames.has(id)) {
           selectedFrames.delete(id);
         } else {
           selectedFrames.set(id, prevState.frames[id]);
         }
-        console.log('selectedFrames: ', selectedFrames);
         return { selectedFrames };
       });
     }
@@ -65,7 +55,6 @@ class Chain extends React.Component {
       completed = true;
       return { completed };
     });
-    console.log('right answer!');
   }
 
   wrongAnswer() {
@@ -74,7 +63,6 @@ class Chain extends React.Component {
 
   removeFromWrongFrames(id) {
     this.setState((prevState) => {
-      console.log('removeFromWrongFrames ', prevState.wrong);
       if (prevState.wrong) {
         const { selectedFrames } = prevState;
         selectedFrames.clear();
