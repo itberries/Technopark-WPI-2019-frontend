@@ -78,7 +78,11 @@ class InteractiveGame extends MiniGame {
           this.setState((prevState) => {
             const msgs = prevState.actions;
             msgs.shift();
-            if (msgs.length !== 0) {
+            if (
+              msgs.length !== 0
+              && this.props.socket !== null
+              && this.props.socket.readyState === 1
+            ) {
               const msg = msgs[0];
               console.log('отправка сообщения: ', msg);
               this.props.socket.send(msg);
@@ -156,7 +160,7 @@ class InteractiveGame extends MiniGame {
     this.setState((prevState) => {
       const msgs = prevState.actions;
       msgs.push(msg);
-      if (msgs.length === 1) {
+      if (msgs.length === 1 && this.props.socket !== null && this.props.socket.readyState === 1) {
         console.log('отправка сообщения: ', msg);
         console.log('by socket: ', this.props.socket);
         this.props.socket.send(msg);
