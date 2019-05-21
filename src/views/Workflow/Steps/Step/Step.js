@@ -54,7 +54,6 @@ class Step extends React.Component {
           onCompleted: () => {
             setTimeout(() => {
               console.log('onCompleted');
-              console.log('this.props.user: ', this.props.user);
               this.props.updateUserProfile(this.props.user.id);
               this.props.goForward();
               this.setContent();

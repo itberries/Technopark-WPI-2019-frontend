@@ -18,6 +18,7 @@ import {
 } from '../../../actions/multiplayer';
 
 import { websocketOpen, websocketOnMessage, websocketClose } from '../../../actions/ws';
+import { updateUserProfile } from '../../../actions/user';
 
 import SpinnerCentered from '../../../common.blocks/SpinnerCentered/SpinnerCentered';
 
@@ -38,11 +39,22 @@ import handshakeImage from '../../../images/icons/handshake.svg';
 const mapStateToProps = (state) => {
   const { socket } = state.ws;
   const { playerPosition, opponentPosition, opponentInfo } = state.multiplayer;
+  const { user } = state.user;
+  if (
+    typeof user !== 'undefined'
+    && typeof state.vk.vkAppUser.vkUserInfo !== 'undefined'
+    && state.vk.vkAppUser.vkUserInfo !== null
+  ) {
+    user.firstName = state.vk.vkAppUser.vkUserInfo.first_name;
+    user.lastName = state.vk.vkAppUser.vkUserInfo.last_name;
+    user.photo = state.vk.vkAppUser.vkUserInfo.photo_200;
+  }
   return {
     socket,
     playerPosition,
     opponentPosition,
     opponentInfo,
+    user,
   };
 };
 
@@ -59,6 +71,8 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     websocketOnMessage,
     clearGameData,
     rightTurn,
+
+    updateUserProfile,
   },
   dispatch,
 );
@@ -91,8 +105,6 @@ class MultiplayerGame extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('MP SHOULD UPDATE?', nextProps, nextState);
-
     if (
       typeof nextProps.opponentInfo !== 'undefined'
       && this.state.isSentMsgReadyToStart === false
@@ -275,7 +287,7 @@ class MultiplayerGame extends React.Component {
     this.setState({
       tasks,
     });
-    this.props.fetchOpponentInfo(payload.id);
+    this.props.fetchOpponentInfo(id);
   }
 
   onOpponentReady() {
@@ -406,6 +418,7 @@ class MultiplayerGame extends React.Component {
               default:
                 break;
             }
+            this.props.updateUserProfile(this.props.user.id);
           }
         }, 1000);
         break;
