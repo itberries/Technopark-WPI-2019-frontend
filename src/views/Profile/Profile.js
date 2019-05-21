@@ -52,7 +52,7 @@ class Profile extends React.Component {
   }
 
   async componentDidMount() {
-    const scroll = localStorage.getItem('scroll');
+    const scroll = localStorage.getItem('scroll_profile');
     if (scroll !== '' && scroll !== undefined && scroll !== 'undefined' && scroll !== null) {
       window.scrollTo(0, scroll);
     } else {
@@ -97,7 +97,7 @@ class Profile extends React.Component {
   }
 
   componentWillUnmount() {
-    localStorage.setItem('scroll', window.scrollY);
+    localStorage.setItem('scroll_profile', window.scrollY);
   }
 
   render() {

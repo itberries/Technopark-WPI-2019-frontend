@@ -55,7 +55,7 @@ class Leaderboard extends React.Component {
   }
 
   async componentDidMount() {
-    const scroll = localStorage.getItem('scroll');
+    const scroll = localStorage.getItem('scroll_leaderboard');
     if (scroll !== '' && scroll !== undefined && scroll !== 'undefined' && scroll !== null) {
       window.scrollTo(0, scroll);
     } else {
@@ -91,7 +91,7 @@ class Leaderboard extends React.Component {
   }
 
   componentWillUnmount() {
-    localStorage.setItem('scroll', window.scrollY);
+    localStorage.setItem('scroll_leaderboard', window.scrollY);
   }
 
   generateLeaderboardCells(topScoresList, topInfoList) {
