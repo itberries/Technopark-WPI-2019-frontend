@@ -17,7 +17,6 @@ class InteractiveMatch extends Match {
     });
 
     frames = new Map([...frames.entries()].sort(() => Math.random() - 0.5));
-    console.log('frames: ', frames);
     this.state.frames = frames;
     this.state.secondFrames = secondFrames;
   }

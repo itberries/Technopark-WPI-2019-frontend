@@ -19,19 +19,27 @@ import {
 
 import SpinnerCentered from '../../common.blocks/SpinnerCentered/SpinnerCentered';
 
-import { fetchTopUsers } from '../../actions/leaderboard';
+import { fetchTopUsers, fetchTopFriendsUsers } from '../../actions/leaderboard';
 
 const mapStateToProps = (state) => {
-  const { topUserScoresList, topUserInfoList } = state.leaderboard;
+  const {
+    topUsersScoresList,
+    topUsersInfoList,
+    topFriendsUsersScoresList,
+    topFriendsUsersInfoList,
+  } = state.leaderboard;
   return {
-    topUserScoresList,
-    topUserInfoList,
+    topUsersScoresList,
+    topUsersInfoList,
+    topFriendsUsersScoresList,
+    topFriendsUsersInfoList,
   };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     fetchTopUsers,
+    fetchTopFriendsUsers,
   },
   dispatch,
 );
@@ -40,26 +48,85 @@ class Leaderboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoadingTop: true,
+      isLoadingFriends: true,
       activeTab: 'top',
     };
   }
 
   async componentDidMount() {
-    const scroll = localStorage.getItem('scroll');
+    const scroll = localStorage.getItem('scroll_leaderboard');
     if (scroll !== '' && scroll !== undefined && scroll !== 'undefined' && scroll !== null) {
       window.scrollTo(0, scroll);
     } else {
       window.scrollTo(0, 0);
     }
+
+    await this.props.fetchTopUsers();
+    await this.props.fetchTopFriendsUsers();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.isLoadingTop === true && typeof nextProps.topUsersInfoList !== 'undefined') {
+      this.setState({ isLoadingTop: false });
+      return true;
+    }
+
+    if (
+      this.state.isLoadingFriends === true
+      && typeof nextProps.topFriendsUsersInfoList !== 'undefined'
+    ) {
+      this.setState({ isLoadingFriends: false });
+      return true;
+    }
+
+    return true;
   }
 
   componentWillUnmount() {
-    localStorage.setItem('scroll', window.scrollY);
+    localStorage.setItem('scroll_leaderboard', window.scrollY);
+  }
+
+  generateLeaderboardCells(topScoresList, topInfoList) {
+    let resultItems = [];
+    if (
+      Array.isArray(topScoresList)
+      && Array.isArray(topInfoList)
+      && topScoresList.length === topInfoList.length
+    ) {
+      resultItems = topScoresList.reduce((items, topUser, index) => {
+        const name = `${topInfoList[index].first_name} ${topInfoList[index].last_name}`;
+        items.push(
+          <Cell before={<Avatar src={topInfoList[index].photo_100} />} indicator={topUser.score}>
+            {name}
+          </Cell>,
+        );
+        return items;
+      }, resultItems);
+    }
+    return resultItems;
+  }
+
+  generateLeaderboard() {
+    if (this.state.activeTab === 'friends') {
+      const { topFriendsUsersScoresList, topFriendsUsersInfoList } = this.props;
+      if (this.state.isLoadingFriends) {
+        return <SpinnerCentered />;
+      }
+      return (
+        <List>
+          {this.generateLeaderboardCells(topFriendsUsersScoresList, topFriendsUsersInfoList)}
+        </List>
+      );
+    }
+    const { topUsersScoresList, topUsersInfoList } = this.props;
+    if (this.state.isLoadingTop) {
+      return <SpinnerCentered />;
+    }
+    return <List>{this.generateLeaderboardCells(topUsersScoresList, topUsersInfoList)}</List>;
   }
 
   render() {
-    console.log('LEADERBOARD RENDER props: ', this.props);
     const topTabDesctiption = 'Топ-10 Лучших пользователей IT галактики Explority по количеству заработанных монеток!';
     const friendsTabDesctiption = 'Рейтинг среди ваших друзей по количеству заработанных монеток!';
     return (
@@ -86,133 +153,7 @@ class Leaderboard extends React.Component {
                   Среди друзей
                 </TabsItem>
               </Tabs>
-              {this.state.activeTab === 'top' ? (
-                <List>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                    }
-                    indicator="100500"
-                  >
-                    Евгений Авсиевич
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                    }
-                    indicator="100300"
-                  >
-                    Татьяна Плуталова
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
-                    }
-                    indicator="100000"
-                  >
-                    Олег Илларианов
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                    }
-                    indicator="80500"
-                  >
-                    Евгений Авсиевич
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                    }
-                    indicator="70000"
-                  >
-                    Татьяна Плуталова
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
-                    }
-                    indicator="55000"
-                  >
-                    Олег Илларианов
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                    }
-                    indicator="30000"
-                  >
-                    Евгений Авсиевич
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                    }
-                    indicator="26000"
-                  >
-                    Татьяна Плуталова
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
-                    }
-                    indicator="10000"
-                  >
-                    Олег Илларианов
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                    }
-                    indicator="7000"
-                  >
-                    Евгений Авсиевич
-                  </Cell>
-                </List>
-              ) : (
-                <List>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                    }
-                    indicator="1000"
-                  >
-                    Евгений Авсиевич
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                    }
-                    indicator="900"
-                  >
-                    Татьяна Плуталова
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c841629/v841629884/290ab/STZCXV5wZbg.jpg?ava=1" />
-                    }
-                    indicator="700"
-                  >
-                    Олег Илларианов
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c625316/v625316293/347b7/DmD1VKYbwwI.jpg?ava=1" />
-                    }
-                    indicator="600"
-                  >
-                    Евгений Авсиевич
-                  </Cell>
-                  <Cell
-                    before={
-                      <Avatar src="https://pp.userapi.com/c636327/v636327034/2be85/gt3uFFWTw-w.jpg?ava=1" />
-                    }
-                    indicator="500"
-                  >
-                    Татьяна Плуталова
-                  </Cell>
-                </List>
-              )}
+              {this.generateLeaderboard()}
             </Group>
           </Div>
         </Panel>
@@ -224,6 +165,7 @@ class Leaderboard extends React.Component {
 Leaderboard.propTypes = {
   id: PropTypes.string.isRequired,
   fetchTopUsers: PropTypes.func.isRequired,
+  fetchTopFriendsUsers: PropTypes.func.isRequired,
 };
 
 export default connect(

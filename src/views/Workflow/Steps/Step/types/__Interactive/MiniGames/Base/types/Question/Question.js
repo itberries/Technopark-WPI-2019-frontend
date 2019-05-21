@@ -32,11 +32,9 @@ class Question extends React.Component {
 
   onFrameClick(id) {
     if (!this.state.wrong) {
-      console.log('onFrameClick: ', id);
       this.setState((prevState) => {
         let { selectedFrameId } = prevState;
         selectedFrameId = id;
-        console.log('selectedFrameId: ', selectedFrameId);
         return { selectedFrameId, choosed: true };
       });
     }
@@ -56,7 +54,6 @@ class Question extends React.Component {
       completed = true;
       return { completed };
     });
-    console.log('right answer!');
   }
 
   wrongAnswer() {
@@ -67,7 +64,6 @@ class Question extends React.Component {
 
   removeFromWrongFrames(id) {
     this.setState((prevState) => {
-      console.log('removeFromWrongFrames ', prevState.wrong);
       if (prevState.wrong) {
         let { selectedFrameId } = prevState;
         selectedFrameId = null;

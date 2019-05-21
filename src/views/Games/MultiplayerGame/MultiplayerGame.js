@@ -99,7 +99,6 @@ class MultiplayerGame extends React.Component {
     this.unblock = this.props.history.block(
       'Вы уверены, что хотите покинуть игру? Победа достанется Вашему противнику!',
     );
-    console.log('opening games socket');
     this.props.websocketOpen();
     this.setState({ socketNotSet: true });
   }
@@ -109,13 +108,10 @@ class MultiplayerGame extends React.Component {
       typeof nextProps.opponentInfo !== 'undefined'
       && this.state.isSentMsgReadyToStart === false
     ) {
-      console.log('MP onOpponentInfoReceived');
       this.onOpponentInfoReceived();
       this.setState({ isSentMsgReadyToStart: true });
-      console.log('MP isSentMsgReadyToStart set true');
     }
 
-    console.log('this.state.socketNotSet: ', this.state.socketNotSet);
     if (nextProps.socket !== null && nextProps.gameType !== null) {
       if (this.state.socketNotSet) {
         nextProps.socket.onclose = (event) => {
@@ -123,9 +119,9 @@ class MultiplayerGame extends React.Component {
           this.state.socketNotSet = true;
           this.state.actions = [];
           if (event.wasClean) {
-            console.log('Соединение закрыто чисто');
+            // console.log('Соединение закрыто чисто');
           } else {
-            console.log('Обрыв соединения'); // например, "убит" процесс сервера
+            // console.log('Обрыв соединения'); // например, "убит" процесс сервера
             if (!this.state.finished && !nextState.finished) {
               this.props.websocketOpen('match');
             }
@@ -138,21 +134,18 @@ class MultiplayerGame extends React.Component {
               },
             });
           }
-          console.log('we are close this socket!');
-          console.log('Код: ', event.code, ' причина: ', event.reason);
+          // console.log('Код: ', event.code, ' причина: ', event.reason);
         };
         nextProps.socket.onerror = (error) => {
           console.log('Ошибка ', error.message);
         };
         nextProps.socket.onmessage = (event) => {
-          console.log('answer: ', event.data);
           this.processAnswr(event.data);
           this.setState((prevState) => {
             const msgs = prevState.actions;
             msgs.shift();
             if (msgs.length !== 0) {
               const msg = msgs[0];
-              console.log('отправка сообщения: ', msg);
               this.props.socket.send(msg);
             }
             return { actions: msgs };
@@ -167,9 +160,7 @@ class MultiplayerGame extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('MP DID UPDATE');
     if (this.state.socketReadyToSend) {
-      console.log('start send msgs!');
       this.sendMsg(
         JSON.stringify({
           type: 'joinGame',
@@ -184,7 +175,6 @@ class MultiplayerGame extends React.Component {
   }
 
   async onOpponentInfoReceived() {
-    console.log('MP OPPONENT INFO UPDATE');
     await this.sendMsg(
       JSON.stringify({
         type: 'deliveryStatus',
@@ -205,7 +195,6 @@ class MultiplayerGame extends React.Component {
       this.props.socket.close();
     }
     if (typeof this.props.onEndGame === 'function') {
-      console.log('MP Unmount END GAME');
       this.props.onEndGame();
     }
     this.setState({ isSentMsgReadyToStart: false });
@@ -291,7 +280,6 @@ class MultiplayerGame extends React.Component {
   }
 
   onOpponentReady() {
-    console.log('MP OPP READY props:', this.props);
     return Popup.fire({
       title: 'Противник найден!',
       text: `Вы играете против пользователя ${this.props.opponentInfo.first_name}`,
@@ -317,12 +305,10 @@ class MultiplayerGame extends React.Component {
       const task = tasks[0];
       switch (task.type) {
         case 'question':
-          console.log('reset timer 30');
           this.props.resetTimer(29);
           break;
         case 'match':
         case 'chain':
-          console.log('reset timer 120');
           this.props.resetTimer(119);
           break;
         default:
@@ -333,10 +319,8 @@ class MultiplayerGame extends React.Component {
 
   async processAnswr(data) {
     const answer = JSON.parse(data);
-    console.log('answer: ', answer);
     switch (answer.type) {
       case 'MPStartGameMessage':
-        console.log('Success start  multiplayer session, msg: ', answer);
         await this.onStartGame(answer.payload);
         return;
       case 'DeliveryStatus':
@@ -345,7 +329,7 @@ class MultiplayerGame extends React.Component {
         // TODO: сделать обработчик
         switch (answer.payload.result) {
           case 'WAIT':
-            console.log('waiting for another player');
+            // console.log('waiting for another player');
             return;
           case 'OPPONENT_HAS_STEPPED':
             this.props.moveOpponent(this.props.opponentPosition + 1, answer.payload.data);
@@ -360,9 +344,9 @@ class MultiplayerGame extends React.Component {
         break;
       case 'turnResultMP':
         if (answer.payload.data) {
-          console.log('right turn');
+          // console.log('right turn');
         } else {
-          console.log('wrong turn');
+          // console.log('wrong turn');
         }
         this.props.websocketOnMessage(answer.payload.data);
         setTimeout(() => {
@@ -371,7 +355,6 @@ class MultiplayerGame extends React.Component {
             this.props.rightTurn(answer.payload.data);
           }
           if (answer.payload.completed === 'true') {
-            console.log('game completed, payoad completed:', answer.payload.completed);
             this.setState((prevState) => {
               let { currentTask } = prevState;
               currentTask += 1;
@@ -380,7 +363,6 @@ class MultiplayerGame extends React.Component {
                 const newType = prevState.tasks[currentTask].type;
                 switch (newType) {
                   case 'question':
-                    console.log('websocketOnMessage: reset timer');
                     this.props.resetTimer(29);
                     break;
                   case 'match':
@@ -398,7 +380,6 @@ class MultiplayerGame extends React.Component {
         break;
       case 'GameCompletedMP':
         setTimeout(() => {
-          console.log('game completed, payoad:', answer.payload);
           if (!this.state.finished) {
             this.setState({ finished: true });
             switch (answer.payload.gameStatus) {
@@ -428,13 +409,12 @@ class MultiplayerGame extends React.Component {
   }
 
   sendMsg(msg) {
-    console.log(msg);
     this.setState((prevState) => {
       const msgs = prevState.actions;
       msgs.push(msg);
       if (msgs.length === 1) {
-        console.log('отправка сообщения: ', msg);
-        console.log('by socket: ', this.props.socket);
+        // console.log('отправка сообщения: ', msg);
+        // console.log('by socket: ', this.props.socket);
         this.props.socket.send(msg);
       }
       return { message: msgs };
@@ -443,9 +423,7 @@ class MultiplayerGame extends React.Component {
 
   generateGame() {
     if (this.state.tasks.length > 0 && this.state.currentTask < this.state.tasks.length) {
-      console.log('GenerateGame this.state.currentTask: ', this.state.currentTask);
       const task = this.state.tasks[this.state.currentTask];
-      console.log('task: ', task);
       switch (task.type) {
         case 'chain':
           return (

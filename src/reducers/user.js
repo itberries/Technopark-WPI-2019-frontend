@@ -18,7 +18,6 @@ export default function reduce(state = initialState, action = {}) {
       } else if (state.isFirstEntry === false && action.isFirstEntry === true) {
         isFirstEntry = action.isFirstEntry;
       }
-      console.log('USER_PROFILE_FETCHED achivments:', action.userAchievements);
       return Immutable.merge({
         ...state,
         user: action.user,
@@ -27,7 +26,6 @@ export default function reduce(state = initialState, action = {}) {
         isFirstEntry,
       });
     case types.USER_NEW_STATE_FETCHED:
-      console.log('USER_NEW_STATE_FETCHED achivments:', action.userAchievements);
       return Immutable.merge({
         ...state,
         state: action.nextState,
@@ -35,13 +33,11 @@ export default function reduce(state = initialState, action = {}) {
         // activeAchievements: action.userAchievements,
       });
     case types.USER_ACHIEVEMENTS_FETCHED:
-      console.log('USER_ACHIEVEMENTS_FETCHED action:', action);
       return Immutable.merge({
         ...state,
         achievements: action.achievements,
       });
     case types.USER_UPDATE_PROFILE:
-      console.log('USER_UPDATE_PROFILE achivments:', action.userAchievements);
       return Immutable.merge({
         ...state,
         user: action.user,

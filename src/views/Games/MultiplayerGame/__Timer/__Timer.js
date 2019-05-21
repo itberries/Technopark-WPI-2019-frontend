@@ -41,7 +41,6 @@ class Timer extends React.Component {
     if (this.state.timerId !== null) {
       clearInterval(this.state.timerId);
     }
-    console.log('reseting!');
     const title = document.getElementsByClassName('timer__title')[0];
     const oldFullness = document.getElementsByClassName('timer__fullness')[0];
     const newFullness = oldFullness.cloneNode(true);

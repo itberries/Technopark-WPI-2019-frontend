@@ -7,7 +7,6 @@ class Progress extends React.Component {
     const cellsNumber = 3;
     const cells = [];
     const { turns } = this.props;
-    console.log('turns: ', turns);
     for (let index = 0; index < cellsNumber; index++) {
       if (index === this.props.position) {
         cells.push(

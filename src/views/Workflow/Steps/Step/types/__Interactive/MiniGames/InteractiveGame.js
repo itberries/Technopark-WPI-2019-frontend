@@ -47,13 +47,11 @@ class InteractiveGame extends MiniGame {
   }
 
   componentWillMount() {
-    console.log('this.props.gameType: ', this.props.gameType);
     this.props.websocketOpen();
     this.setState({ socketNotSet: true });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('this.state.socketNotSet: ', this.state.socketNotSet);
     if (nextProps.socket !== null && nextProps.gameType !== null) {
       if (this.state.socketNotSet) {
         nextProps.socket.onclose = (event) => {
@@ -61,26 +59,26 @@ class InteractiveGame extends MiniGame {
           this.state.socketNotSet = true; // TODO: VANYA, WE NEED TO FIX THIS! (setState)
           this.state.actions = []; // TODO: VANYA, WE NEED TO FIX THIS! (setState)
           if (event.wasClean) {
-            console.log('Соединение закрыто чисто');
+            // console.log('Соединение закрыто чисто');
           } else {
-            console.log('Обрыв соединения'); // например, "убит" процесс сервера
+            // console.log('Обрыв соединения'); // например, "убит" процесс сервера
             this.props.websocketOpen('match');
           }
-          console.log('we are close this socket!');
-          console.log('Код: ', event.code, ' причина: ', event.reason);
+          // console.log('we are close this socket!');
+          // console.log('Код: ', event.code, ' причина: ', event.reason);
         };
         nextProps.socket.onerror = (error) => {
-          console.log('Ошибка ', error.message);
+          // console.log('Ошибка ', error.message);
         };
         nextProps.socket.onmessage = (event) => {
-          console.log('answer: ', event.data);
+          // console.log('answer: ', event.data);
           this.processAnswr(event.data);
           this.setState((prevState) => {
             const msgs = prevState.actions;
             msgs.shift();
             if (msgs.length !== 0) {
               const msg = msgs[0];
-              console.log('отправка сообщения: ', msg);
+              // console.log('отправка сообщения: ', msg);
               this.props.socket.send(msg);
             }
             return { actions: msgs };
@@ -96,7 +94,6 @@ class InteractiveGame extends MiniGame {
 
   componentDidUpdate() {
     if (this.state.socketReadyToSend) {
-      console.log('start send msgs!');
       this.sendMsg(
         JSON.stringify({
           type: 'joinGame',
@@ -116,25 +113,23 @@ class InteractiveGame extends MiniGame {
 
   processAnswr(data) {
     const answer = JSON.parse(data);
-    console.log('answer: ', answer);
     switch (answer.type) {
       case 'DeliveryStatus':
         if (answer.payload.result === 'OK') {
-          console.log('Success start sessiong');
+          // console.log('Success start sessiong');
         } else {
-          console.log('cant start session!');
+          // console.log('cant start session!');
         }
         return;
       case 'TurnResult':
         if (answer.payload.data) {
-          console.log('right turn');
+          // console.log('right turn');
         } else {
-          console.log('wrong turn');
+          // console.log('wrong turn');
         }
         this.props.websocketOnMessage(answer.payload.data);
         return;
       case 'GameCompleted':
-        console.log('game completed, payoad:', answer.payload);
         this.props.socket.close();
         if (typeof answer.payload.reward !== 'undefined' && answer.payload.reward !== null) {
           this.setState({
@@ -144,11 +139,10 @@ class InteractiveGame extends MiniGame {
         } else {
           this.setState({ gainedCoins: answer.payload.result });
         }
-        console.log('showing scores popup...');
         setTimeout(this.showResultPopup.bind(this), 1000);
-        return;
+
       default:
-        console.log('unknown message!');
+      // console.log('unknown message!');
     }
   }
 
@@ -157,8 +151,8 @@ class InteractiveGame extends MiniGame {
       const msgs = prevState.actions;
       msgs.push(msg);
       if (msgs.length === 1) {
-        console.log('отправка сообщения: ', msg);
-        console.log('by socket: ', this.props.socket);
+        // console.log('отправка сообщения: ', msg);
+        // console.log('by socket: ', this.props.socket);
         this.props.socket.send(msg);
       }
       return { message: msgs };

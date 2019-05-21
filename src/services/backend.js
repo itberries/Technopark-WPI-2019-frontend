@@ -96,6 +96,21 @@ class BackendAPIService {
     */
   }
 
+  async getTopFriendsUsers(userId) {
+    const res = await axios.get(`/leaderboard/${userId}/friends/`);
+    console.log('BackendAPIService: getTopFriendsUsers res: ', res);
+    return res.data;
+
+    // TODO: add error handling
+    /*
+    if (typeof error.response !== 'undefined' && error.response.status === 404) {
+      console.error('getSections not found!!!', error.response);
+    } else {
+      console.error('getSections error!!!', error.response);
+    }
+    */
+  }
+
   async getEvents() {
     const res = await axios.get('/events/');
     console.log('BackendAPIService: getEvents res: ', res);

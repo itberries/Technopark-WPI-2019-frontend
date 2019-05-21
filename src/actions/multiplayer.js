@@ -3,7 +3,6 @@ import VKConnect from '../vkconnect';
 import * as vkUserSelectors from '../reducers/vkApp/vkAppUser';
 
 export function movePlayer(position) {
-  console.log('action movePlayer ', types.PLAYER_MOVE);
   return async (dispatch) => {
     dispatch({
       type: types.PLAYER_MOVE,
@@ -42,11 +41,9 @@ export function moveOpponent(position, right) {
 export function resetTimer(time) {
   return async (dispatch) => {
     let timer = time;
-    console.log('timer: ', timer);
     if (timer === undefined || timer === null) {
       timer = 5;
     }
-    console.log('timer: ', timer);
     dispatch({
       type: types.TIMER_RESET,
       timer,
@@ -83,7 +80,6 @@ export function fetchOpponentInfo(userId) {
 }
 
 export function clearOpponentInfo() {
-  console.log('action clearOpponentInfo ', types.MULTIPLAYER_CLEAR_OPPONENT_INFO);
   return async (dispatch) => {
     dispatch({
       type: types.MULTIPLAYER_CLEAR_OPPONENT_INFO,

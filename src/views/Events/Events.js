@@ -53,7 +53,7 @@ class Events extends React.Component {
   }
 
   async componentDidMount() {
-    const scroll = localStorage.getItem('scroll');
+    const scroll = localStorage.getItem('scroll_events');
     if (scroll !== '' && scroll !== undefined && scroll !== 'undefined' && scroll !== null) {
       window.scrollTo(0, scroll);
     } else {
@@ -69,7 +69,7 @@ class Events extends React.Component {
   }
 
   componentWillUnmount() {
-    localStorage.setItem('scroll', window.scrollY);
+    localStorage.setItem('scroll_events', window.scrollY);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -128,7 +128,6 @@ class Events extends React.Component {
   }
 
   render() {
-    console.log('EVENTS render state, props:', this.state, this.props);
     return (
       <ConfigProvider isWebView>
         <View
